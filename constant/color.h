@@ -3,6 +3,7 @@
 // 本文档主要定义了几种颜色
 //
 
+#pragma once
 #include <string>
 using namespace std;
 

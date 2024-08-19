@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(lab8)
+project(mud)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -8,7 +8,7 @@ add_executable(
 
         main.cpp
 
-        constant/color.cpp constant/constant.cpp
+        constant/color.h constant/constant.h
 
         SmallClasses/Task.h SmallClasses/Task.cpp
 
@@ -25,4 +25,8 @@ add_executable(
         MainClasses/NPC.h MainClasses/NPC.cpp
 
         MainClasses/Enemy.h MainClasses/Enemy.cpp
+
+        map/map.cpp
+        map/Node.cpp
+        map/Node.h
         )
