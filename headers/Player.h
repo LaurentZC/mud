@@ -3,9 +3,9 @@
 //
 
 #pragma once
-#include "../SmallClasses/Bag.h"
-#include "../SmallClasses/Skill.h"
-#include "../SmallClasses/Task.h"
+#include "Bag.h"
+#include "Skill.h"
+#include "../other/Task.h"
 
 class Player
 {

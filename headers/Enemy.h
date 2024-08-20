@@ -4,7 +4,7 @@
 
 #pragma once
 #include <vector>
-#include "../SmallClasses/Skill.h"
+#include "Skill.h"
 
 using namespace std;
 

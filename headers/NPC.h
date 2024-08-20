@@ -3,9 +3,9 @@
 //
 
 #pragma once
-#include "../SmallClasses/Task.h"
-#include "../SmallClasses/Equipment.h"
-#include "../SmallClasses/Buff.h"
+#include "Task.h"
+#include "../other/Equipment.h"
+#include "Buff.h"
 
 class NPC
 {

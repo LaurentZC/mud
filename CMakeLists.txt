@@ -6,27 +6,25 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(
         mud
 
-        main.cpp
+        game/main.cpp
 
-        constant/color.h constant/constant.h
+        headers/color.h headers/constant.h
 
-        SmallClasses/Task.h SmallClasses/Task.cpp
+        headers/Task.h other/Task.cpp
 
-        SmallClasses/Equipment.h SmallClasses/Equipment.cpp
+        headers/Equipment.h equipment/Equipment.cpp
 
-        SmallClasses/Buff.h SmallClasses/Buff.cpp
+        headers/Buff.h buff/Buff.cpp
 
-        SmallClasses/Bag.h SmallClasses/Bag.cpp
+        headers/Bag.h other/Bag.cpp
 
-        SmallClasses/Skill.h SmallClasses/Skill.cpp
+        headers/Skill.h skill/Skill.cpp
 
-        MainClasses/Player.h MainClasses/Player.cpp
+        headers/Player.h class/Player.cpp
 
-        MainClasses/NPC.h MainClasses/NPC.cpp
+        headers/NPC.h npc/NPC.cpp
 
-        MainClasses/Enemy.h MainClasses/Enemy.cpp
+        headers/Enemy.h enemy/Enemy.cpp
 
-        map/map.cpp
-        map/Node.cpp
-        map/Node.h
+        map/map.cpp headers/Node.h map/Node.cpp
         )
