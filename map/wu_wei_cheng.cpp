@@ -1,3 +1,4 @@
+#include "../headers/Constant.h"
 #include "../headers/Helper.h"
 #include "../headers/Map.h"
 
@@ -5,9 +6,9 @@ using namespace std;
 
 Map creatWuWeiCheng()
 {
-    Map wu_wei_cheng("xing_wu_lou");
+    Map wu_wei_cheng("wu_wei_cheng");
 
-    auto rooms = wu_wei_cheng.getMap();
+    auto &rooms = wu_wei_cheng.getMap();
     rooms[3][1].Setup("城门", "这座" + Place("城门") + "坚固如铁，上面雕刻着战斗场景和武器的图案。", "城门");
 
     rooms[2][1].Setup("门卫亭", "这里是" + Place("门卫亭") + "，看起来这些" + Minion("门卫") + "似乎正在摸鱼。", ENEMY);
