@@ -3,28 +3,35 @@ project(mud)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(
-        mud
+# 添加源文件和头文件
+set(SOURCES
+    game/main.cpp
+    buff/Buff.cpp
+    class/Player.cpp
+    enemy/Enemy.cpp
+    equipment/Equipment.cpp
+    map/Map.cpp
+    map/xing_wu_cheng.cpp
+    npc/NPC.cpp
+    other/Bag.cpp
+    other/Helper.cpp
+    other/Task.cpp
+    skill/Skill.cpp
+    )
 
-        game/main.cpp
+set(HEADERS
+    headers/constant.h
+    headers/Task.h
+    headers/Equipment.h
+    headers/Buff.h
+    headers/Bag.h
+    headers/Skill.h
+    headers/Player.h
+    headers/NPC.h
+    headers/Enemy.h
+    headers/Map.h
+    headers/Helper.h
+    )
 
-        headers/color.h headers/constant.h
-
-        headers/Task.h other/Task.cpp
-
-        headers/Equipment.h equipment/Equipment.cpp
-
-        headers/Buff.h buff/Buff.cpp
-
-        headers/Bag.h other/Bag.cpp
-
-        headers/Skill.h skill/Skill.cpp
-
-        headers/Player.h class/Player.cpp
-
-        headers/NPC.h npc/NPC.cpp
-
-        headers/Enemy.h enemy/Enemy.cpp
-
-        map/map.cpp headers/Node.h map/Node.cpp
-        )
+# 添加可执行文件
+add_executable(mud ${SOURCES} ${HEADERS})

@@ -1,6 +1,0 @@
-//
-// Created by 32186 on 19/8/2024.
-//
-
-#pragma once
-constexpr int MAP_MAX_SIZE = 10;

@@ -24,7 +24,7 @@ class Weapon : public Equipment
 {
     int damage {};             // 伤害
     double critical {};        // 暴击率
-    int minStrengthToEquip {}; // 装备的最小力量点数要求
+    int min_strength_to_equip {}; // 装备的最小力量点数要求
 };
 
 // 防具
@@ -32,5 +32,5 @@ class Armor : public Equipment
 {
     int defence {};    // 防御力
     double evasion {}; // 闪避率
-    int minAgility {}; // 装备的最小敏捷点数要求
+    int min_agility {}; // 装备的最小敏捷点数要求
 };

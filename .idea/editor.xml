@@ -76,6 +76,6 @@
     <option name="/Default/CodeEditing/TypingAssist/Cpp/CloseBlockComment/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aallocator_002Eh_002Fl_003AD_0021_003Fapp_003FJetBrain_003FCLion_0020Nova_003Fbin_003Fmingw_003Flib_003Fgcc_003Fx86_005F64_002Dw64_002Dmingw32_003F13_002E1_002E0_003Finclude_003Fc_002B_002B_003Fbits_003Fallocator_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aiostream_002Fl_003AD_0021_003Fapp_003FJetBrain_003FCLion_003Fbin_003Fmingw_003Flib_003Fgcc_003Fx86_005F64_002Dw64_002Dmingw32_003F13_002E1_002E0_003Finclude_003Fc_002B_002B_003Fiostream/@EntryIndexedValue" value="ForceIncluded" type="string" />
-    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="RiderCppLiveTemplatesSettings" type="string" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
   </component>
 </project>

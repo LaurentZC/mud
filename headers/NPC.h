@@ -4,7 +4,7 @@
 
 #pragma once
 #include "Task.h"
-#include "../other/Equipment.h"
+#include "Equipment.h"
 #include "Buff.h"
 
 class NPC
