@@ -1,10 +1,8 @@
-//
-// Created by 32186 on 19/8/2024.
-//
-
 #pragma once
+
 #include <vector>
 #include "Equipment.h"
+
 using namespace std;
 
 class Bag

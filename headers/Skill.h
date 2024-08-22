@@ -1,9 +1,7 @@
-//
-// Created by 32186 on 19/8/2024.
-//
-
 #pragma once
+
 #include <string>
+
 using namespace std;
 
 class Skill

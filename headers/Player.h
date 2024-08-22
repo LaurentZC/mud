@@ -1,8 +1,5 @@
-//
-// Created by 32186 on 19/8/2024.
-//
-
 #pragma once
+
 #include "Bag.h"
 #include "Skill.h"
 #include "Task.h"
