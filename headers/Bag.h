@@ -5,10 +5,10 @@
 
 class Bag
 {
-    std::vector<Weapon> weapons; // 鑳屽寘涓殑姝﹀櫒
-    std::vector<Armor> armors;   // 鑳屽寘涓殑闃插叿
+    std::vector<Weapon> weapons; // 背包中的武器
+    std::vector<Armor> armors;   // 背包中的防具
 
     public:
-    void display(); // 鎵撳紑鑳屽寘灞曠ず鐗╁搧
-    void use(int);  // 閫夋嫨鐗╁搧浣跨敤
+    void display(); // 打开背包展示物品
+    void use(int);  // 选择物品使用
 };

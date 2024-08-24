@@ -5,25 +5,25 @@
 
 class Enemy
 {
-    int level {};      // ç­‰çº§
-    int HP {};         // è¡€é‡
-    int damage {};     // æ”»å‡»åŠ›
-    int defence {};    // é˜²å¾¡åŠ›
-    int experience {}; // ç»éªŒå€¼
-    int money {};      // æ‰è½é‡‘é’±
+    int level {};      // µÈ¼¶
+    int HP {};         // ÑªÁ¿
+    int damage {};     // ¹¥»÷Á¦
+    int defence {};    // ·ÀÓùÁ¦
+    int experience {}; // ¾­ÑéÖµ
+    int money {};      // µôÂä½ğÇ®
 
     public:
-        // æ”»å‡»
+        // ¹¥»÷
     void attack();
 };
 
 class Boss : public Enemy
 {
-    double critical {};   // æš´å‡»ç‡
-    double evasion {};    // é—ªé¿ç‡
-    std::vector<Skill> skills; // æŠ€èƒ½
+    double critical {};   // ±©»÷ÂÊ
+    double evasion {};    // ÉÁ±ÜÂÊ
+    std::vector<Skill> skills; // ¼¼ÄÜ
 
     public:
-        // ç”¨æŠ€èƒ½
+        // ÓÃ¼¼ÄÜ
     void useSkill();
 };

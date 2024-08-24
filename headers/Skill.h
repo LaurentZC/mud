@@ -4,22 +4,22 @@
 
 class Skill
 {
-    std::string name;        // åå­—
-    std::string description; // æè¿°
-    int consumption {}; // è€—è“
+    std::string name;        // Ãû×Ö
+    std::string description; // ÃèÊö
+    int consumption {}; // ºÄÀ¶
 
     public:
-    void display(); // å±•ç¤º
-    void use(int);  // ä½¿ç”¨æŠ€èƒ½
+    void display(); // Õ¹Ê¾
+    void use(int);  // Ê¹ÓÃ¼¼ÄÜ
 };
 
 class AttackSkill : public Skill
 {
-    int attack {}; // æ”»å‡»åŠ›
+    int attack {}; // ¹¥»÷Á¦
 };
 
 class BuffSkill : public Skill
 {
-    int HP {}; // åŠ è¡€
-    int MP {}; // åŠ è“
+    int HP {}; // ¼ÓÑª
+    int MP {}; // ¼ÓÀ¶
 };

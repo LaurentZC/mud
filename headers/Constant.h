@@ -2,26 +2,26 @@
 
 #include <string>
 
-// åœ°å›¾ç›¸å…³
-constexpr int MAP_MAX_SIZE = 5;                  // æœ€å¤§åœ°å›¾å°ºå¯¸
-const std::string EMPTY_ROOM = "ç©ºæˆ¿é—´";                 // ç©ºæˆ¿é—´çš„åå­—
-const std::string DEFAULT_DESCRIPTION = "è¿™é‡Œçœ‹èµ·æ¥ç©ºç©ºå¦‚ä¹Ÿã€‚"; // ç©ºæˆ¿é—´é»˜è®¤æè¿°
-const std::string EMPTY_CONTENT = "empty";            // ç©ºåœ°å›¾èŠ‚ç‚¹
-const std::string ENEMY = "enemy";                    // æˆ¿é—´å†…æ•Œäºº
-const std::string ELITE = "elite";                    // æˆ¿é—´å†…çš„ç²¾è‹±æ€ª
+// µØÍ¼Ïà¹Ø
+constexpr int MAP_MAX_SIZE = 5;                  // ×î´óµØÍ¼³ß´ç
+const std::string EMPTY_ROOM = "¿Õ·¿¼ä";                 // ¿Õ·¿¼äµÄÃû×Ö
+const std::string DEFAULT_DESCRIPTION = "ÕâÀï¿´ÆğÀ´¿Õ¿ÕÈçÒ²¡£"; // ¿Õ·¿¼äÄ¬ÈÏÃèÊö
+const std::string EMPTY_CONTENT = "empty";            // ¿ÕµØÍ¼½Úµã
+const std::string ENEMY = "enemy";                    // ·¿¼äÄÚµĞÈË
+const std::string ELITE = "elite";                    // ·¿¼äÄÚµÄ¾«Ó¢¹Ö
 const std::string BOSS = "boss";                      // boss
 
-// é¢œè‰²ç›¸å…³
-const std::string RESET = "\033[0m";         // é‡ç½®æ–‡æœ¬é¢œè‰²
-const std::string RED = "\033[31m";          // çº¢è‰²ï¼Œboss
-const std::string GREEN = "\033[32m";        // ç»¿è‰²ï¼Œä»»åŠ¡
-const std::string YELLOW = "\033[33m";       // é»„è‰²ï¼Œå°æ€ª
-const std::string BLUE = "\033[34m";         // è“è‰²ï¼Œåœ°ç‚¹
-const std::string PURPLE = "\033[35m";       // ç´«è‰²ï¼Œ
-const std::string ORANGE = "\033[38;5;208m"; // æ©™è‰²ï¼Œç²¾è‹±æ€ª
+// ÑÕÉ«Ïà¹Ø
+const std::string RESET = "\033[0m";         // ÖØÖÃÎÄ±¾ÑÕÉ«
+const std::string RED = "\033[31m";          // ºìÉ«£¬boss
+const std::string GREEN = "\033[32m";        // ÂÌÉ«£¬ÈÎÎñ
+const std::string YELLOW = "\033[33m";       // »ÆÉ«£¬Ğ¡¹Ö
+const std::string BLUE = "\033[34m";         // À¶É«£¬µØµã
+const std::string PURPLE = "\033[35m";       // ×ÏÉ«£¬
+const std::string ORANGE = "\033[38;5;208m"; // ³ÈÉ«£¬¾«Ó¢¹Ö
 
-// æ–¹å‘ç›¸å…³
-const std::string UP = "up";        // ä¸Š
-const std::string DOWN = "down";    // ä¸‹
-const std::string LEFT = "left";    // å·¦
-const std::string RIGHT = "right";  // å³
+// ·½ÏòÏà¹Ø
+const std::string UP = "up";        // ÉÏ
+const std::string DOWN = "down";    // ÏÂ
+const std::string LEFT = "left";    // ×ó
+const std::string RIGHT = "right";  // ÓÒ

@@ -9,23 +9,23 @@ Map creatWuWeiCheng()
     Map wu_wei_cheng("wu_wei_cheng");
 
     auto &rooms = wu_wei_cheng.getMap();
-    rooms[3][1].Setup("åŸŽé—¨", "è¿™åº§" + Place("åŸŽé—¨") + "åšå›ºå¦‚é“ï¼Œä¸Šé¢é›•åˆ»ç€æˆ˜æ–—åœºæ™¯å’Œæ­¦å™¨çš„å›¾æ¡ˆã€‚", "åŸŽé—¨");
+    rooms[3][1].Setup("³ÇÃÅ", "Õâ×ù" + Place("³ÇÃÅ") + "¼á¹ÌÈçÌú£¬ÉÏÃæµñ¿Ì×ÅÕ½¶·³¡¾°ºÍÎäÆ÷µÄÍ¼°¸¡£", "³ÇÃÅ");
 
-    rooms[2][1].Setup("é—¨å«äº­", "è¿™é‡Œæ˜¯" + Place("é—¨å«äº­") + "ï¼Œçœ‹èµ·æ¥è¿™äº›" + Minion("é—¨å«") + "ä¼¼ä¹Žæ­£åœ¨æ‘¸é±¼ã€‚", ENEMY);
-    rooms[4][1].Setup("é—¨å«äº­", "è¿™é‡Œæ˜¯" + Place("é—¨å«äº­") + "ï¼Œçœ‹èµ·æ¥è¿™äº›" + Minion("é—¨å«") + "ä¼¼ä¹Žæ­£åœ¨æ‘¸é±¼ã€‚", ENEMY);
+    rooms[2][1].Setup("ÃÅÎÀÍ¤", "ÕâÀïÊÇ" + Place("ÃÅÎÀÍ¤") + "£¬¿´ÆðÀ´ÕâÐ©" + Minion("ÃÅÎÀ") + "ËÆºõÕýÔÚÃþÓã¡£", ENEMY);
+    rooms[4][1].Setup("ÃÅÎÀÍ¤", "ÕâÀïÊÇ" + Place("ÃÅÎÀÍ¤") + "£¬¿´ÆðÀ´ÕâÐ©" + Minion("ÃÅÎÀ") + "ËÆºõÕýÔÚÃþÓã¡£", ENEMY);
 
-    rooms[1][2].Setup("é’é¾™å ‚", "è¿™é‡Œç«™ç€çš„äººæ˜¯é™†æ´ªçš„å·¦è†€å³è‡‚â€”â€”" + Elite("é’é¾™å«") + "ï¼Œä»–çœ‹èµ·æ¥ååˆ†å¼ºå¤§ï¼", ELITE);
-    rooms[5][2].Setup("ç™½è™Žå ‚", "è¿™é‡Œç«™ç€çš„äººæ˜¯é™†æ´ªçš„å·¦è†€å³è‡‚â€”â€”" + Elite("ç™½è™Žå«") + "ï¼Œä»–çœ‹èµ·æ¥ååˆ†å¼ºå¤§ï¼", ELITE);
+    rooms[1][2].Setup("ÇàÁúÌÃ", "ÕâÀïÕ¾×ÅµÄÈËÊÇÂ½ºéµÄ×ó°òÓÒ±Û¡ª¡ª" + Elite("ÇàÁúÎÀ") + "£¬Ëû¿´ÆðÀ´Ê®·ÖÇ¿´ó£¡", ELITE);
+    rooms[5][2].Setup("°×»¢ÌÃ", "ÕâÀïÕ¾×ÅµÄÈËÊÇÂ½ºéµÄ×ó°òÓÒ±Û¡ª¡ª" + Elite("°×»¢ÎÀ") + "£¬Ëû¿´ÆðÀ´Ê®·ÖÇ¿´ó£¡", ELITE);
 
-    rooms[2][2].Setup("é’é¾™å ‚", "ä½ åœ¨å‰å¾€" + Place("é’é¾™å ‚") + "çš„è·¯ä¸Šé‡åˆ°äº†" + Minion("é™†æ´ªçš„æ‰‹ä¸‹") + "ï¼Œè¯·æ‰“è´¥ä»–ä»¬ï¼", ENEMY);
-    rooms[4][2].Setup("ç™½è™Žå ‚", "ä½ åœ¨å‰å¾€" + Place("ç™½è™Žå ‚") + "çš„è·¯ä¸Šé‡åˆ°äº†" + Minion("é™†æ´ªçš„æ‰‹ä¸‹") + "ï¼Œè¯·æ‰“è´¥ä»–ä»¬ï¼", ENEMY);
+    rooms[2][2].Setup("ÇàÁúÌÃ", "ÄãÔÚÇ°Íù" + Place("ÇàÁúÌÃ") + "µÄÂ·ÉÏÓöµ½ÁË" + Minion("Â½ºéµÄÊÖÏÂ") + "£¬Çë´ò°ÜËûÃÇ£¡", ENEMY);
+    rooms[4][2].Setup("°×»¢ÌÃ", "ÄãÔÚÇ°Íù" + Place("°×»¢ÌÃ") + "µÄÂ·ÉÏÓöµ½ÁË" + Minion("Â½ºéµÄÊÖÏÂ") + "£¬Çë´ò°ÜËûÃÇ£¡", ENEMY);
 
     rooms[3][2].Setup(EMPTY_ROOM, DEFAULT_DESCRIPTION, EMPTY_CONTENT);
 
-    rooms[3][3].Setup("æ´ªæ­¦æ¥¼", "åªæœ‰" + Boss("é™†æ´ª") + "ç«™åœ¨è¿™é‡Œã€‚", BOSS);
+    rooms[3][3].Setup("ºéÎäÂ¥", "Ö»ÓÐ" + Boss("Â½ºé") + "Õ¾ÔÚÕâÀï¡£", BOSS);
 
-    rooms[1][3].Setup("ä»“åº“", "è¿™é‡Œæ˜¯" + Boss("é™†æ´ª") + "çš„" + Place("ä»“åº“") + "ï¼Œæ‰“å¼€é‚£ä¸ªç®±å­çœ‹çœ‹æœ‰ä»€ä¹ˆå§ï¼");
-    rooms[5][3].Setup("ä»“åº“", "è¿™é‡Œæ˜¯" + Boss("é™†æ´ª") + "çš„" + Place("ä»“åº“") + "ï¼Œæ‰“å¼€é‚£ä¸ªç®±å­çœ‹çœ‹æœ‰ä»€ä¹ˆå§ï¼");
+    rooms[1][3].Setup("²Ö¿â", "ÕâÀïÊÇ" + Boss("Â½ºé") + "µÄ" + Place("²Ö¿â") + "£¬´ò¿ªÄÇ¸öÏä×Ó¿´¿´ÓÐÊ²Ã´°É£¡");
+    rooms[5][3].Setup("²Ö¿â", "ÕâÀïÊÇ" + Boss("Â½ºé") + "µÄ" + Place("²Ö¿â") + "£¬´ò¿ªÄÇ¸öÏä×Ó¿´¿´ÓÐÊ²Ã´°É£¡");
 
     return wu_wei_cheng;
 }

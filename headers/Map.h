@@ -12,7 +12,7 @@ class Map
     std::vector<std::vector<Room> > map;
 
     public:
-        // æ„é€ å‡½æ•°
+        // ¹¹Ôìº¯Êı
     explicit Map(std::string name);
 
     // getter
@@ -23,12 +23,12 @@ class Map
 class Room
 {
     bool can_pass {};
-    std::string name {EMPTY_ROOM};                 // æˆ¿é—´çš„åå­—
-    std::string content {EMPTY_CONTENT};           // é‡Œé¢å«æœ‰çš„ä¸œè¥¿
-    std::string description {DEFAULT_DESCRIPTION}; // æˆ¿é—´æè¿°
+    std::string name {EMPTY_ROOM};                 // ·¿¼äµÄÃû×Ö
+    std::string content {EMPTY_CONTENT};           // ÀïÃæº¬ÓĞµÄ¶«Î÷
+    std::string description {DEFAULT_DESCRIPTION}; // ·¿¼äÃèÊö
 
     public:
-        // æ„é€ å‡½æ•°
+        // ¹¹Ôìº¯Êı
 
     Room();
 

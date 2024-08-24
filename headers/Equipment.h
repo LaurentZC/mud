@@ -2,31 +2,31 @@
 
 #include <string>
 
-// è£…å¤‡
+// ×°±¸
 class Equipment
 {
-    std::string name {};        // åå­—
-    std::string description {}; // æè¿°
-    int money {};          // è´­ä¹°ä»·æ ¼
+    std::string name {};        // Ãû×Ö
+    std::string description {}; // ÃèÊö
+    int money {};          // ¹ºÂò¼Û¸ñ
     public:
-        // è£…å¤‡ä¸Š
+        // ×°±¸ÉÏ
     void equip();
-    // å¸ä¸‹
+    // Ğ¶ÏÂ
     void unequip();
 };
 
-// æ­¦å™¨
+// ÎäÆ÷
 class Weapon : public Equipment
 {
-    int damage {};             // ä¼¤å®³
-    double critical {};        // æš´å‡»ç‡
-    int min_strength_to_equip {}; // è£…å¤‡çš„æœ€å°åŠ›é‡ç‚¹æ•°è¦æ±‚
+    int damage {};             // ÉËº¦
+    double critical {};        // ±©»÷ÂÊ
+    int min_strength_to_equip {}; // ×°±¸µÄ×îĞ¡Á¦Á¿µãÊıÒªÇó
 };
 
-// é˜²å…·
+// ·À¾ß
 class Armor : public Equipment
 {
-    int defense {};    // é˜²å¾¡åŠ›
-    double evasion {}; // é—ªé¿ç‡
-    int min_agility {}; // è£…å¤‡çš„æœ€å°æ•æ·ç‚¹æ•°è¦æ±‚
+    int defense {};    // ·ÀÓùÁ¦
+    double evasion {}; // ÉÁ±ÜÂÊ
+    int min_agility {}; // ×°±¸µÄ×îĞ¡Ãô½İµãÊıÒªÇó
 };

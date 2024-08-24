@@ -6,35 +6,35 @@
 
 class Player
 {
-    int level {1};     // ç­‰çº§
-    int experience {}; // ç»éªŒ
+    int level {1};     // µÈ¼¶
+    int experience {}; // ¾­Ñé
 
-    int HP {};      // è¡€é‡
-    int MP {};      // è“é‡
-    int health {1}; // å¥åº·ç‚¹æ•°
+    int HP {};      // ÑªÁ¿
+    int MP {};      // À¶Á¿
+    int health {1}; // ½¡¿µµãÊı
 
-    int damage {};      // æ”»å‡»åŠ›
-    double critical {}; // æš´å‡»ç‡
-    int strength {1};   // æ”»å‡»ç‚¹æ•°
+    int damage {};      // ¹¥»÷Á¦
+    double critical {}; // ±©»÷ÂÊ
+    int strength {1};   // ¹¥»÷µãÊı
 
-    int defence {};    // é˜²å¾¡åŠ›
-    double evasion {}; // é—ªé¿ç‡
-    int agility {1};   // æ•æ·ç‚¹æ•°
+    int defence {};    // ·ÀÓùÁ¦
+    double evasion {}; // ÉÁ±ÜÂÊ
+    int agility {1};   // Ãô½İµãÊı
 
-    int money {};         // é‡‘é’±
-    Bag bag;              // èƒŒåŒ…
-    std::vector<Task> tasks;   // ä»»åŠ¡åˆ—è¡¨
-    std::vector<Skill> skills; // æŠ€èƒ½åˆ—è¡¨
+    int money {};         // ½ğÇ®
+    Bag bag;              // ±³°ü
+    std::vector<Task> tasks;   // ÈÎÎñÁĞ±í
+    std::vector<Skill> skills; // ¼¼ÄÜÁĞ±í
 
     public:
-        // æ”»å‡»
+        // ¹¥»÷
     void attack();
-    // 1så†…æŒ‰å›è½¦åä¼¤
+    // 1sÄÚ°´»Ø³µ·´ÉË
     void defend();
-    // ç”¨æŠ€èƒ½
+    // ÓÃ¼¼ÄÜ
     void useSkill();
-    // ç§»åŠ¨
+    // ÒÆ¶¯
     void move();
-    // è·å¾—ç»éªŒ
+    // »ñµÃ¾­Ñé
     void getExperience();
 };
