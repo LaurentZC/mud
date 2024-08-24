@@ -16,8 +16,8 @@ class Map
     explicit Map(std::string name);
 
     // getter
-    [[nodiscard]] std::string getName() const;
-    [[nodiscard]] std::vector<std::vector<Room> > &getMap();
+    std::string getName() const;
+    std::vector<std::vector<Room> > &getMap();
 };
 
 class Room
@@ -36,19 +36,19 @@ class Room
 
     // getter & setter
 
-    [[nodiscard]] std::string getName() const;
+    std::string getName() const;
 
     void setName(std::string name);
 
-    [[nodiscard]] std::string getContent() const;
+    std::string getContent() const;
 
     void setContent(std::string content);
 
-    [[nodiscard]] bool canPass() const;
+    bool canPass() const;
 
     void setPass(bool entry);
 
-    [[nodiscard]] std::string getDescription() const;
+    std::string getDescription() const;
 
     void setDescription(std::string description);
 

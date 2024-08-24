@@ -1,7 +1,6 @@
 #include <iostream>
 #include <limits>
 #include <string>
-#include <utility>
 #include "../headers/Constant.h"
 #include "../headers/Helper.h"
 #include "../headers/Map.h"
@@ -80,12 +79,16 @@ void processPlayerLocation(Map &map, Player &player)
 
     // 玩家进入地图到城门的位置
     auto &rooms = map.getMap();
-    for (int i = 1; i <= MAP_MAX_SIZE + 1; ++i) {
-        for (int j = 1; j <= MAP_MAX_SIZE + 1; ++j) {
-            if (rooms[i][j].getName() == Place("城门")) {
+    bool found = false;
+    for (int i = 1; i <= MAP_MAX_SIZE; ++i) {
+        for (int j = 1; j <= MAP_MAX_SIZE; ++j) {
+            if (rooms[i][j].getName() == Place("a")) { // MSVC 编码失败
                 player_location = make_pair(i, j);
+                found = true;
+                break;
             }
         }
+        if (found) break;
     }
 
     getCommand(map, player_location);

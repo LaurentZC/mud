@@ -2,7 +2,7 @@
 
 #include <string>
 
-std::string Color(const std::string &text, const std::std::string &color);
+std::string Color(const std::string &text, const std::string &color);
 
 std::string Place(const std::string &text);
 

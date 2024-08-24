@@ -22,4 +22,6 @@ file(GLOB_RECURSE HEADERS "headers/*.h")
 # 添加可执行文件
 add_executable(mud ${SOURCES} ${HEADERS})
 # 设置源文件使用 UTF-8 编码
-set_property(SOURCE ${SOURCES} PROPERTY COMPILE_OPTIONS "/utf-8")
+if(MSVC)
+    set_property(SOURCE ${SOURCES} PROPERTY COMPILE_OPTIONS "/utf-8")
+endif()
