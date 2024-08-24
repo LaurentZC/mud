@@ -2,14 +2,12 @@
 
 #include <string>
 
-using namespace std;
+std::string Color(const std::string &text, const std::std::string &color);
 
-string Color(const string &text, const string &color);
+std::string Place(const std::string &text);
 
-string Place(const string &text);
+std::string Minion(const std::string &text);
 
-string Minion(const string &text);
+std::string Elite(const std::string &text);
 
-string Elite(const string &text);
-
-string Boss(const string &text);
+std::string Boss(const std::string &text);

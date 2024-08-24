@@ -5,9 +5,11 @@
 #include "../headers/Helper.h"
 #include "../headers/Map.h"
 
+using namespace std;
+
 Room::Room() = default;
 
-Room::Room(string name, string content) : name(std::move(name)), content(std::move(content)) { }
+Room::Room(string name, string content) : name(std::move(name)), content(std::move(content)) {}
 
 string Room::getName() const { return name; }
 
@@ -33,7 +35,7 @@ void Room::Setup(const string &name, string description, string content)
     this->content = std::move(content);
 }
 
-Map::Map(string name) : name(std::move(name)), map(MAP_MAX_SIZE + 1, vector<Room>(MAP_MAX_SIZE + 1)) { }
+Map::Map(string name) : name(std::move(name)), map(MAP_MAX_SIZE + 1, vector<Room>(MAP_MAX_SIZE + 1)) {}
 
 string Map::getName() const { return name; }
 

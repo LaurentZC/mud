@@ -1,10 +1,7 @@
-//
 #pragma once
 
 #include <vector>
 #include "Skill.h"
-
-using namespace std;
 
 class Enemy
 {
@@ -15,8 +12,8 @@ class Enemy
     int experience {}; // 经验值
     int money {};      // 掉落金钱
 
-public:
-    // 攻击
+    public:
+        // 攻击
     void attack();
 };
 
@@ -24,9 +21,9 @@ class Boss : public Enemy
 {
     double critical {};   // 暴击率
     double evasion {};    // 闪避率
-    vector<Skill> skills; // 技能
+    std::vector<Skill> skills; // 技能
 
-public:
-    // 用技能
+    public:
+        // 用技能
     void useSkill();
 };

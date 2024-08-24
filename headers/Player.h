@@ -23,11 +23,11 @@ class Player
 
     int money {};         // 金钱
     Bag bag;              // 背包
-    vector<Task> tasks;   // 任务列表
-    vector<Skill> skills; // 技能列表
+    std::vector<Task> tasks;   // 任务列表
+    std::vector<Skill> skills; // 技能列表
 
-public:
-    // 攻击
+    public:
+        // 攻击
     void attack();
     // 1s内按回车反伤
     void defend();

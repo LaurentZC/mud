@@ -2,16 +2,14 @@
 
 #include <string>
 
-using namespace std;
-
 // 装备
 class Equipment
 {
-    string name {};        // 名字
-    string description {}; // 描述
+    std::string name {};        // 名字
+    std::string description {}; // 描述
     int money {};          // 购买价格
-public:
-    // 装备上
+    public:
+        // 装备上
     void equip();
     // 卸下
     void unequip();
@@ -28,7 +26,7 @@ class Weapon : public Equipment
 // 防具
 class Armor : public Equipment
 {
-    int defence {};    // 防御力
+    int defense {};    // 防御力
     double evasion {}; // 闪避率
     int min_agility {}; // 装备的最小敏捷点数要求
 };

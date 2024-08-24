@@ -22,7 +22,7 @@ Map creatWuWeiCheng()
 
     rooms[3][2].Setup(EMPTY_ROOM, DEFAULT_DESCRIPTION, EMPTY_CONTENT);
 
-    rooms[3][3].Setup("洪武楼", "只有" + Boss("陆洪") + "站在这里。", EMPTY_CONTENT);
+    rooms[3][3].Setup("洪武楼", "只有" + Boss("陆洪") + "站在这里。", BOSS);
 
     rooms[1][3].Setup("仓库", "这里是" + Boss("陆洪") + "的" + Place("仓库") + "，打开那个箱子看看有什么吧！");
     rooms[5][3].Setup("仓库", "这里是" + Boss("陆洪") + "的" + Place("仓库") + "，打开那个箱子看看有什么吧！");

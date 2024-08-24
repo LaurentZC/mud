@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Task.h"
 #include "Equipment.h"
 #include "Buff.h"
@@ -13,7 +14,7 @@ class EquipmentGiving : public NPC
 {
     Equipment equipment;
 
-public:
+    public:
     void talk();
 };
 
@@ -21,6 +22,6 @@ class BuffGiving : public NPC
 {
     Buff buff;
 
-public:
+    public:
     void talk();
 };
