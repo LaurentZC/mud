@@ -1,17 +1,17 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include "../headers/Area.h"
 #include "../headers/Constant.h"
 #include "../headers/Helper.h"
-#include "../headers/Map.h"
 #include "../headers/Player.h"
 
 using namespace std;
 
-void getCommand(Map &map, pair<int, int> &player_position)
+void getCommand(Area& map, pair<int, int>& player_position)
 {
-    auto &[x, y] = player_position;
-    const auto &rooms = map.getMap();
+    auto& [x, y] = player_position;
+    const auto& rooms = map.getArea();
     string command;
     cout << "你想往哪里走呢：";
     bool error;
@@ -66,18 +66,18 @@ void getCommand(Map &map, pair<int, int> &player_position)
     } while (error);
 }
 
-void processPlayerLocation(Map &map, Player &player)
+void processPlayerLocation(Area& map, Player& player)
 {
     // 玩家的位置
     pair<int, int> player_location = make_pair(0, 0);
-    auto &[x, y] = player_location;
+    auto& [x, y] = player_location;
 
     // 查找城门
-    const auto &rooms = map.getMap();
+    const auto& rooms = map.getArea();
     bool found = false;
     for (int i = 1; i <= MAP_MAX_SIZE; ++i) {
         for (int j = 1; j <= MAP_MAX_SIZE; ++j) {
-            if (rooms[i][j].getName() == Place("城门")) {
+            if (rooms[i][j].getName() == place("城门")) {
                 player_location = make_pair(i, j);
                 found = true;
                 break;
@@ -89,9 +89,18 @@ void processPlayerLocation(Map &map, Player &player)
 
     getCommand(map, player_location);
     cout << rooms[x][y].getDescription() << endl;
-    if (rooms[x][y].getContent() == EMPTY_CONTENT) { }
-    else if (rooms[x][y].getContent() == ENEMY) { }
-    else if (rooms[x][y].getContent() == ELITE) { }
-    else
-        if (rooms[x][y].getContent() == BOSS) { }
+    switch (rooms[x][y].getContent()) {
+        case Content::EMPTY:
+            break;
+        case Content::MONSTER:
+            break;
+        case Content::ELITE:
+            break;
+        case Content::BOSS:
+            break;
+        case Content::CHEST:
+            break;
+        default:
+            break;
+    }
 }

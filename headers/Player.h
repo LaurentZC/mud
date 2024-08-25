@@ -6,6 +6,19 @@
 
 class Player
 {
+public:
+    // 攻击
+    void attack();
+    // 1s内按回车反伤
+    void defend();
+    // 用技能
+    void useSkill();
+    // 移动
+    void move();
+    // 获得经验
+    void getExperience();
+
+private:
     int level {1};     // 等级
     int experience {}; // 经验
 
@@ -21,20 +34,8 @@ class Player
     double evasion {}; // 闪避率
     int agility {1};   // 敏捷点数
 
-    int money {};         // 金钱
-    Bag bag;              // 背包
+    int money {};              // 金钱
+    Bag bag;                   // 背包
     std::vector<Task> tasks;   // 任务列表
     std::vector<Skill> skills; // 技能列表
-
-    public:
-        // 攻击
-    void attack();
-    // 1s内按回车反伤
-    void defend();
-    // 用技能
-    void useSkill();
-    // 移动
-    void move();
-    // 获得经验
-    void getExperience();
 };

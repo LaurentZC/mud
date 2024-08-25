@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
 project(mud)
 
-# Х╝╬Г╫╝ C++ Ф═┤Е┤├Д╦╨ C++ 17
+# иХжц C++ ╠Йв╪н╙ C++ 17
 set(CMAKE_CXX_STANDARD 17)
 
-# Ф╥╩Е┼═Ф╨░Ф√┤Д╩╤Е▓▄Е╓╢Ф√┤Д╩╤
+# лМ╪ст╢нд╪Ч╨мм╥нд╪Ч
 file(GLOB_RECURSE SOURCES
      "buff/*.cpp"
      "class/*.cpp"
@@ -19,9 +19,5 @@ file(GLOB_RECURSE SOURCES
 
 file(GLOB_RECURSE HEADERS "headers/*.h")
 
-# Ф╥╩Е┼═Е▐╞Ф┴╖Х║▄Ф√┤Д╩╤
+# лМ╪с©иж╢ппнд╪Ч
 add_executable(mud ${SOURCES} ${HEADERS})
-# Х╝╬Г╫╝Ф╨░Ф√┤Д╩╤Д╫©Г■╗ UTF-8 Г╪√Г═│
-if(MSVC)
-    set_property(SOURCE ${SOURCES} PROPERTY COMPILE_OPTIONS "/utf-8")
-endif()

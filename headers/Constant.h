@@ -3,13 +3,11 @@
 #include <string>
 
 // 地图相关
-constexpr int MAP_MAX_SIZE = 5;                  // 最大地图尺寸
+constexpr int MAP_MAX_SIZE = 5;                       // 最大地图尺寸
 const std::string EMPTY_ROOM = "空房间";                 // 空房间的名字
 const std::string DEFAULT_DESCRIPTION = "这里看起来空空如也。"; // 空房间默认描述
-const std::string EMPTY_CONTENT = "empty";            // 空地图节点
-const std::string ENEMY = "enemy";                    // 房间内敌人
-const std::string ELITE = "elite";                    // 房间内的精英怪
-const std::string BOSS = "boss";                      // boss
+
+enum class Content { EMPTY, MONSTER, ELITE, BOSS, CHEST, GATE }; // 房间的内容，分别是：空，小怪，精英怪，boss，宝箱
 
 // 颜色相关
 const std::string RESET = "\033[0m";         // 重置文本颜色
@@ -21,7 +19,7 @@ const std::string PURPLE = "\033[35m";       // 紫色，
 const std::string ORANGE = "\033[38;5;208m"; // 橙色，精英怪
 
 // 方向相关
-const std::string UP = "up";        // 上
-const std::string DOWN = "down";    // 下
-const std::string LEFT = "left";    // 左
-const std::string RIGHT = "right";  // 右
+const std::string UP = "up";       // 上
+const std::string DOWN = "down";   // 下
+const std::string LEFT = "left";   // 左
+const std::string RIGHT = "right"; // 右

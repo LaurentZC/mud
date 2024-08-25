@@ -3,12 +3,12 @@
 
 using namespace std;
 
-string Color(const string &text, const string &color) { return string(color + text + RESET); }
+string color(const string& text, const string& color) { return string(color + text + RESET); }
 
-string Place(const string &text) { return string(BLUE + text + RESET); }
+string place(const string& text) { return string(BLUE + text + RESET); }
 
-string Minion(const string &text) { return string(YELLOW + text + RESET); }
+string minion(const string& text) { return string(YELLOW + text + RESET); }
 
-string Elite(const string &text) { return string(ORANGE + text + RESET); }
+string elite(const string& text) { return string(ORANGE + text + RESET); }
 
-string Boss(const string &text) { return string(RED + text + RESET); }
+string boss(const string& text) { return string(RED + text + RESET); }

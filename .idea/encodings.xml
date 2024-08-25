@@ -2,18 +2,25 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/CMakeLists.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/README.md" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/buff/Buff.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/enemy/Enemy.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/game/main.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/headers/Area.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Bag.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Constant.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Enemy.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Equipment.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Map.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/NPC.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Player.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Skill.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Task.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/map/Area.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/map/play_map.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/map/wu_wei_cheng.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/other/Bag.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/other/Helper.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/other/Task.cpp" charset="GBK" />
   </component>
 </project>
