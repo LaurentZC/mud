@@ -4,6 +4,7 @@
 #include "../headers/Area.h"
 #include "../headers/Helper.h"
 #include "../headers/PlayMap.h""
+#include "../headers/CreatMap.h""
 #include "../headers/Player.h"
 
 using namespace std;
@@ -11,8 +12,10 @@ using namespace std;
 int main()
 {
     // 创建地图
-    Area main_city("main_city");           // 主城
-    auto wu_wei_cheng = creatWuWeiCheng(); // 武威城
+    Area main_city("main_city");
+    creatMainCity(main_city);      // 主城
+    Area wu_wei_cheng("wu_wei_cheng");
+    creatWuWeiCheng(wu_wei_cheng); // 武威城
 
     // 当前地图和玩家位置
     auto current_map = make_shared<Area>(main_city);

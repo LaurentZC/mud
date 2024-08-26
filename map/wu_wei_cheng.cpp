@@ -1,24 +1,19 @@
-#include "../headers/Area.h"
-#include "../headers/Constant.h"
-#include "../headers/Helper.h"
+#include "../headers/CreatMap.h"
 
 using namespace std;
 
-/*
- *   X      X      X    X      X
- *   X      X     npc   X      X
- * 武器仓库  X     陆洪   X    丹药仓库
- * 青龙堂   小怪    空   小怪   白虎堂
- *   X    门卫亭  城门  门卫亭    X
- */
+//   X      X      X    X      X
+//   X      X     npc   X      X
+// 武器仓库  X     陆洪   X    丹药仓库
+// 青龙堂   小怪    空   小怪   白虎堂
+//   X    门卫亭  城门  门卫亭    X
 
-Area creatWuWeiCheng()
+
+void creatWuWeiCheng(Area &wu_wei_cheng)
 {
-    Area wu_wei_cheng("wu_wei_cheng");
-
     auto &rooms = wu_wei_cheng.getArea();
 
-    auto setupRoom = [&rooms](const int x, const int y, const std::string &name, const std::string &description, const Content content) {
+    auto setupRoom = [&rooms](const int x, const int y, const string &name, const string &description, const Content content) {
         rooms[x][y].Setup(name, description, content);
     };
 
@@ -41,6 +36,4 @@ Area creatWuWeiCheng()
     setupRoom(5, 3, "仓库", "这里是" + boss("陆洪") + "的" + place("仓库") + "，打开那个箱子看看有什么吧！", Content::CHEST);
 
     setupRoom(3, 4, "囚禁室", "这里关押着一个人，上前看看怎么回事把。", Content::NPC);
-
-    return wu_wei_cheng;
 }
