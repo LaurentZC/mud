@@ -1,8 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "Bag.h"
 #include "Skill.h"
 #include "Task.h"
+
+class Bag;
 
 class Player
 {
@@ -35,7 +39,7 @@ private:
     int agility {1};   // 敏捷点数
 
     int money {};              // 金钱
-    Bag bag;                   // 背包
+    std::unique_ptr<Bag> bag;  // 背包
     std::vector<Task> tasks;   // 任务列表
     std::vector<Skill> skills; // 技能列表
 };

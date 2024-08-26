@@ -21,3 +21,7 @@ file(GLOB_RECURSE HEADERS "headers/*.h")
 
 # 添加可执行文件
 add_executable(mud ${SOURCES} ${HEADERS})
+
+# 添加 fmt 头文件目录
+add_subdirectory(fmt EXCLUDE_FROM_ALL)
+target_link_libraries(mud fmt-header-only)

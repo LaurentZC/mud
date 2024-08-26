@@ -13,10 +13,11 @@ class NPC
 class EquipmentGiving : public NPC
 {
 public:
+    EquipmentGiving();
     void talk();
 
 private:
-    Equipment equipment;
+    Equipment *equipment {};
 };
 
 class BuffGiving : public NPC
