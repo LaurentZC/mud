@@ -13,7 +13,7 @@ public:
     explicit Area(std::string name);
 
     // getter
-    std::string getName() const;
+    [[nodiscard]] std::string getName() const;
     std::vector<std::vector<Room> > &getArea();
 
 private:
@@ -32,23 +32,18 @@ public:
 
     // getter & setter
 
-    std::string getName() const;
+    [[nodiscard]] std::string getName() const;
 
-    void setName(std::string name);
 
-    Content getContent() const;
+    [[nodiscard]] Content getContent() const;
 
     void setContent(Content content);
 
-    bool canPass() const;
+    [[nodiscard]] bool canPass() const;
 
-    void setPass(bool entry);
+    [[nodiscard]] std::string getDescription() const;
 
-    std::string getDescription() const;
-
-    void setDescription(std::string description);
-
-    void Setup(const std::string &name, std::string description = DEFAULT_DESCRIPTION, Content content = Content::EMPTY);
+    void setup(const std::string &name, std::string description, Content content);
 
 private:
     bool can_pass {};                              // 能否通过
@@ -56,5 +51,3 @@ private:
     std::string description {DEFAULT_DESCRIPTION}; // 房间内的描述
     Content content {Content::EMPTY};              // 房间的内容物
 };
-
-

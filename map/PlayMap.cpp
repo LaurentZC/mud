@@ -9,6 +9,7 @@
 #include "Constant.h"
 #include "Helper.h"
 #include "Player.h"
+#include "fmt/core.h"
 
 using namespace std;
 
@@ -51,22 +52,48 @@ bool isValidMove(const int x, const int y, const vector<vector<Room> > &rooms, c
     }
 }
 
-void applyMove(int &x, int &y, const char dir)
+void handlePlayerAction(Area &map, const int x, const int y)
 {
-    switch (dir) {
-        case 'w' :
-            ++y;
+    auto get_yes_or_no = []() -> bool {
+        while (true) {
+            string input;
+            cin >> input;
+            if (input == "y" || input == "Y")
+                return true;
+            if (input == "n" || input == "N")
+                return false;
+            cout << "无效指令！[y / n]：";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    };
+
+    switch (const auto &rooms = map.getArea(); rooms[x][y].getContent()) {
+        case Content::EMPTY :
+            fmt::print("{}", map.getArea()[x][y].getDescription());
             break;
-        case 's' :
-            --y;
+
+        case Content::CHEST :
+            fmt::print("你要打开它吗？[y / n]");
+            if (get_yes_or_no()) {
+                // 打开宝箱的处理逻辑
+            }
             break;
-        case 'a' :
-            --x;
+
+        case Content::NPC :
+            fmt::print("你要和他对话吗？[y / n]");
+            if (get_yes_or_no()) {
+                // 和NPC对话的处理逻辑
+            }
             break;
-        case 'd' :
-            ++x;
-            break;
-        default :
+
+        default : // 小怪，精英怪，boss
+            fmt::print("你是要发动攻击(y)还是先打开背包休整一下(n)：");
+            if (!get_yes_or_no()) {
+                // player.openBag();
+                break;
+            }
+        // 战斗的处理逻辑
             break;
     }
 }
@@ -74,53 +101,40 @@ void applyMove(int &x, int &y, const char dir)
 void movePlayerLocation(Area &map, int &x, int &y)
 {
     const auto &rooms = map.getArea();
-
     string command;
+
     while (true) {
-        cout << "你想往哪里走呢（w/a/s/d）：";
+        fmt::print("你想往哪里走呢？[w / a / s / d]：");
         cin >> command;
-        // 指令字符比一个多
-        if (command.length() > 1) {
-            cout << "无效的指令，请输入 'w', 'a', 's', 'd' 之一：" << endl;
+
+        if (command.length() != 1 || strchr("wasd", command[0]) == nullptr) {
+            fmt::print("无效的指令！[w / a / s / d]：");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
         }
+
         if (isValidMove(x, y, rooms, command[0])) {
-            // 成功移动就可以退出循环
-            applyMove(x, y, command[0]);
-            cout << rooms[x][y].getDescription() << endl;
+            switch (command[0]) {
+                case 'w' :
+                    ++y;
+                    break;
+                case 's' :
+                    --y;
+                    break;
+                case 'a' :
+                    --x;
+                    break;
+                case 'd' :
+                    ++x;
+                    break;
+                default :
+                    break;
+            }
             break;
         }
-        // 移动不成功
-        cout << "前方是一堵墙，你无法通过。请换一个方向：" << endl;
+        fmt::print("前方是一堵墙，你无法通过。\n请换一个方向吧 [w / a / s / d]：");
     }
 
-    switch (rooms[x][y].getContent()) {
-        case Content::EMPTY :
-            break;
-
-        case Content::CHEST :
-            cout << "你要打开他吗（y/n）？";
-            if (getYorN()) {
-                // 打开宝箱
-            }
-            break;
-
-        case Content::NPC :
-            cout << "你要和他对话吗？（y/n）";
-            if (getYorN()) {
-                // 和npc对话
-            }
-            break;
-
-        default : // 小怪，精英怪，boss
-            cout << "你是要发动攻击（y）还是先打开背包休整一下（n）：";
-            if (!getYorN()) {
-                // player.openBag();
-                break;
-            }
-
-        // 战斗
-            break;
-    }
+    handlePlayerAction(map, x, y);
 }

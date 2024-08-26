@@ -10,15 +10,6 @@ const std::string DEFAULT_DESCRIPTION = "ÕâÀï¿´ÆğÀ´¿Õ¿ÕÈçÒ²¡£"; // ¿Õ·¿¼äÄ¬ÈÏÃèÊ
 enum class Map { MAIN_CITY, WU_WEI_CHENG };                           // µØÍ¼
 enum class Content { EMPTY, CHEST, GATE, NPC, MONSTER, ELITE, BOSS }; // ·¿¼äµÄÄÚÈİ£¬·Ö±ğÊÇ£º¿Õ£¬±¦Ïä£¬ÃÅ£¬npc£¬Ğ¡¹Ö£¬¾«Ó¢¹Ö£¬boss
 
-// ÑÕÉ«Ïà¹Ø
-const std::string RESET = "\033[0m";         // ÖØÖÃÎÄ±¾ÑÕÉ«
-const std::string RED = "\033[31m";          // ºìÉ«£¬boss
-const std::string GREEN = "\033[32m";        // ÂÌÉ«£¬ÈÎÎñ
-const std::string YELLOW = "\033[33m";       // »ÆÉ«£¬Ğ¡¹Ö
-const std::string BLUE = "\033[34m";         // À¶É«£¬µØµã
-const std::string PURPLE = "\033[35m";       // ×ÏÉ«£¬
-const std::string ORANGE = "\033[38;5;208m"; // ³ÈÉ«£¬¾«Ó¢¹Ö
-
 // ·½ÏòÏà¹Ø
 constexpr char UP = 'w';    // ÉÏ
 constexpr char DOWN = 's';  // ÏÂ

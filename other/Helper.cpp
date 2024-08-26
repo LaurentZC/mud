@@ -2,32 +2,26 @@
 
 #include <iostream>
 #include <limits>
-
-#include "Constant.h"
+#include "fmt/color.h"
 
 using namespace std;
 
-string color(const string &text, const string &color) { return string(color + text + RESET); }
+string place(const string &text) { return format(fg(fmt::color::blue), "{}", text); }
 
-string place(const string &text) { return string(BLUE + text + RESET); }
+string minion(const string &text) { return format(fg(fmt::color::yellow), "{}", text); }
 
-string minion(const string &text) { return string(YELLOW + text + RESET); }
+string elite(const string &text) { return format(fg(fmt::color::orange), "{}", text); }
 
-string elite(const string &text) { return string(ORANGE + text + RESET); }
+string boss(const string &text) { return format(fg(fmt::color::red), "{}", text); }
 
-string boss(const string &text) { return string(RED + text + RESET); }
+string npc(const string &text) { return format(fg(fmt::color::cyan), "{}", text); }
 
-bool getYorN()
-{
-    while (true) {
-        string command;
-        cin >> command;
-        if (command == "y" || command == "Y")
-            return true;
-        if (command == "n" || command == "N")
-            return false;
-        cout << "无效指令，请输入 y 或 n：";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
-}
+string armor(const string &text) { return format(fg(fmt::color::magenta), "{}", text); }
+
+string weapon(const string &text) { return format(fg(fmt::color::blue), "{}", text); }
+
+string bloodPill(const string &text) { return format(fg(fmt::color::yellow), "{}", text); }
+
+string manaPill(const string &text) { return format(fg(fmt::color::red), "{}", text); }
+
+string area(const string &text) { return format(fg(fmt::color::cyan), "{}", text); }

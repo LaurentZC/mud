@@ -14,7 +14,7 @@ void creatMainCity(Area &main_city)
     auto &rooms = main_city.getArea();
 
     auto setupRoom = [&rooms](const int x, const int y, const string &name, const string &description, const Content content) {
-        rooms[x][y].Setup(name, description, content);
+        rooms[x][y].setup(name, description, content);
     };
 
     setupRoom(3, 2, EMPTY_ROOM, DEFAULT_DESCRIPTION, Content::EMPTY);

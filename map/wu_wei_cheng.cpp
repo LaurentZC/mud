@@ -16,7 +16,7 @@ void creatWuWeiCheng(Area &wu_wei_cheng)
     auto &rooms = wu_wei_cheng.getArea();
 
     auto setupRoom = [&rooms](const int x, const int y, const string &name, const string &description, const Content content) {
-        rooms[x][y].Setup(name, description, content);
+        rooms[x][y].setup(name, description, content);
     };
 
     setupRoom(3, 1, "城门", "这座" + place("城门") + "坚固如铁，上面雕刻着战斗场景和武器的图案。", Content::GATE);
