@@ -11,3 +11,5 @@ std::string minion(const std::string &text);
 std::string elite(const std::string &text);
 
 std::string boss(const std::string &text);
+
+bool getYorN();

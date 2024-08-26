@@ -51,8 +51,10 @@ public:
     void Setup(const std::string &name, std::string description = DEFAULT_DESCRIPTION, Content content = Content::EMPTY);
 
 private:
-    bool can_pass {};
+    bool can_pass {};                              // 能否通过
     std::string name {EMPTY_ROOM};                 // 房间的名字
-    std::string description {DEFAULT_DESCRIPTION}; // 房间描述
-    Content content {Content::EMPTY};              // 里面含有的东西
+    std::string description {DEFAULT_DESCRIPTION}; // 房间内的描述
+    Content content {Content::EMPTY};              // 房间的内容物
 };
+
+
