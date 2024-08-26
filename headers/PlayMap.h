@@ -1,7 +1,7 @@
 #pragma once
 
 #include <utility>
-#include "../headers/Area.h"
+#include "Area.h"
 
 std::pair<int, int> enterNewMap(Area &map);
 

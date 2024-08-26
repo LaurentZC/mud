@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../headers/Area.h"
+#include "Area.h"
 
 void creatWuWeiCheng(Area &);
 

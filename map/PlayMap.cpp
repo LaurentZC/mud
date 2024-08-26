@@ -1,14 +1,14 @@
-#include "../headers/PlayMap.h"
+#include "PlayMap.h"
 
 #include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
 
-#include "../headers/Area.h"
-#include "../headers/Constant.h"
-#include "../headers/Helper.h"
-#include "../headers/Player.h"
+#include "Area.h"
+#include "Constant.h"
+#include "Helper.h"
+#include "Player.h"
 
 using namespace std;
 

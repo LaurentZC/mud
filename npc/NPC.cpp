@@ -1,1 +1,1 @@
-#include "../headers/NPC.h"
+#include "NPC.h"

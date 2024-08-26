@@ -1,6 +1,6 @@
-#include "../headers/Bag.h"
+#include "Bag.h"
 #include <iostream>
-#include "../headers/Player.h"
+#include "Player.h"
 #include "fmt/core.h"
 
 using namespace std;

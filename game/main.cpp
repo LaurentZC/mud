@@ -1,11 +1,11 @@
 #include <iostream>
 #include <memory>
 #include <utility>
-#include "../headers/Area.h"
-#include "../headers/CreatMap.h"
-#include "../headers/Helper.h"
-#include "../headers/PlayMap.h"
-#include "../headers/Player.h"
+#include "Area.h"
+#include "CreatMap.h"
+#include "Helper.h"
+#include "PlayMap.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -13,7 +13,7 @@ int main()
 {
     // 创建地图
     Area main_city("main_city");
-    creatMainCity(main_city);      // 主城
+    creatMainCity(main_city); // 主城
     Area wu_wei_cheng("wu_wei_cheng");
     creatWuWeiCheng(wu_wei_cheng); // 武威城
 

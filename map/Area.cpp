@@ -1,8 +1,8 @@
-#include "../headers/Area.h"
+#include "Area.h"
 #include <string>
 #include <vector>
-#include "../headers/Constant.h"
-#include "../headers/Helper.h"
+#include "Constant.h"
+#include "Helper.h"
 
 using namespace std;
 

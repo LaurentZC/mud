@@ -1,6 +1,6 @@
-#include "../headers/Constant.h"
-#include "../headers/CreatMap.h"
-#include "../headers/Helper.h"
+#include "Constant.h"
+#include "CreatMap.h"
+#include "Helper.h"
 
 using namespace std;
 

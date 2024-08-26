@@ -1,9 +1,9 @@
-#include "../headers/Helper.h"
+#include "Helper.h"
 
 #include <iostream>
 #include <limits>
 
-#include "../headers/Constant.h"
+#include "Constant.h"
 
 using namespace std;
 

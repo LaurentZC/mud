@@ -1,4 +1,4 @@
-#include "../headers/Equipment.h"
+#include "Equipment.h"
 
 using namespace std;
 
