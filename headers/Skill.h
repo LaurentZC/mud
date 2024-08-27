@@ -20,6 +20,6 @@ class AttackSkill : public Skill
 
 class BuffSkill : public Skill
 {
-    int HP {}; // 加血
-    int MP {}; // 加蓝
+    int hp {}; // 加血
+    int mp {}; // 加蓝
 };

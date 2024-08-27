@@ -6,6 +6,6 @@ public:
     void use();
 
 private:
-    int HP {};
-    int MP {};
+    int hp {};
+    int mp {};
 };

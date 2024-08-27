@@ -28,26 +28,26 @@ public:
 
     Room();
 
-    Room(std::string name, Content content);
+    Room(std::string name, RoomContent content);
 
     // getter & setter
 
     [[nodiscard]] std::string getName() const;
 
 
-    [[nodiscard]] Content getContent() const;
+    [[nodiscard]] RoomContent getContent() const;
 
-    void setContent(Content content);
+    void setContent(RoomContent content);
 
     [[nodiscard]] bool canPass() const;
 
     [[nodiscard]] std::string getDescription() const;
 
-    void setup(const std::string &name, std::string description, Content content);
+    void setup(const std::string &name, std::string description, RoomContent content);
 
 private:
     bool can_pass {};                              // 能否通过
     std::string name {EMPTY_ROOM};                 // 房间的名字
     std::string description {DEFAULT_DESCRIPTION}; // 房间内的描述
-    Content content {Content::EMPTY};              // 房间的内容物
+    RoomContent content {RoomContent::EMPTY};      // 房间的内容物
 };

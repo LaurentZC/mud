@@ -8,19 +8,19 @@ using namespace std;
 
 Room::Room() = default;
 
-Room::Room(string name, const Content content) : name(std::move(name)), content(content) { }
+Room::Room(string name, const RoomContent content) : name(std::move(name)), content(content) { }
 
 string Room::getName() const { return name; }
 
-Content Room::getContent() const { return content; }
+RoomContent Room::getContent() const { return content; }
 
-void Room::setContent(const Content content) { this->content = content; }
+void Room::setContent(const RoomContent content) { this->content = content; }
 
 bool Room::canPass() const { return can_pass; }
 
 string Room::getDescription() const { return description; }
 
-void Room::setup(const string &name, string description, const Content content)
+void Room::setup(const string &name, string description, const RoomContent content)
 {
     this->can_pass = true;
     this->name = place(name);

@@ -11,7 +11,7 @@ public:
 
 private:
     int level {};      // 等级
-    int HP {};         // 血量
+    int hp {};         // 血量
     int damage {};     // 攻击力
     int defence {};    // 防御力
     int experience {}; // 经验值

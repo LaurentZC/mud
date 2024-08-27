@@ -33,14 +33,14 @@ void Bag::display()
     display_items(armors, "防具");
 
     fmt::println("你的丹药有：");
-    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pill_container[Pill::Type::BLOOD_PILL][Pill::Size::SMALL], pill_container[Pill::Type::BLOOD_PILL][Pill::Size::MID], pill_container[Pill::Type::BLOOD_PILL][Pill::Size::BIG]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pill_container[Pill::Type::MANA_PILL][Pill::Size::SMALL], pill_container[Pill::Type::MANA_PILL][Pill::Size::MID], pill_container[Pill::Type::MANA_PILL][Pill::Size::BIG]);
+    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pill_container[PillType::BLOOD_PILL][PillSize::SMALL], pill_container[PillType::BLOOD_PILL][PillSize::MID], pill_container[PillType::BLOOD_PILL][PillSize::BIG]);
+    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pill_container[PillType::MANA_PILL][PillSize::SMALL], pill_container[PillType::MANA_PILL][PillSize::MID], pill_container[PillType::MANA_PILL][PillSize::BIG]);
 }
 
-void Bag::useEquipment(Player &player)
+void Bag::useEquipment(const Player &player)
 {
     display();
-    cout << "你想用武器还是甲胄(weapon or armor):" << endl;
+    cout << "你想用武器还是防具:" << endl;
     string choice1;
     cin >> choice1;
     while (choice1 != "weapon" && choice1 != "armor") {
@@ -89,7 +89,7 @@ void Bag::useEquipment(Player &player)
                         cout << "装备失败，能力值不足" << endl;
                     else {
                         cout << "装备成功！" << endl;
-                        player.addWeapon(weapons[choice3]);
+                        swap(weapons[0], weapons[choice3]);
                     }
                 }
             }
@@ -109,7 +109,7 @@ void Bag::useEquipment(Player &player)
                     cout << "装备失败，能力值不足" << endl;
                 else {
                     cout << "装备成功！" << endl;
-                    player.addWeapon(weapons[choice3]);
+                    swap(weapons[0], weapons[choice3]);
                 }
             }
         }
@@ -152,7 +152,7 @@ void Bag::useEquipment(Player &player)
                         cout << "装备失败，能力值不足" << endl;
                     else {
                         cout << "装备成功！" << endl;
-                        player.addArmor(armors[choice3]);
+                        swap(armors[0], armors[choice3]);
                     }
                 }
             }
@@ -172,7 +172,7 @@ void Bag::useEquipment(Player &player)
                 cout << "装备失败，能力值不足" << endl;
             else {
                 cout << "装备成功！" << endl;
-                player.addArmor(armors[choice3]);
+                swap(armors[0], armors[choice3]);
             }
         }
     }
@@ -180,12 +180,12 @@ void Bag::useEquipment(Player &player)
 
 int Bag::usePill()
 {
-    auto &blood_pill = pill_container[Pill::Type::BLOOD_PILL];
-    auto &mana_pill = pill_container[Pill::Type::MANA_PILL];
+    auto &blood_pill = pill_container[PillType::BLOOD_PILL];
+    auto &mana_pill = pill_container[PillType::MANA_PILL];
 
     fmt::println("你的丹药有：");
-    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", blood_pill[Pill::Size::SMALL], blood_pill[Pill::Size::MID], blood_pill[Pill::Size::BIG]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", mana_pill[Pill::Size::SMALL], mana_pill[Pill::Size::MID], mana_pill[Pill::Size::BIG]);
+    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", blood_pill[PillSize::SMALL], blood_pill[PillSize::MID], blood_pill[PillSize::BIG]);
+    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", mana_pill[PillSize::SMALL], mana_pill[PillSize::MID], mana_pill[PillSize::BIG]);
 
     fmt::print("你想用什么丹药？[s(初级) / m(中级) / l(高级) / q(放弃使用)]：");
     string choice;
@@ -196,28 +196,28 @@ int Bag::usePill()
         }
         switch (choice[0]) {
             case 's' :
-                if (blood_pill[Pill::Size::SMALL] == 0) {
+                if (blood_pill[PillSize::SMALL] == 0) {
                     cout << "你没有初级回血丹!" << endl;
                     break;
                 }
                 cout << "嗑药成功，回复25%生命值!" << endl;
-                blood_pill[Pill::Size::SMALL] -= 1;
+                blood_pill[PillSize::SMALL] -= 1;
                 return 1;
             case 'm' :
-                if (blood_pill[Pill::Size::MID] == 0) {
+                if (blood_pill[PillSize::MID] == 0) {
                     cout << "没有中级回血丹!" << endl;
                     break;
                 }
                 cout << "嗑药成功，回复35%生命值!" << endl;
-                blood_pill[Pill::Size::MID] -= 1;
+                blood_pill[PillSize::MID] -= 1;
                 return 2;
             case 'l' :
-                if (blood_pill[Pill::Size::BIG] == 0) {
+                if (blood_pill[PillSize::BIG] == 0) {
                     cout << "没有高级回血丹!" << endl;
                     break;
                 }
                 cout << "嗑药成功，回复45%生命值!" << endl;
-                blood_pill[Pill::Size::BIG] -= 1;
+                blood_pill[PillSize::BIG] -= 1;
                 return 3;
             case 'q' :
                 cout << "喝下任何血瓶，不回复血量！" << endl;
@@ -229,7 +229,7 @@ int Bag::usePill()
     }
 }
 
-int Bag::addPill(const Pill::Type type, const Pill::Size size, const int num)
+int Bag::addPill(const PillType type, const PillSize size, const int num)
 {
     auto &amount = pill_container[type][size];
     if (amount + num > 10) {
@@ -239,16 +239,16 @@ int Bag::addPill(const Pill::Type type, const Pill::Size size, const int num)
     }
     amount += num;
     string pill;
-    if (size == Pill::Size::BIG) {
+    if (size == PillSize::BIG) {
         pill += "高级";
     }
-    else if (size == Pill::Size::MID) {
+    else if (size == PillSize::MID) {
         pill += "中级";
     }
     else {
         pill += "初级";
     }
-    pill += type == Pill::Type::BLOOD_PILL ? "回血丹" : "回元丹";
+    pill += type == PillType::BLOOD_PILL ? "回血丹" : "回元丹";
     fmt::println("添加了{}个{}。", num, pill);
     return num;
 }

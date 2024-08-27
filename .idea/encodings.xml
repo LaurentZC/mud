@@ -17,8 +17,9 @@
     <file url="file://$PROJECT_DIR$/headers/Skill.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/headers/Task.h" charset="GBK" />
     <file url="file://$PROJECT_DIR$/map/Area.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/map/MainCity.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/map/PlayMap.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/map/wu_wei_cheng.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/map/WuWeiCheng.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/other/Bag.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/other/Helper.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/other/Task.cpp" charset="GBK" />

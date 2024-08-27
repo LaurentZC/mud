@@ -7,8 +7,8 @@ using namespace std;
 #include <utility>
 
 Equipment::Equipment() = default;
-Equipment::~Equipment() = default;
 Equipment::Equipment(std::string name, std::string description, const int money) : name(std::move(name)), description(std::move(description)), money(money) { }
+Equipment::~Equipment() = default;
 
 void Weapon::showAttributes() const
 {
@@ -21,12 +21,12 @@ void Weapon::showAttributes() const
 }
 
 
-void Weapon::display()
+void Weapon::display() const
 {
     fmt::println("{}", name);
 }
 
-void Armor::display()
+void Armor::display() const
 {
     fmt::println("{}", name);
 }
@@ -36,8 +36,8 @@ void Armor::showAttributes() const
     fmt::println("名字: {}", name);
     fmt::println("{}", description);
     fmt::println("价格: {}", money);
-    fmt::println("增加的最大生命值: {}", add_max_HP);
-    fmt::println("增加的最大法力值: {}", add_max_MP);
+    fmt::println("增加的最大生命值: {}", add_max_hp);
+    fmt::println("增加的最大法力值: {}", add_max_mp);
     fmt::println("最小敏捷要求: {}", min_agility_to_equipment);
 }
 

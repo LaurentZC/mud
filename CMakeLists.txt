@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 # 添加 .cpp 源文件
 file(GLOB_RECURSE SOURCES
      "buff/*.cpp"
-     "class/*.cpp"
+     "player/*.cpp"
      "enemy/*.cpp"
      "equipment/*.cpp"
      "game/*.cpp"
