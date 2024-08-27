@@ -2,6 +2,8 @@
 
 #include <string>
 
+std::string area(const std::string &text);
+
 std::string place(const std::string &text);
 
 std::string minion(const std::string &text);
@@ -19,5 +21,3 @@ std::string weapon(const std::string &text);
 std::string bloodPill(const std::string &text);
 
 std::string manaPill(const std::string &text);
-
-std::string area(const std::string &text);

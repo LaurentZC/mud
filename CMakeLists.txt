@@ -24,3 +24,7 @@ target_include_directories(mud PUBLIC ${CMAKE_SOURCE_DIR}/headers)
 add_subdirectory(fmt)
 # 链接 fmt 库
 target_link_libraries(mud PUBLIC fmt::fmt)
+# 设置编译器选项以使用 GBK 编码
+add_compile_options(-finput-charset=GBK -fexec-charset=GBK)
+
+
