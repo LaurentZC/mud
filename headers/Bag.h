@@ -1,12 +1,13 @@
 #pragma once
 
 #include <map>
-#include <unordered_map>
 #include <vector>
 
 #include "Equipment.h"
 #include "Pill.h"
 #include "Player.h"
+
+class Player;
 
 class Bag
 {

@@ -1,4 +1,6 @@
 #include "Bag.h"
+
+#include <algorithm>
 #include <iostream>
 #include "Helper.h"
 #include "Player.h"
@@ -19,7 +21,7 @@ void Bag::display()
             int i = 0;
             for (auto it = container.begin(); it != container.end(); ++it, ++i) {
                 fmt::print("{}. ", i + 1);
-                it->display();
+                it->getName();
                 if ((i + 1) % 5 == 0) {
                     fmt::print("\n"); // 5个换行
                 }
@@ -41,144 +43,49 @@ void Bag::display()
 void Bag::useEquipment(const Player &player)
 {
     display();
-    cout << "你想用武器还是防具:" << endl;
-    string choice1;
-    cin >> choice1;
-    while (choice1 != "weapon" && choice1 != "armor") {
-        if (choice1 != "weapon" && choice1 != "armor") {
-            cout << "请输入armor 或 weapon:" << endl;
-            cin >> choice1;
+    fmt::print("你想用武器[w]、防具[a]还是退出[q]:\n");
+    string choice;
+
+    while (true) {
+        cin >> choice;
+        if (choice.length() > 1) {
+            fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
+            continue;
         }
-        else
+        if (choice == "w" || choice == "a") {
             break;
+        }
+        if (choice == "q")
+            return;
+        fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
     }
-    if (choice1 == "weapon") {
-        cout << "你想要直接装备上还是先查看(install or check)" << endl;
-        string choice2;
-        cin >> choice2;
-        while (choice1 != "install" && choice1 != "check") {
-            if (choice1 != "install" && choice1 != "check") {
-                cout << "请输入install 或 check:" << endl;
-                cin >> choice1;
-            }
-            else
-                break;
-        }
-        if (choice2 == "check") {
-            while (true) {
-                cout << "你想查看哪件武器(请输入其编号,0是退出)" << endl;
-                int choice3;
-                cin >> choice3;
-                while (choice3 >= weapons.size() || choice3 < 0) {
-                    cout << "请输入正确的编号" << endl;
-                    cin >> choice3;
-                }
-                if (choice3 == 0)
-                    return;;
-                weapons[choice3].showAttributes();
-                cout << "是否要装备上(yes or no)" << endl;
-                string choice4;
-                cin >> choice4;
-                while (choice4 != "yes" && choice4 != "no") {
-                    cout << "请输入yes 或 no " << endl;
-                    cin >> choice4;
-                    if (choice4 == "yes" || choice4 == "no")
-                        break;
-                }
-                if (choice4 == "yes") {
-                    if (weapons[choice3].getMinStrength() > player.getStrength())
-                        cout << "装备失败，能力值不足" << endl;
-                    else {
-                        cout << "装备成功！" << endl;
-                        swap(weapons[0], weapons[choice3]);
-                    }
-                }
-            }
-        }
-        if (choice2 == "install") {
-            while (true) {
-                cout << "你想装备哪件武器(请输入其编号,0是退出)" << endl;
-                int choice3;
-                cin >> choice3;
-                while (choice3 >= weapons.size() || choice3 < 0) {
-                    cout << "请输入对的编号" << endl;
-                    cin >> choice3;
-                }
-                if (choice3 == 0)
-                    return;
-                if (weapons[choice3].getMinStrength() > player.getStrength())
-                    cout << "装备失败，能力值不足" << endl;
-                else {
-                    cout << "装备成功！" << endl;
-                    swap(weapons[0], weapons[choice3]);
-                }
-            }
-        }
-    }
-    else {
-        cout << "你想要直接装备上还是先查看(install or check)" << endl;
-        string choice2;
-        cin >> choice2;
-        while (choice1 != "install" && choice1 != "check") {
-            if (choice1 != "install" && choice1 != "check") {
-                cout << "请输入install 或 check:" << endl;
-                cin >> choice1;
-            }
-            else
-                break;
-        }
-        if (choice2 == "check") {
-            while (true) {
-                cout << "你想查看哪件甲胄(请输入其编号,0是退出)" << endl;
-                int choice3;
-                cin >> choice3;
-                while (choice3 >= armors.size() || choice3 < 0) {
-                    cout << "请输入正确的编号" << endl;
-                    cin >> choice3;
-                }
-                if (choice3 == 0)
-                    return;
-                armors[choice3].showAttributes();
-                cout << "是否要装备上(yes or no)" << endl;
-                string choice4;
-                cin >> choice4;
-                while (choice4 != "yes" && choice4 != "no") {
-                    cout << "请输入yes 或 no " << endl;
-                    cin >> choice4;
-                    if (choice4 == "yes" || choice4 == "no")
-                        break;
-                }
-                if (choice4 == "yes") {
-                    if (armors[choice3].getMinAgility() > player.getStrength())
-                        cout << "装备失败，能力值不足" << endl;
-                    else {
-                        cout << "装备成功！" << endl;
-                        swap(armors[0], armors[choice3]);
-                    }
-                }
-            }
-        }
+
+    auto &equipment = choice == "w" ? weapons : armors;
+
+    while (true) {
+        fmt::print("你想装备哪件(请输入其编号, 0是退出):");
+        int pos;
         while (true) {
-            cout << "你想查看哪件甲胄(请输入其编号, 0是退出)" << endl;
-            cout << "你想装备哪件武器(请输入对应的编号)" << endl;
-            int choice3;
-            cin >> choice3;
-            while (choice3 >= armors.size() || choice3 < 0) {
-                cout << "请输入对的编号" << endl;
-                cin >> choice3;
+            cin >> pos;
+            if (pos == 0) return;
+            if (0 < pos && pos < size) {
+                break;
             }
-            if (choice3 == 0)
-                return;
-            if (armors[choice3].getMinAgility() > player.getStrength())
-                cout << "装备失败，能力值不足" << endl;
-            else {
-                cout << "装备成功！" << endl;
-                swap(armors[0], armors[choice3]);
-            }
+            fmt::print("请输入对的编号\n");
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+
+        equipment[pos].showAttributes();
+
+        if (weapons[pos].getMinStrength() > player.getStrength())
+            fmt::print("装备失败，你的{}不足\n", choice == "w" ? "力量" : "敏捷点");
+        else {
+            fmt::print("装备成功！\n");
+            swap(equipment[0], equipment[pos]);
         }
     }
 }
-
 
 void Bag::usePill()
 {
@@ -270,20 +177,16 @@ void Bag::addWeapon(const Weapon &weapon) { weapons.emplace_back(weapon); }
 
 void Bag::removeArmor(const Armor &armor)
 {
-    auto it = armors.begin();
-    for (; it != armors.end(); ++it) {
-        if (it->getName() == armor.getName())
-            break;
-    }
+    const auto it = find_if(armors.begin(), armors.end(), [&](const Armor &arm) {
+        return arm.getName() == armor.getName();
+    });
     armors.erase(it);
 }
 
 void Bag::removeWeapon(const Weapon &weapon)
 {
-    auto it = weapons.begin();
-    for (; it != weapons.end(); ++it) {
-        if (it->getName() == weapon.getName())
-            break;
-    }
+    const auto it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &wea) {
+        return wea.getName() == weapon.getName();
+    });
     weapons.erase(it);
 }
