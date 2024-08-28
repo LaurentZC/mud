@@ -30,19 +30,12 @@ void Bag::display()
         }
     };
 
-
     display_items(weapons, "武器");
     display_items(armors, "防具");
 
-    fmt::println("你的丹药有：");
-    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗",
-               pill_container[PillType::BLOOD_PILL][PillSize::SMALL],
-               pill_container[PillType::BLOOD_PILL][PillSize::MID],
-               pill_container[PillType::BLOOD_PILL][PillSize::BIG]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗",
-               pill_container[PillType::MANA_PILL][PillSize::SMALL],
-               pill_container[PillType::MANA_PILL][PillSize::MID],
-               pill_container[PillType::MANA_PILL][PillSize::BIG]);
+    fmt::print("你的丹药有：\n");
+    fmt::print("回血丹： \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
 }
 
 void Bag::useEquipment(const Player &player)
@@ -186,49 +179,16 @@ void Bag::useEquipment(const Player &player)
     }
 }
 
-auto getPillName(const PillSize size, const PillType type)
-{
-    string name;
-    switch (size) {
-        case PillSize::SMALL:
-            name = "初级";
-            break;
-        case PillSize::MID:
-            name = "中级";
-            break;
-        case PillSize::BIG:
-            name = "高级";
-            break;
-    }
-    switch (type) {
-        case PillType::BLOOD_PILL:
-            name += "回血丹";
-            return bloodPill(name);
-        case PillType::MANA_PILL:
-            name += "回元丹";
-            return manaPill(name);
-    }
-    return name;
-}
 
-int Bag::usePill()
+void Bag::usePill()
 {
-    auto &blood_pill = pill_container[PillType::BLOOD_PILL];
-    auto &mana_pill = pill_container[PillType::MANA_PILL];
-
     fmt::print("你的丹药有：\n");
-    fmt::print("回血丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n",
-               blood_pill[PillSize::SMALL],
-               blood_pill[PillSize::MID],
-               blood_pill[PillSize::BIG]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n",
-               mana_pill[PillSize::SMALL],
-               mana_pill[PillSize::MID],
-               mana_pill[PillSize::BIG]);
+    fmt::print("回血丹： \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     // 选择丹药类型
     fmt::print("你想用什么丹药？[b(回血丹) / m(回元丹) / q(放弃使用)]：");
     string type_choice;
-    PillType type;
+    Pill::Type type;
     while (true) {
         cin >> type_choice;
         if (type_choice.length() > 1) {
@@ -237,14 +197,14 @@ int Bag::usePill()
         }
         switch (type_choice[0]) {
             case 'b':
-                type = PillType::BLOOD_PILL;
+                type = Pill::Type::BLOOD_PILL;
                 break;
             case 'm':
-                type = PillType::MANA_PILL;
+                type = Pill::Type::MANA_PILL;
                 break;
             case 'q':
                 fmt::print("取消使用丹药。\n");
-                return 0;
+                return;
             default:
                 fmt::print("无效指令！[b / m / q]：\n");
                 continue;
@@ -260,52 +220,39 @@ int Bag::usePill()
             fmt::print("无效的输入！[s(初级) / m(中级) / l(高级)]：");
             continue;
         }
-        PillSize size;
+        Pill::Size size;
         switch (size_choice[0]) {
             case 's':
-                size = PillSize::SMALL;
+                size = Pill::Size::SMALL;
                 break;
             case 'm':
-                size = PillSize::MID;
+                size = Pill::Size::MID;
                 break;
             case 'l':
-                size = PillSize::BIG;
+                size = Pill::Size::BIG;
                 break;
             case 'q':
                 fmt::print("放弃使用丹药。\n");
-                return 0;
+                return;
             default:
                 fmt::print("无效指令！[s / m / l / q]：\n");
                 continue;
         }
 
         // 使用选择的丹药
-        auto &selected_pill = pill_container[type];
-        auto name = getPillName(size, type);
-        if (selected_pill[size] == 0) {
+        const Pill pill {type, size};
+        const string name = pill.getPillName();
+        if (pills[pill] == 0) {
             fmt::print("你没有{}!\n", name);
-            continue;
+            return;
         }
-        // 根据丹药类型和大小进行相应的回复操作
-        switch (size) {
-            case PillSize::SMALL:
-                fmt::print("嗑药成功，回复25%{}!\n", name == bloodPill(name) ? "生命值" : "元气");
-                break;
-            case PillSize::MID:
-                fmt::print("嗑药成功，回复35%{}!\n", name == bloodPill(name) ? "生命值" : "元气");
-                break;
-            case PillSize::BIG:
-                fmt::print("嗑药成功，回复45%{}!\n", name == bloodPill(name) ? "生命值" : "元气");
-                break;
-        }
-        selected_pill[size] -= 1;
-        return size == PillSize::SMALL ? 1 : size == PillSize::MID ? 2 : 3;
+        pills[pill] -= 1;
     }
 }
 
-int Bag::addPill(const PillType type, const PillSize size, const int num)
+int Bag::addPill(const Pill pill, const int num)
 {
-    auto &amount = pill_container[type][size];
+    auto &amount = pills[pill];
     if (amount + num > 10) {
         amount = 10;
         fmt::println("你尝试把最后的丹药放进去，可惜努力了半天只能装下10颗");
@@ -313,7 +260,7 @@ int Bag::addPill(const PillType type, const PillSize size, const int num)
     }
     amount += num;
 
-    fmt::println("添加了{}个{}。", num, getPillName(size, type));
+    fmt::print("添加了{}个{}。\n", num, pill.getPillName());
     return num;
 }
 

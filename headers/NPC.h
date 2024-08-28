@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Buff.h"
 #include "Equipment.h"
+#include "Pill.h"
 #include "Task.h"
 
 class NPC
@@ -20,11 +20,11 @@ private:
     Equipment *equipment {};
 };
 
-class BuffGiving : public NPC
+class PillGiving : public NPC
 {
 public:
     void talk();
 
 private:
-    Buff buff;
+    Pill pill;
 };
