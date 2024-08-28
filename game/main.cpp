@@ -1,4 +1,6 @@
-#include <functional>
+#include <algorithm>
+#include <array>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -13,17 +15,21 @@
 
 using namespace std;
 
-unordered_map<vector<string>, fmt::color> Colors = {
-    {{""}, fmt::color::purple},      // 地图
-    {{""}, fmt::color::magenta},     // 房间
-    {{""}, fmt::color::yellow},      // 小怪
-    {{""}, fmt::color::orange},      // 精英怪
-    {{""}, fmt::color::gold},        // boss
-    {{""}, fmt::color::green},       // npc
-    {{""}, fmt::color::light_green}, // 防具
-    {{""}, fmt::color::cyan},        // 武器
-    {{""}, fmt::color::red},         // 回血丹
-    {{""}, fmt::color::blue}         // 回元丹
+struct TextColor
+{
+    vector<string> keys;
+    fmt::color color;
+
+    TextColor(vector<string> keys, const fmt::color color) : keys(std::move(keys)), color(color) { };
+};
+
+static const vector COLORS = {
+    TextColor {{""}, fmt::color::purple},  // 地图
+    TextColor {{""}, fmt::color::magenta}, // 房间
+    TextColor {{""}, fmt::color::yellow},  // 小怪
+    TextColor {{""}, fmt::color::orange},  // 精英怪
+    TextColor {{""}, fmt::color::gold},    // boss
+    TextColor {{""}, fmt::color::green}    // npc
 };
 
 // 函数来替换字符串中的关键字颜色
@@ -33,11 +39,13 @@ void changeColor(string &text)
     while ((start = text.find('[', start)) != string::npos) {
         const size_t end = text.find(']', start);
         string key = text.substr(start + 1, end - start - 1);
-        for (auto &[key, color] : Colors) {
-            if (find(key.begin(), key.end(), key) != key.end()) {
-                string replacement = format(fg(color), "{}", key);
-                text.replace(start, end - start + 1, replacement);
-                start += replacement.length();
+        for (auto it : COLORS) {
+            for (auto &[vec, color] : COLORS) {
+                if (find(vec.begin(), vec.end(), key) != vec.end()) {
+                    string replacement = format(fg(color), "{}", key);
+                    text.replace(start, end - start + 1, replacement);
+                    start += replacement.length();
+                }
             }
         }
     }
@@ -55,18 +63,46 @@ void handleQuit(shared_ptr<Area> &current_map, const Area &main_city, bool &quit
                 fmt::print("感谢你的游玩！\n");
                 quit = false;
             }
-            else {
+            else
                 current_map = make_shared<Area>(main_city);
-            }
             break;
         }
-        if (input == "n" || input == "N") {
+        if (input == "n" || input == "N")
             break;
-        }
         fmt::print("无效输入，请输入 'y' 或 'n'。\n");
     }
 }
 
+void creatMainCity()
+{
+    Area main_city("main_city");
+    auto &rooms = main_city.getArea();
+    ifstream input_file("main_city.txt");
+    if (!input_file.is_open()) {
+        cerr << "Could not open file main_city.txt" << endl;
+    }
+    int x, y;
+    string name, description, content;
+    while (input_file >> x >> y >> name >> description >> content) {
+        RoomContent content_handled;
+        changeColor(description);
+        if (content == "empty")
+            content_handled = RoomContent::EMPTY;
+        else if (content == "gate")
+            content_handled = RoomContent::GATE;
+        else if (content == "chest")
+            content_handled = RoomContent::CHEST;
+        else if (content == "npc")
+            content_handled = RoomContent::NPC;
+        else if (content == "monster")
+            content_handled = RoomContent::MONSTER;
+        else if (content == "elite")
+            content_handled = RoomContent::ELITE;
+        else if (content == "boss")
+            content_handled = RoomContent::BOSS;
+        rooms[x][y].setup(name, description, content_handled);
+    }
+}
 
 int main()
 {
