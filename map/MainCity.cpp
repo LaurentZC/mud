@@ -3,6 +3,7 @@
 #include "Helper.h"
 using namespace std;
 
+// 主城
 //  X        X       城主府      X         X
 //  X       居民区     空       居民区       X
 //  X       铁匠铺     空       任务地点     X

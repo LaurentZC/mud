@@ -20,6 +20,8 @@ bool Room::canPass() const { return can_pass; }
 
 string Room::getDescription() const { return description; }
 
+void Room::setDescription(string description) { this->description = std::move(description); }
+
 void Room::setup(const string &name, string description, const RoomContent content)
 {
     this->can_pass = true;

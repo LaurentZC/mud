@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -5,11 +6,42 @@
 #include "Area.h"
 #include "CreatMap.h"
 #include "Helper.h"
-#include "PlayMap.h"
 #include "Player.h"
+#include "PlayMap.h"
+#include "fmt/color.h"
 #include "fmt/core.h"
 
 using namespace std;
+
+unordered_map<vector<string>, fmt::color> Colors = {
+    {{""}, fmt::color::purple},      // 地图
+    {{""}, fmt::color::magenta},     // 房间
+    {{""}, fmt::color::yellow},      // 小怪
+    {{""}, fmt::color::orange},      // 精英怪
+    {{""}, fmt::color::gold},        // boss
+    {{""}, fmt::color::green},       // npc
+    {{""}, fmt::color::light_green}, // 防具
+    {{""}, fmt::color::cyan},        // 武器
+    {{""}, fmt::color::red},         // 回血丹
+    {{""}, fmt::color::blue}         // 回元丹
+};
+
+// 函数来替换字符串中的关键字颜色
+void changeColor(string &text)
+{
+    size_t start = 0;
+    while ((start = text.find('[', start)) != string::npos) {
+        const size_t end = text.find(']', start);
+        string key = text.substr(start + 1, end - start - 1);
+        for (auto &[key, color] : Colors) {
+            if (find(key.begin(), key.end(), key) != key.end()) {
+                string replacement = format(fg(color), "{}", key);
+                text.replace(start, end - start + 1, replacement);
+                start += replacement.length();
+            }
+        }
+    }
+}
 
 void handleQuit(shared_ptr<Area> &current_map, const Area &main_city, bool &quit)
 {
@@ -35,6 +67,7 @@ void handleQuit(shared_ptr<Area> &current_map, const Area &main_city, bool &quit
     }
 }
 
+
 int main()
 {
     // 创建地图
@@ -55,8 +88,8 @@ int main()
 
     bool quit = true;
     while (quit) {
-        fmt::println("你想做什么呢？");
-        fmt::println("移动： move \t 打开背包：bag \t 和npc对话：chat \t 环视周围：watch \t 退出：quit");
+        fmt::print("你想做什么呢？\n");
+        fmt::print("移动： move \t 打开背包：bag \t 和npc对话：chat \t 环视周围：watch \t 退出：quit \n");
         fmt::print("你选择：");
         string command;
         cin >> command;
@@ -69,7 +102,7 @@ int main()
         }
         else if (command == "chat") {
             if (rooms[x][y].getContent() != RoomContent::NPC) {
-                fmt::println("这里没有npc可以对话，继续行动吧。");
+                fmt::print("这里没有npc可以对话，继续行动吧。\n");
             }
             else {
                 // 和npc对话

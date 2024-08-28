@@ -34,7 +34,6 @@ public:
 
     [[nodiscard]] std::string getName() const;
 
-
     [[nodiscard]] RoomContent getContent() const;
 
     void setContent(RoomContent content);
@@ -43,11 +42,13 @@ public:
 
     [[nodiscard]] std::string getDescription() const;
 
+    void setDescription(std::string description);
+
     void setup(const std::string &name, std::string description, RoomContent content);
 
 private:
-    bool can_pass {};                              // 能否通过
-    std::string name {EMPTY_ROOM};                 // 房间的名字
-    std::string description {DEFAULT_DESCRIPTION}; // 房间内的描述
-    RoomContent content {RoomContent::EMPTY};      // 房间的内容物
+    bool can_pass {};        // 能否通过
+    std::string name;        // 房间的名字
+    std::string description; // 房间内的描述
+    RoomContent content;     // 房间的内容物
 };
