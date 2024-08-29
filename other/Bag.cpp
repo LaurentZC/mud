@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <iostream>
+#include <variant>
+
 #include "Helper.h"
 #include "Player.h"
 #include "fmt/core.h"
@@ -45,14 +47,19 @@ void Bag::useEquipment(const Player &player)
     display();
     fmt::print("你想用武器[w]、防具[a]还是退出[q]:\n");
     string choice;
-
+    size_t max_size;
     while (true) {
         cin >> choice;
         if (choice.length() > 1) {
             fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
             continue;
         }
-        if (choice == "w" || choice == "a") {
+        if (choice == "w") {
+            max_size = weapons.size();
+            break;
+        }
+        if (choice == "a") {
+            max_size = armors.size();
             break;
         }
         if (choice == "q")
@@ -60,15 +67,13 @@ void Bag::useEquipment(const Player &player)
         fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
     }
 
-    auto &equipment = choice == "w" ? weapons : armors;
-
     while (true) {
         fmt::print("你想装备哪件(请输入其编号, 0是退出):");
         int pos;
         while (true) {
             cin >> pos;
             if (pos == 0) return;
-            if (0 < pos && pos < size) {
+            if (0 < pos && pos < max_size) {
                 break;
             }
             fmt::print("请输入对的编号\n");
@@ -76,13 +81,32 @@ void Bag::useEquipment(const Player &player)
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
-        equipment[pos].showAttributes();
-
-        if (weapons[pos].getMinStrength() > player.getStrength())
-            fmt::print("装备失败，你的{}不足\n", choice == "w" ? "力量" : "敏捷点");
+        variant<vector<Weapon>, vector<Armor> > equipment = weapons;
+        if (choice == "w") {
+            equipment = std::move(weapons);
+            auto &vec = get<vector<Weapon> >(equipment);
+            vec[pos].showAttributes();
+            if (vec[pos].getMinStrength() > player.getStrength()) {
+                fmt::print("你的力量不足以使用这把武器。\n");
+            }
+            else {
+                fmt::print("装备成功！\n");
+                swap(vec[0], vec[pos]);
+            }
+            weapons = std::move(vec);
+        }
         else {
-            fmt::print("装备成功！\n");
-            swap(equipment[0], equipment[pos]);
+            equipment = std::move(armors);
+            auto &vec = get<vector<Armor> >(equipment);
+            vec[pos].showAttributes();
+            if (vec[pos].getMinAgility() > player.getStrength()) {
+                fmt::print("你的力量不足以使用这把武器。\n");
+            }
+            else {
+                fmt::print("装备成功！\n");
+                swap(vec[0], vec[pos]);
+            }
+            armors = std::move(vec);
         }
     }
 }

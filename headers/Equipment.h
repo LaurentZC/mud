@@ -8,9 +8,10 @@ class Equipment
 public:
     Equipment();
     Equipment(std::string name, std::string description, int money);
+    Equipment(Equipment &&) noexcept;
+    Equipment &operator=(Equipment &&) noexcept;
     virtual ~Equipment();
 
-    virtual void showName() const = 0;
     virtual void showAttributes() const = 0;
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] int getMoney() const;
@@ -26,9 +27,12 @@ class Weapon final : public Equipment
 {
 public:
     Weapon();
-    Weapon(int damage, int critical, int min_strength_to_equip, const std::string &name, const std::string &description, int money);
+    Weapon(const std::string &name, const std::string &description, int money, int damage, int critical, int min_strength_to_equip);
+    Weapon(const Weapon &other);
+    Weapon &operator=(const Weapon &other);
+    Weapon(Weapon &&) noexcept;
+    Weapon &operator=(Weapon &&) noexcept;
 
-    void showName() const override;
     void showAttributes() const override;
     [[nodiscard]] int getMinStrength() const;
 
@@ -44,8 +48,11 @@ class Armor final : public Equipment
 public:
     Armor();
     Armor(const std::string &name, const std::string &description, int money, int add_max_hp, int add_max_mp, int defence, double evasion, int min_agility_to_equipment);
+    Armor(const Armor &other);
+    Armor &operator=(const Armor &other);
+    Armor(Armor &&) noexcept;
+    Armor &operator=(Armor &&) noexcept;
 
-    void showName() const override;
     void showAttributes() const override;
     [[nodiscard]] int getMinAgility() const;
 

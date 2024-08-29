@@ -8,12 +8,41 @@ using namespace std;
 
 Equipment::Equipment() = default;
 Equipment::Equipment(std::string name, std::string description, const int money) : name(std::move(name)), description(std::move(description)), money(money) { }
+Equipment::Equipment(Equipment &&) noexcept = default;
+Equipment &Equipment::operator=(Equipment &&) noexcept = default;
 Equipment::~Equipment() = default;
+
 string Equipment::getName() const { return name; }
 int Equipment::getMoney() const { return money; }
 
 Weapon::Weapon() = default;
-Weapon::Weapon(const int damage, const int critical, const int min_strength_to_equip, const std::string &name, const std::string &description, const int money): Equipment(name, description, money), damage(damage), critical(critical), min_strength_to_equip(min_strength_to_equip) { }
+
+Weapon::Weapon(const std::string &name, const std::string &description, const int money, const int damage, const int critical, const int min_strength_to_equip)
+    : Equipment(name, description, money), damage(damage), critical(critical), min_strength_to_equip(min_strength_to_equip) { }
+
+Weapon::Weapon(const Weapon &other)
+{
+    this->name = other.name;
+    this->description = other.description;
+    this->money = other.money;
+    this->damage = other.damage;
+    this->critical = other.critical;
+    this->min_strength_to_equip = other.min_strength_to_equip;
+}
+
+Weapon &Weapon::operator=(const Weapon &other)
+{
+    this->name = other.name;
+    this->description = other.description;
+    this->money = other.money;
+    this->damage = other.damage;
+    this->critical = other.critical;
+    this->min_strength_to_equip = other.min_strength_to_equip;
+    return *this;
+}
+
+Weapon::Weapon(Weapon &&) noexcept = default;
+Weapon &Weapon::operator=(Weapon &&) noexcept = default;
 
 void Weapon::showAttributes() const
 {
@@ -25,14 +54,36 @@ void Weapon::showAttributes() const
     fmt::println("最小力量要求: {}", min_strength_to_equip);
 }
 
-void Weapon::showName() const override { fmt::print("{}\n", name); }
-
-void Armor::showName() const override { fmt::print("{}\n", name); }
-
 Armor::Armor() = default;
 
 Armor::Armor(const std::string &name, const std::string &description, const int money, const int add_max_hp, const int add_max_mp, const int defence, const double evasion, const int min_agility_to_equipment)
     : Equipment(name, description, money), add_max_hp(add_max_hp), add_max_mp(add_max_mp), defence(defence), evasion(evasion), min_agility_to_equipment(min_agility_to_equipment) { }
+
+Armor::Armor(const Armor &other)
+{
+    this->name = other.name;
+    this->description = other.description;
+    this->money = other.money;
+    this->add_max_hp = add_max_hp;
+    this->add_max_mp = add_max_mp;
+    this->defence = defence;
+    this->evasion = evasion;
+}
+
+Armor &Armor::operator=(const Armor &other)
+{
+    this->name = other.name;
+    this->description = other.description;
+    this->money = other.money;
+    this->add_max_hp = add_max_hp;
+    this->add_max_mp = add_max_mp;
+    this->defence = defence;
+    this->evasion = evasion;
+    return *this;
+}
+
+Armor::Armor(Armor &&) noexcept = default;
+Armor &Armor::operator=(Armor &&) noexcept = default;
 
 void Armor::showAttributes() const
 {
