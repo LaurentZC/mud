@@ -13,7 +13,6 @@ class Bag
 {
 public:
     Bag();
-
     void display();                          // 打开背包展示物品
     void useEquipment(const Player &player); // 选择物品使用
     void addArmor(const Armor &armor);       // 添加防具

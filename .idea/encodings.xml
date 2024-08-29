@@ -4,24 +4,24 @@
     <file url="file://$PROJECT_DIR$" charset="GBK" />
     <file url="file://$PROJECT_DIR$/CMakeLists.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/README.md" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/buff/Pill.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/enemy/Enemy.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/game/main.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Area.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Bag.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Constant.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Enemy.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Equipment.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/NPC.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Player.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Skill.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/headers/Task.h" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/map/Area.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/map/MainCity.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/map/PlayMap.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/map/WuWeiCheng.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/other/Bag.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/other/Helper.cpp" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/other/Task.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Area.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Bag.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Constant.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Enemy.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Equipment.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/NPC.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Player.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Skill.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/includes/Task.h" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Helper.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/enemy/Enemy.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/map/Area.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/map/MainCity.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/map/PlayMap.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/map/WuWeiCheng.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/npc/Pill.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/npc/Task.cpp" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/player/Bag.cpp" charset="GBK" />
   </component>
 </project>

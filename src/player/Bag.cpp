@@ -1,12 +1,12 @@
-#include "Bag.h"
+#include "../../includes/Bag.h"
 
 #include <algorithm>
 #include <iostream>
 #include <variant>
 
-#include "Helper.h"
-#include "Player.h"
-#include "fmt/core.h"
+#include "../../includes/Helper.h"
+#include "../../includes/Player.h"
+#include "../../fmt/include/fmt/core.h"
 
 using namespace std;
 
