@@ -27,7 +27,7 @@ class Weapon final : public Equipment
 {
 public:
     Weapon();
-    Weapon(const std::string &name, const std::string &description, int money, int damage, int critical, int min_strength_to_equip);
+    explicit Weapon(int i);
     Weapon(const Weapon &other);
     Weapon &operator=(const Weapon &other);
     Weapon(Weapon &&) noexcept;
@@ -47,7 +47,7 @@ class Armor final : public Equipment
 {
 public:
     Armor();
-    Armor(const std::string &name, const std::string &description, int money, int add_max_hp, int add_max_mp, int defence, double evasion, int min_agility_to_equipment);
+    explicit Armor(int i);
     Armor(const Armor &other);
     Armor &operator=(const Armor &other);
     Armor(Armor &&) noexcept;
@@ -59,7 +59,7 @@ public:
 private:
     int add_max_hp {};
     int add_max_mp {};
-    int defence {};                  // 防御力
-    double evasion {};               // 闪避率
-    int min_agility_to_equipment {}; // 装备的最小敏捷点数要求
+    int defence {};              // 防御力
+    double evasion {};           // 闪避率
+    int min_agility_to_equip {}; // 装备的最小敏捷点数要求
 };

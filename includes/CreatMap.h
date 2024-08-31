@@ -24,8 +24,6 @@ struct TextColor
 
 void changeColor(std::string &text, const std::vector<TextColor> &colors);
 
-void changeColor(std::string &text);
-
 Area creatMainCity();
 
 Area creatWuWeiCheng();

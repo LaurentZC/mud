@@ -11,27 +11,28 @@ class Bag;
 class Player
 {
 public:
-    [[nodiscard]] int getStrength() const;
-
-    // 攻击
-    void attack();
-    // 1s内按回车反伤
-    void defend();
+    //查看技能
+    void checkSkill();
     // 用技能
     void useSkill();
-    // 移动
-    void move();
     // 获得经验
-    void getExperience();
+    void getExperience(int experience);
     // 打开背包
     void openBag() const;
+    [[nodiscard]] int getHp() const;
+    [[nodiscard]] int getMp() const;
+    [[nodiscard]] int getStrength() const;
+
+    // 扣血，扣蓝，getter / setter
 
 private:
     int level {1};     // 等级
     int experience {}; // 经验
 
-    int hp {};      // 血量
-    int mp {};      // 蓝量
+    int max_hp {};  // 最大血量
+    int max_mp {};  // 最大蓝量
+    int hp {};      //当前血量
+    int mp {};      // 当前蓝量
     int health {1}; // 健康点数
 
     int damage {};      // 攻击力
