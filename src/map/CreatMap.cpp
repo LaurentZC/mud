@@ -1,8 +1,10 @@
 #include "CreatMap.h"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
+
 #include "fmt/color.h"
 
 using namespace std;
@@ -12,25 +14,34 @@ void changeColor(string &text, const vector<TextColor> &colors)
     size_t start = 0;
     while ((start = text.find('[', start)) != string::npos) {
         const size_t end = text.find(']', start);
+
         string key = text.substr(start + 1, end - start - 1);
-        for (const auto &it : colors) {
-            if (find(it.keys.begin(), it.keys.end(), key) != it.keys.end()) {
-                string replacement = format(fg(it.color), "{}", key);
+        bool replaced = false;
+
+        for (const auto &[keys, color] : colors) {
+            if (find(keys.begin(), keys.end(), key) != keys.end()) {
+                string replacement = format(fg(color), "{}", key);
                 text.replace(start, end - start + 1, replacement);
                 start += replacement.length();
+                replaced = true;
+                break;
             }
+        }
+        if (!replaced) {
+            start = end + 1;
         }
     }
 }
 
-// Ö÷³Ç Ë³Ê±Õë90¶È£¬Ğ´·´ÁË
-//  X        X       ³ÇÖ÷¸®      X         X
-//  X       ¾ÓÃñÇø     ¿Õ       ¾ÓÃñÇø       X
-//  X       Ìú½³ÆÌ     ¿Õ       ÈÎÎñµØµã     X
-//  X       Ò½Ôº     ³öÉúµØ      ÉÌµê        X
-//  X        X       ³Ç ÃÅ      X          X
+// ä¸»åŸ é¡ºæ—¶é’ˆ90åº¦ï¼Œå†™åäº†
+//  X        X       åŸä¸»åºœ      X         X
+//  X       å±…æ°‘åŒº     ç©º       å±…æ°‘åŒº       X
+//  X       é“åŒ é“º     ç©º       ä»»åŠ¡åœ°ç‚¹     X
+//  X       åŒ»é™¢     å‡ºç”Ÿåœ°      å•†åº—        X
+//  X        X       åŸ é—¨      X          X
 Area creatMainCity()
 {
+    fmt::println("begin");
     Area main_city(area("main_city"));
     auto &rooms = main_city.getArea();
     ifstream input_file("MainCity.txt");
@@ -41,16 +52,17 @@ Area creatMainCity()
 
     // @formatter:off
     static const vector COLORS = {
-        // ·¿¼ä
-        TextColor {{"³ÇÃÅ", "Ò½¹İ", "ÔÓ»õÉÌµê", "Ìú½³ÆÌ", "¾ÓÃñÇø", "³ÇÖ÷¸®"}, fmt::color::magenta},
+        // æˆ¿é—´
+        TextColor {{"åŸé—¨", "åŒ»é¦†", "æ‚è´§å•†åº—", "é“åŒ é“º", "å±…æ°‘åŒº", "åŸä¸»åºœ"}, fmt::color::magenta},
         // npc
-        TextColor {{"Âí·ò", "Ò½Éú", "Ìú½³Ê¦¸µ", "ÊĞÃñ", "³ÇÖ÷"}, fmt::color::green}
+        TextColor {{"é©¬å¤«", "åŒ»ç”Ÿ", "é“åŒ å¸ˆå‚…", "å¸‚æ°‘", "åŸä¸»"}, fmt::color::green}
     };
     // @formatter:on
 
     int x, y;
     string name, description, content;
     while (input_file >> x >> y >> name >> description >> content) {
+        fmt::println("read");
         Room::Content content_handled;
         changeColor(description, COLORS);
         if (content == "empty")
@@ -58,15 +70,17 @@ Area creatMainCity()
         if (content == "npc")
             content_handled = Room::Content::NPC;
         rooms[x][y].setup(name, description, content_handled);
+        fmt::println("read finish");
     }
+    fmt::println("end");
     return main_city;
 }
 
-// ÎäÍş³Ç£¬Ë³Ê±Õë90£¬Ğ´·´ÁË
+// æ­¦å¨åŸï¼Œé¡ºæ—¶é’ˆ90ï¼Œå†™åäº†
 //   X      X     npc   X      X
-// ÎäÆ÷²Ö¿â  X     Â½ºé   X    µ¤Ò©²Ö¿â
-// ÇàÁúÌÃ   Ğ¡¹Ö    ¿Õ   Ğ¡¹Ö   °×»¢ÌÃ
-//   X    ÃÅÎÀÍ¤  ³ÇÃÅ  ÃÅÎÀÍ¤    X
+// æ­¦å™¨ä»“åº“  X     é™†æ´ª   X    ä¸¹è¯ä»“åº“
+// é’é¾™å ‚   å°æ€ª    ç©º   å°æ€ª   ç™½è™å ‚
+//   X    é—¨å«äº­  åŸé—¨  é—¨å«äº­    X
 
 Area creatWuWeiCheng()
 {
@@ -80,18 +94,18 @@ Area creatWuWeiCheng()
 
     // @formatter:off
     static const vector COLORS = {
-        // ·¿¼ä
-        TextColor {{"³ÇÃÅ", "ÃÅÎÀÍ¤", "ÇàÁúÌÃ", "°×»¢ÌÃ"}, fmt::color::magenta},
+        // æˆ¿é—´
+        TextColor {{"åŸé—¨", "é—¨å«äº­", "é’é¾™å ‚", "ç™½è™å ‚"}, fmt::color::magenta},
         // npc
-        TextColor {{"Çô·¸"}, fmt::color::green},
-        // Ğ¡¹Ö
-        TextColor {{"ÃÅÎÀ", "Â½ºéµÄÊÖÏÂ"}, fmt::color::yellow},
-        // ¾«Ó¢¹Ö
-        TextColor {{"ÇàÁúÎÀ", "°×»¢ÎÀ"}, fmt::color::orange},
+        TextColor {{"å›šçŠ¯"}, fmt::color::green},
+        // å°æ€ª
+        TextColor {{"é—¨å«", "é™†æ´ªçš„æ‰‹ä¸‹"}, fmt::color::yellow},
+        // ç²¾è‹±æ€ª
+        TextColor {{"é’é¾™å«", "ç™½è™å«"}, fmt::color::orange},
         // boss
-        TextColor {{"Â½ºé"}, fmt::color::gold},
-        // ½±Àø
-        TextColor {{"Ïä×Ó"}, fmt::color::cyan}
+        TextColor {{"é™†æ´ª"}, fmt::color::gold},
+        // å¥–åŠ±
+        TextColor {{"ç®±å­"}, fmt::color::cyan}
     };
     // @formatter:on
 
@@ -131,20 +145,20 @@ Area creatShangHui()
 
     // @formatter:off
     static const vector COLORS = {
-        // ·¿¼ä
-        TextColor {{"ÌìÏÂÉÌ»á"}, fmt::color::magenta},
+        // æˆ¿é—´
+        TextColor {{"å¤©ä¸‹å•†ä¼š"}, fmt::color::magenta},
         // npc
-        TextColor {{"ÀÏÎÌ"}, fmt::color::green},
-        // Ğ¡¹Ö
-        TextColor {{"µĞÈË"}, fmt::color::yellow},
-        // ¾«Ó¢¹Ö
-        TextColor {{"µĞ·½"}, fmt::color::orange},
+        TextColor {{"è€ç¿"}, fmt::color::green},
+        // å°æ€ª
+        TextColor {{"æ•Œäºº"}, fmt::color::yellow},
+        // ç²¾è‹±æ€ª
+        TextColor {{"æ•Œæ–¹"}, fmt::color::orange},
         // boss
-        TextColor {{"¶ÎÁØ"}, fmt::color::gold},
-        // ½±Àø
-        TextColor {{"Ïä×Ó"}, fmt::color::cyan},
-        // ÏİÚå
-        TextColor {{"ÏİÚå", "¶¾Æø", "±¬Õ¨"}, fmt::color::red}
+        TextColor {{"æ®µéœ–"}, fmt::color::gold},
+        // å¥–åŠ±
+        TextColor {{"ç®±å­"}, fmt::color::cyan},
+        // é™·é˜±
+        TextColor {{"é™·é˜±", "æ¯’æ°”", "çˆ†ç‚¸"}, fmt::color::red}
     };
     // @formatter:on
 

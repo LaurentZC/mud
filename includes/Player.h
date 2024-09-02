@@ -11,40 +11,40 @@ class Bag;
 class Player
 {
 public:
-    //²é¿´¼¼ÄÜ
+    //æŸ¥çœ‹æŠ€èƒ½
     void checkSkill();
-    // ÓÃ¼¼ÄÜ
+    // ç”¨æŠ€èƒ½
     void useSkill();
-    // »ñµÃ¾­Ñé
+    // è·å¾—ç»éªŒ
     void getExperience(int experience);
-    // ´ò¿ª±³°ü
+    // æ‰“å¼€èƒŒåŒ…
     void openBag() const;
     [[nodiscard]] int getHp() const;
     [[nodiscard]] int getMp() const;
     [[nodiscard]] int getStrength() const;
 
-    // ¿ÛÑª£¬¿ÛÀ¶£¬getter / setter
+    // æ‰£è¡€ï¼Œæ‰£è“ï¼Œgetter / setter
 
 private:
-    int level {1};     // µÈ¼¶
-    int experience {}; // ¾­Ñé
+    int level {1};     // ç­‰çº§
+    int experience {}; // ç»éªŒ
 
-    int max_hp {};  // ×î´óÑªÁ¿
-    int max_mp {};  // ×î´óÀ¶Á¿
-    int hp {};      //µ±Ç°ÑªÁ¿
-    int mp {};      // µ±Ç°À¶Á¿
-    int health {1}; // ½¡¿µµãÊı
+    int max_hp {};  // æœ€å¤§è¡€é‡
+    int max_mp {};  // æœ€å¤§è“é‡
+    int hp {};      //å½“å‰è¡€é‡
+    int mp {};      // å½“å‰è“é‡
+    int health {1}; // å¥åº·ç‚¹æ•°
 
-    int damage {};      // ¹¥»÷Á¦
-    double critical {}; // ±©»÷ÂÊ
-    int strength {1};   // ¹¥»÷µãÊı
+    int damage {};      // æ”»å‡»åŠ›
+    double critical {}; // æš´å‡»ç‡
+    int strength {1};   // æ”»å‡»ç‚¹æ•°
 
-    int defence {};    // ·ÀÓùÁ¦
-    double evasion {}; // ÉÁ±ÜÂÊ
-    int agility {1};   // Ãô½İµãÊı
+    int defence {};    // é˜²å¾¡åŠ›
+    double evasion {}; // é—ªé¿ç‡
+    int agility {1};   // æ•æ·ç‚¹æ•°
 
-    int money {};                   // ½ğÇ®
-    const std::unique_ptr<Bag> bag; // ±³°ü
-    std::vector<Task> tasks;        // ÈÎÎñÁĞ±í
-    std::vector<Skill> skills;      // ¼¼ÄÜÁĞ±í
+    int money {};                   // é‡‘é’±
+    const std::unique_ptr<Bag> bag; // èƒŒåŒ…
+    std::vector<Task> tasks;        // ä»»åŠ¡åˆ—è¡¨
+    std::vector<Skill> skills;      // æŠ€èƒ½åˆ—è¡¨
 };

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-// µØÍ¼×î´ó³ß´ç
+// åœ°å›¾æœ€å¤§å°ºå¯¸
 inline constexpr int MAP_MAX_SIZE = 5;
 
 
@@ -14,7 +14,7 @@ class Room;
 class Area
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     explicit Area(std::string name);
 
     // getter
@@ -29,10 +29,10 @@ private:
 class Room
 {
 public:
-    // ·¿¼äµÄÄÚÈİ£¬·Ö±ğÊÇ£º¿Õ£¬±¦Ïä£¬ÃÅ£¬npc£¬Ğ¡¹Ö£¬¾«Ó¢¹Ö£¬boss£¬ÏİÚå£¬¶¾
+    // æˆ¿é—´çš„å†…å®¹ï¼Œåˆ†åˆ«æ˜¯ï¼šç©ºï¼Œå®ç®±ï¼Œé—¨ï¼Œnpcï¼Œå°æ€ªï¼Œç²¾è‹±æ€ªï¼Œbossï¼Œé™·é˜±ï¼Œæ¯’
     enum class Content { EMPTY, CHEST, GATE, NPC, MONSTER, ELITE, BOSS, TRAP, POISON };
 
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Room();
     Room(std::string name, Content content);
 
@@ -46,8 +46,8 @@ public:
     void setup(std::string name, std::string description, Content content);
 
 private:
-    bool can_pass {};                 // ÄÜ·ñÍ¨¹ı
-    std::string name;                 // ·¿¼äµÄÃû×Ö
-    std::string description;          // ·¿¼äÄÚµÄÃèÊö
-    Content content {Content::EMPTY}; // ·¿¼äµÄÄÚÈİÎï
+    bool can_pass {};                 // èƒ½å¦é€šè¿‡
+    std::string name;                 // æˆ¿é—´çš„åå­—
+    std::string description;          // æˆ¿é—´å†…çš„æè¿°
+    Content content {Content::EMPTY}; // æˆ¿é—´çš„å†…å®¹ç‰©
 };

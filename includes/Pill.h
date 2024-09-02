@@ -4,8 +4,8 @@
 
 struct Pill
 {
-    enum class Type { NULL_TYPE, BLOOD_PILL, MANA_PILL }; // ╩ья╙╣╓ё╛╩ью╤╣╓
-    enum class Size { NULL_SIZE, BIG, MID, SMALL };       // ╢С║╒жп║╒п║╨е
+    enum class Type { NULL_TYPE, BLOOD_PILL, MANA_PILL }; // Е⌡·Х║─Д╦╧О╪▄Е⌡·Х⌠²Д╦╧
+    enum class Size { NULL_SIZE, BIG, MID, SMALL };       // Е╓╖Ц─│Д╦╜Ц─│Е╟▐Е▐╥
 
     Type type {Type::NULL_TYPE};
     Size size {Size::NULL_SIZE};

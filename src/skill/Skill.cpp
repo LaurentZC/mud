@@ -8,11 +8,11 @@ Skill::Skill(int i)
 {
     switch (i) {
         case 0:
-            name = "ÁúÒ÷Õ¶";
-            description = "»Ó¶¯µ¶ÈĞ£¬·¢³öÁúÒ÷Ö®Éù£¬Õğº³µĞÈË²¢Ôì³É¾Ş´óÉËº¦¡£";
+            name = "é¾™åŸæ–©";
+            description = "æŒ¥åŠ¨åˆ€åˆƒï¼Œå‘å‡ºé¾™åŸä¹‹å£°ï¼Œéœ‡æ’¼æ•Œäººå¹¶é€ æˆå·¨å¤§ä¼¤å®³ã€‚";
             consumption = 30;
             damage = 150;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -20,11 +20,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 1:
-            name = "»ØÌìÉñÕë";
-            description = "ÒÔÒøÕë´ÌÑ¨£¬Ñ¸ËÙ»Ø¸´´óÁ¿ÉúÃüÖµ¡£";
+            name = "å›å¤©ç¥é’ˆ";
+            description = "ä»¥é“¶é’ˆåˆºç©´ï¼Œè¿…é€Ÿå›å¤å¤§é‡ç”Ÿå‘½å€¼ã€‚";
             consumption = 20;
             damage = 0;
-            type = 1; // »Ö¸´ĞÍ
+            type = 1; // æ¢å¤å‹
             add_hp = 100;
             add_mp = 0;
             add_defence = 0;
@@ -32,11 +32,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 2:
-            name = "ÎŞÓ°½£";
-            description = "½£·¨Èç¹í÷È°ãÎŞÓ°ÎŞ×Ù£¬µĞÈËÎŞ·¨Ô¤ÅĞ£¬Ôì³ÉÖÂÃüÒ»»÷¡£";
+            name = "æ— å½±å‰‘";
+            description = "å‰‘æ³•å¦‚é¬¼é­…èˆ¬æ— å½±æ— è¸ªï¼Œæ•Œäººæ— æ³•é¢„åˆ¤ï¼Œé€ æˆè‡´å‘½ä¸€å‡»ã€‚";
             consumption = 25;
             damage = 120;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -44,11 +44,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 3:
-            name = "ÑøĞÄ¾÷";
-            description = "ÔË¹¦µ÷Ï¢£¬Öğ²½»Ö¸´ÉúÃüÓë·¨Á¦¡£";
+            name = "å…»å¿ƒè¯€";
+            description = "è¿åŠŸè°ƒæ¯ï¼Œé€æ­¥æ¢å¤ç”Ÿå‘½ä¸æ³•åŠ›ã€‚";
             consumption = 15;
             damage = 0;
-            type = 1; // »Ö¸´ĞÍ
+            type = 1; // æ¢å¤å‹
             add_hp = 50;
             add_mp = 30;
             add_defence = 0;
@@ -56,11 +56,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 4:
-            name = "½ğ¸Õ»¤Ìå";
-            description = "ÔËÓÃ½ğ¸Õ¹¦·¨£¬¶ÌÊ±¼äÄÚ´ó·ùÌá¸ß·ÀÓùÁ¦¡£";
+            name = "é‡‘åˆšæŠ¤ä½“";
+            description = "è¿ç”¨é‡‘åˆšåŠŸæ³•ï¼ŒçŸ­æ—¶é—´å†…å¤§å¹…æé«˜é˜²å¾¡åŠ›ã€‚";
             consumption = 20;
             damage = 0;
-            type = 2; // ÔöÒæĞÍ
+            type = 2; // å¢ç›Šå‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 40;
@@ -68,11 +68,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 5:
-            name = "±¬ÁÑÈ­";
-            description = "È«Á¦Ò»»÷£¬È­·ç´øÓĞ±¬Õ¨Á¦£¬ÉËº¦¼«¸ß¡£";
+            name = "çˆ†è£‚æ‹³";
+            description = "å…¨åŠ›ä¸€å‡»ï¼Œæ‹³é£å¸¦æœ‰çˆ†ç‚¸åŠ›ï¼Œä¼¤å®³æé«˜ã€‚";
             consumption = 35;
             damage = 180;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -80,11 +80,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 6:
-            name = "±ÌÑªµ¤ĞÄ";
-            description = "¹ÅÀÏµ¤Ò©£¬·şÓÃºóÑ¸ËÙ»Ö¸´´óÁ¿ÉúÃüÓë·¨Á¦¡£";
+            name = "ç¢§è¡€ä¸¹å¿ƒ";
+            description = "å¤è€ä¸¹è¯ï¼Œæœç”¨åè¿…é€Ÿæ¢å¤å¤§é‡ç”Ÿå‘½ä¸æ³•åŠ›ã€‚";
             consumption = 40;
             damage = 0;
-            type = 1; // »Ö¸´ĞÍ
+            type = 1; // æ¢å¤å‹
             add_hp = 150;
             add_mp = 50;
             add_defence = 0;
@@ -92,11 +92,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 7:
-            name = "ÉñÁú°ÚÎ²";
-            description = "¿ìËÙ·´»÷£¬¸øÓèµĞÈËÖÂÃüµÄÎ²»÷¡£";
+            name = "ç¥é¾™æ‘†å°¾";
+            description = "å¿«é€Ÿåå‡»ï¼Œç»™äºˆæ•Œäººè‡´å‘½çš„å°¾å‡»ã€‚";
             consumption = 28;
             damage = 130;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -104,11 +104,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 8:
-            name = "Áé¹â»¤Éí";
-            description = "ÖÜÉíÉ¢·¢³öÁé¹â£¬ÔöÇ¿·ÀÓù²¢¶ÌÔİÌáÉı¹¥»÷ÉËº¦¡£";
+            name = "çµå…‰æŠ¤èº«";
+            description = "å‘¨èº«æ•£å‘å‡ºçµå…‰ï¼Œå¢å¼ºé˜²å¾¡å¹¶çŸ­æš‚æå‡æ”»å‡»ä¼¤å®³ã€‚";
             consumption = 25;
             damage = 0;
-            type = 2; // ÔöÒæĞÍ
+            type = 2; // å¢ç›Šå‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 50;
@@ -116,11 +116,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 9:
-            name = "À×öªÒ»»÷";
-            description = "ÒÔÀ×öªÖ®ÊÆ¹¥»÷µĞÈË£¬Ôì³É¾Ş´óµÄÉËº¦¡£";
+            name = "é›·éœ†ä¸€å‡»";
+            description = "ä»¥é›·éœ†ä¹‹åŠ¿æ”»å‡»æ•Œäººï¼Œé€ æˆå·¨å¤§çš„ä¼¤å®³ã€‚";
             consumption = 30;
             damage = 160;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -128,11 +128,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 10:
-            name = "ÇåĞÄÖä";
-            description = "Çå³ıĞÄÖĞÔÓÄî£¬¿ìËÙ»Ö¸´·¨Á¦¡£";
+            name = "æ¸…å¿ƒå’’";
+            description = "æ¸…é™¤å¿ƒä¸­æ‚å¿µï¼Œå¿«é€Ÿæ¢å¤æ³•åŠ›ã€‚";
             consumption = 10;
             damage = 0;
-            type = 1; // »Ö¸´ĞÍ
+            type = 1; // æ¢å¤å‹
             add_hp = 0;
             add_mp = 80;
             add_defence = 0;
@@ -140,11 +140,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 11:
-            name = "Ìú²¼ÉÀ";
-            description = "ĞŞÁ¶Ìú²¼ÉÀ£¬ÔöÇ¿·ÀÓùÁ¦£¬¼õÉÙÊÜµ½µÄÉËº¦¡£";
+            name = "é“å¸ƒè¡«";
+            description = "ä¿®ç‚¼é“å¸ƒè¡«ï¼Œå¢å¼ºé˜²å¾¡åŠ›ï¼Œå‡å°‘å—åˆ°çš„ä¼¤å®³ã€‚";
             consumption = 20;
             damage = 0;
-            type = 2; // ÔöÒæĞÍ
+            type = 2; // å¢ç›Šå‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 60;
@@ -152,11 +152,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 12:
-            name = "·ç¾í²ĞÔÆ";
-            description = "ÀûÓÃÉí·¨¿ìËÙÒÆ¶¯£¬´øÀ´Èç·ç°ãµÄÆÆ»µÁ¦¡£";
+            name = "é£å·æ®‹äº‘";
+            description = "åˆ©ç”¨èº«æ³•å¿«é€Ÿç§»åŠ¨ï¼Œå¸¦æ¥å¦‚é£èˆ¬çš„ç ´ååŠ›ã€‚";
             consumption = 25;
             damage = 140;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -164,11 +164,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 13:
-            name = "ÉñĞĞ°Ù±ä";
-            description = "Ê¹³öÉñĞĞ°Ù±ä£¬¶ÌÊ±¼äÄÚÌáÉı¹¥»÷Á¦ºÍ±©»÷ÂÊ¡£";
+            name = "ç¥è¡Œç™¾å˜";
+            description = "ä½¿å‡ºç¥è¡Œç™¾å˜ï¼ŒçŸ­æ—¶é—´å†…æå‡æ”»å‡»åŠ›å’Œæš´å‡»ç‡ã€‚";
             consumption = 30;
             damage = 0;
-            type = 2; // ÔöÒæĞÍ
+            type = 2; // å¢ç›Šå‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 20;
@@ -176,11 +176,11 @@ Skill::Skill(int i)
             add_critical = 15;
             break;
         case 14:
-            name = "º®±ùÕÆ";
-            description = "ÕÆÁ¦Èçº®±ù°ãÁİÙı£¬Ö±½Ó¹¥»÷µĞÈË£¬²¢ÓĞÒ»¶¨¼¸ÂÊ±ù¶³µĞÈË¡£";
+            name = "å¯’å†°æŒ";
+            description = "æŒåŠ›å¦‚å¯’å†°èˆ¬å‡›å†½ï¼Œç›´æ¥æ”»å‡»æ•Œäººï¼Œå¹¶æœ‰ä¸€å®šå‡ ç‡å†°å†»æ•Œäººã€‚";
             consumption = 30;
             damage = 150;
-            type = 0; // ¹¥»÷ĞÍ
+            type = 0; // æ”»å‡»å‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 0;
@@ -188,11 +188,11 @@ Skill::Skill(int i)
             add_critical = 0;
             break;
         case 15:
-            name = "Ììî¸»¤Ìå";
-            description = "ĞŞÁ¶Ììî¸»¤ÌåÉñ¹¦£¬ÌáÉı·ÀÓùºÍ¹¥»÷Á¦£¬Ôö¼ÓÕ½¶·³ÖĞøÊ±¼ä¡£";
+            name = "å¤©ç½¡æŠ¤ä½“";
+            description = "ä¿®ç‚¼å¤©ç½¡æŠ¤ä½“ç¥åŠŸï¼Œæå‡é˜²å¾¡å’Œæ”»å‡»åŠ›ï¼Œå¢åŠ æˆ˜æ–—æŒç»­æ—¶é—´ã€‚";
             consumption = 35;
             damage = 0;
-            type = 2; // ÔöÒæĞÍ
+            type = 2; // å¢ç›Šå‹
             add_hp = 0;
             add_mp = 0;
             add_defence = 50;
@@ -200,9 +200,9 @@ Skill::Skill(int i)
             add_critical = 10;
             break;
         case 16:
-            name = "È«Á¦¼¯ÖĞ";
-            description = "¶¨ĞÄ°²Éñ£¬½«×¢ÒâÁ¦È«²¿¼¯ÖĞÔÚ¹¥»÷ÉÏ£¬´óÁ¿ÌáÉı¹¥»÷Á¦ºÍ±©»÷ÂÊ£¬"
-                    "µ«ÊÇ½µµÍ·ÀÓùÁ¦";
+            name = "å…¨åŠ›é›†ä¸­";
+            description = "å®šå¿ƒå®‰ç¥ï¼Œå°†æ³¨æ„åŠ›å…¨éƒ¨é›†ä¸­åœ¨æ”»å‡»ä¸Šï¼Œå¤§é‡æå‡æ”»å‡»åŠ›å’Œæš´å‡»ç‡ï¼Œ"
+                    "ä½†æ˜¯é™ä½é˜²å¾¡åŠ›";
             consumption = 0;
             damage = 0;
             type = 0;
@@ -221,17 +221,17 @@ void Skill::display()
 {
     if (type == 0) {
         fmt::print("{}\n{}\n", name, description);
-        fmt::print("ÏûºÄ£º{}£¬ÉËº¦£º{}\n", consumption, damage);
+        fmt::print("æ¶ˆè€—ï¼š{}ï¼Œä¼¤å®³ï¼š{}\n", consumption, damage);
     }
     else if (type == 1) {
         fmt::print("{}\n{}\n", name, description);
-        fmt::print("ÏûºÄ£º{}\n", consumption);
-        fmt::print("Ğ§¹û£º»Ø¸´{}µãÑªÁ¿£¬»Ø¸´{}µãÔªÆø\n", add_hp, add_mp);
+        fmt::print("æ¶ˆè€—ï¼š{}\n", consumption);
+        fmt::print("æ•ˆæœï¼šå›å¤{}ç‚¹è¡€é‡ï¼Œå›å¤{}ç‚¹å…ƒæ°”\n", add_hp, add_mp);
     }
     else if (type == 2) {
         fmt::print("{}\n{}\n", name, description);
-        fmt::print("ÏûºÄ£º{}\n", consumption);
-        fmt::print("Ğ§¹û£ºÔö¼Ó{}¹¥»÷Á¦£¬Ôö¼Ó{}±©»÷ÂÊ£¬Ôö¼Ó{}·ÀÓùÁ¦\n",
+        fmt::print("æ¶ˆè€—ï¼š{}\n", consumption);
+        fmt::print("æ•ˆæœï¼šå¢åŠ {}æ”»å‡»åŠ›ï¼Œå¢åŠ {}æš´å‡»ç‡ï¼Œå¢åŠ {}é˜²å¾¡åŠ›\n",
                    add_damage, add_critical, add_defence, add_defence);
     }
 }

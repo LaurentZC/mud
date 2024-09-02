@@ -11,14 +11,14 @@ public:
     [[nodiscard]] int getConsumption() const;
 
 protected:
-    std::string name;        // Ãû×Ö
-    std::string description; // ÃèÊö
-    int consumption {};      // ºÄÀ¶
-    int damage {};           //Ôì³ÉÉËº¦£¬Ö»ÓĞ¹¥»÷ĞÍ²»ÊÇ0
-    int type {};             //0ÊÇ¹¥»÷ĞÍ£¬1ÊÇ»Ö¸´ĞÍ£¬2ÊÇÔöÒæĞÍ
-    int add_hp {};           //»ØÑª£¬Ö»ÓĞ»Ö¸´ĞÔ²»ÊÇ0
-    int add_mp {};           // »ØÀ¶
-    int add_defence {};      //Ôö¼Ó¹¥·À±¬£¬Ö»ÓĞÔöÒæĞÍ²»ÊÇ0
-    int add_critical {};     // Ìá¸ß±©»÷ÂÊ
-    int add_damage {};       // Ôö¼ÓµÄÉËº¦
+    std::string name;        // åå­—
+    std::string description; // æè¿°
+    int consumption {};      // è€—è“
+    int damage {};           //é€ æˆä¼¤å®³ï¼Œåªæœ‰æ”»å‡»å‹ä¸æ˜¯0
+    int type {};             //0æ˜¯æ”»å‡»å‹ï¼Œ1æ˜¯æ¢å¤å‹ï¼Œ2æ˜¯å¢ç›Šå‹
+    int add_hp {};           //å›è¡€ï¼Œåªæœ‰æ¢å¤æ€§ä¸æ˜¯0
+    int add_mp {};           // å›è“
+    int add_defence {};      //å¢åŠ æ”»é˜²çˆ†ï¼Œåªæœ‰å¢ç›Šå‹ä¸æ˜¯0
+    int add_critical {};     // æé«˜æš´å‡»ç‡
+    int add_damage {};       // å¢åŠ çš„ä¼¤å®³
 };

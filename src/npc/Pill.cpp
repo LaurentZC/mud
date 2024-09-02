@@ -21,23 +21,23 @@ string Pill::getPillName() const
     string name;
     switch (this->size) {
         case Size::SMALL :
-            name = "³õ¼¶";
+            name = "åˆçº§";
             break;
         case Size::MID :
-            name = "ÖĞ¼¶";
+            name = "ä¸­çº§";
             break;
         case Size::BIG :
-            name = "¸ß¼¶";
+            name = "é«˜çº§";
             break;
         default :
             break;
     }
     switch (this->type) {
         case Type::BLOOD_PILL :
-            name += "»ØÑªµ¤";
+            name += "å›è¡€ä¸¹";
             return bloodPill(name);
         case Type::MANA_PILL :
-            name += "»ØÔªµ¤";
+            name += "å›å…ƒä¸¹";
             return manaPill(name);
         default :
             break;
@@ -48,19 +48,19 @@ string Pill::getPillName() const
 void Pill::usePill() const
 {
     const string name = this->getPillName();
-    // ¸ù¾İµ¤Ò©ÀàĞÍºÍ´óĞ¡½øĞĞÏàÓ¦µÄ»Ø¸´²Ù×÷
+    // æ ¹æ®ä¸¹è¯ç±»å‹å’Œå¤§å°è¿›è¡Œç›¸åº”çš„å›å¤æ“ä½œ
     switch (size) {
         case Size::SMALL :
-            fmt::print("à¾Ò©³É¹¦£¬»Ø¸´25%{}!\n", name == bloodPill(name) ? "ÉúÃüÖµ" : "ÔªÆø");
-        // »Ö¸´
+            fmt::print("å—‘è¯æˆåŠŸï¼Œå›å¤25%{}!\n", name == bloodPill(name) ? "ç”Ÿå‘½å€¼" : "å…ƒæ°”");
+        // æ¢å¤
             break;
         case Size::MID :
-            fmt::print("à¾Ò©³É¹¦£¬»Ø¸´35%{}!\n", name == bloodPill(name) ? "ÉúÃüÖµ" : "ÔªÆø");
-        // »Ö¸´
+            fmt::print("å—‘è¯æˆåŠŸï¼Œå›å¤35%{}!\n", name == bloodPill(name) ? "ç”Ÿå‘½å€¼" : "å…ƒæ°”");
+        // æ¢å¤
             break;
         case Size::BIG :
-            fmt::print("à¾Ò©³É¹¦£¬»Ø¸´45%{}!\n", name == bloodPill(name) ? "ÉúÃüÖµ" : "ÔªÆø");
-        // »Ö¸´
+            fmt::print("å—‘è¯æˆåŠŸï¼Œå›å¤45%{}!\n", name == bloodPill(name) ? "ç”Ÿå‘½å€¼" : "å…ƒæ°”");
+        // æ¢å¤
             break;
         default : ;
     }

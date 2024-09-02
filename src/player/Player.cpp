@@ -7,26 +7,26 @@ using namespace std;
 void Player::openBag() const
 {
     bag->display();
-    fmt::println("Äã¿ÉÒÔÊ¹ÓÃ[u]Ê¹ÓÃµÀ¾ß/×°±¸£¬[c]µÄ·½Ê½²é¿´µÀ¾ß/×°±¸ÊôĞÔ¡£");
+    fmt::println("ä½ å¯ä»¥ä½¿ç”¨[u]ä½¿ç”¨é“å…·/è£…å¤‡ï¼Œ[c]çš„æ–¹å¼æŸ¥çœ‹é“å…·/è£…å¤‡å±æ€§ã€‚");
 }
 
 void Player::checkSkill()
 {
     int i = 0;
     if (skills.begin() == skills.end()) {
-        fmt::println("ÄãÃ»ÓĞÏ°µÃÈÎºÎ¼¼ÄÜ£¡");
+        fmt::println("ä½ æ²¡æœ‰ä¹ å¾—ä»»ä½•æŠ€èƒ½ï¼");
         return;
     }
-    fmt::println("ÄãÏ°µÃµÄ¼¼ÄÜÓĞ£º");
+    fmt::println("ä½ ä¹ å¾—çš„æŠ€èƒ½æœ‰ï¼š");
     for (auto it = skills.begin(); it != skills.end(); ++it, ++i) {
         fmt::print("{}. ", i + 1);
         it->getName();
         if ((i + 1) % 5 == 0) {
-            fmt::print("\n"); // 5¸ö»»ĞĞ
+            fmt::print("\n"); // 5ä¸ªæ¢è¡Œ
         }
     }
     if (i % 5 != 0) {
-        fmt::print("\n"); // ×îºóÒ»ĞĞ»»ĞĞ
+        fmt::print("\n"); // æœ€åä¸€è¡Œæ¢è¡Œ
     }
 }
 
@@ -34,7 +34,7 @@ void Player::useSkill()
 {
     checkSkill();
     while (true) {
-        fmt::println("ÄãÏëÓÃÄÄ¸ö¼¼ÄÜ(ÇëÊäÈëÆä±àºÅ£¬0ÊÇÍË³ö)£º");
+        fmt::println("ä½ æƒ³ç”¨å“ªä¸ªæŠ€èƒ½(è¯·è¾“å…¥å…¶ç¼–å·ï¼Œ0æ˜¯é€€å‡º)ï¼š");
         int pos;
         while (true) {
             cin >> pos;
@@ -42,16 +42,16 @@ void Player::useSkill()
             if (0 < pos && pos < skills.size()) {
                 break;
             }
-            fmt::print("ÇëÊäÈë¶ÔµÄ±àºÅ\n");
+            fmt::print("è¯·è¾“å…¥å¯¹çš„ç¼–å·\n");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         if (skills[pos].getConsumption() > getMp()) {
-            fmt::println("¼¼ÄÜÊÍ·Å³É¹¦!");
+            fmt::println("æŠ€èƒ½é‡Šæ”¾æˆåŠŸ!");
             swap(skills[pos], skills[0]);
         }
         else
-            fmt::println("ÔªÆø²»×ã£¬²»ÄÜÊÍ·Å¼¼ÄÜ");
+            fmt::println("å…ƒæ°”ä¸è¶³ï¼Œä¸èƒ½é‡Šæ”¾æŠ€èƒ½");
     }
 }
 

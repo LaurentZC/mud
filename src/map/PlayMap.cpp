@@ -7,10 +7,127 @@
 
 #include "Area.h"
 #include "Helper.h"
+#include "fmt/color.h"
 #include "fmt/core.h"
+#include "fmt/ranges.h"
 
 using namespace std;
 extern Area MainCity;
+
+bool isValidMove(int x, int y, Area &map, char dir);
+
+void handlePlayerAction(Area &map, int x, int y);
+
+void changeMap(Area &map, int &x, int &y)
+{
+    string input;
+    while (true) {
+        cin >> input;
+        if (input.length() != 1) {
+            fmt::print("æ— æ•ˆçš„è¾“å…¥[1 / 2 / 3 / 4 / 5 / q]: ");
+            continue;
+        }
+        switch (input[0]) {
+            case '1' :
+                // map = creat()
+                // x = Gates[map].first;
+                // y = Gates[map].second;
+                // fmt::print("{}\n", map);
+                waitForLoad(100);
+                return;
+            case '2' :
+                // map = creat()
+                // x = Gates[map].first;
+                // y = Gates[map].second;
+                waitForLoad(100);
+                return;
+            case '3' :
+                // map = creat()
+                // x = Gates[map].first;
+                // y = Gates[map].second;
+                waitForLoad(100);
+                return;
+            case '4' :
+                // map = creat()
+                // x = Gates[map].first;
+                // y = Gates[map].second;
+                waitForLoad(100);
+                return;
+            case '5' :
+                // map = creat()
+                // x = Gates[map].first;
+                // y = Gates[map].second;
+                waitForLoad(100);
+                return;
+            case 'q' :
+                return;
+            default :
+                fmt::print("æ— æ•ˆçš„è¾“å…¥[1 / 2 / 3 / 4 / 5 / q]: ");
+        }
+    }
+}
+
+void movePlayerLocation(Area &map, int &x, int &y)
+{
+    string command;
+    while (true) {
+        fmt::print("ä½ æƒ³å¾€å“ªé‡Œèµ°å‘¢ï¼Ÿ[w / a / s / d]ï¼š");
+        cin >> command;
+        if (command.length() != 1 || strchr("wasd", command[0]) == nullptr) {
+            fmt::print("æ— æ•ˆçš„æŒ‡ä»¤ï¼[w / a / s / d]ï¼š");
+            continue;
+        }
+        if (isValidMove(x, y, map, command[0])) {
+            switch (command[0]) {
+                case 'w' :
+                    ++y;
+                    break;
+                case 's' :
+                    --y;
+                    break;
+                case 'a' :
+                    --x;
+                    break;
+                case 'd' :
+                    ++x;
+                    break;
+                default :
+                    break;
+            }
+            break;
+        }
+        fmt::print("å‰æ–¹æ˜¯ä¸€å µå¢™ï¼Œä½ æ— æ³•é€šè¿‡ã€‚\nè¯·æ¢ä¸€ä¸ªæ–¹å‘å§ [w / a / s / d]ï¼š");
+    }
+    handlePlayerAction(map, x, y);
+}
+
+void handleQuit(Area &current_map, bool &quit, int &x, int &y)
+{
+    string input;
+    // @formatter:off
+    fmt::print(current_map.getName() == area("main_city") ?
+                                            "ä½ ç°åœ¨å¤„äºä¸»åŸï¼Œé€€å‡ºå°†ç»“æŸæ¸¸æˆï¼Œä½ ç¡®å®šå—ï¼Ÿ[y/n]: " :
+                                            "ä½ ç¡®å®šè¦é€€å‡ºå½“å‰åœ°å›¾å—ï¼Ÿ[y/n]: ");
+    // @ formatter:on
+    while (true) {
+        cin >> input;
+        if (input == "y" || input == "Y") {
+            if (current_map.getName() == "main_city") {
+                fmt::print("æ„Ÿè°¢ä½ çš„æ¸¸ç©ï¼\n");
+                quit = false;
+            }
+            else {
+                current_map = MainCity;
+                x = Gates["main_city"].first;
+                y = Gates["main_city"].second;
+            }
+            break;
+        }
+        if (input == "n" || input == "N")
+            break;
+        fmt::print("æ— æ•ˆè¾“å…¥ï¼è¯·è¾“å…¥[y / n]ã€‚\n");
+    }
+}
 
 bool isValidMove(const int x, const int y, Area &map, const char dir)
 {
@@ -39,146 +156,72 @@ void handlePlayerAction(Area &map, const int x, const int y)
                 return true;
             if (input == "n" || input == "N")
                 return false;
-            cout << "ÎŞĞ§Ö¸Áî£¡[y / n]£º";
+            cout << "æ— æ•ˆæŒ‡ä»¤ï¼[y / n]ï¼š";
         }
     };
 
     switch (const auto &rooms = map.getArea(); rooms[x][y].getContent()) {
         case Room::Content::EMPTY :
             fmt::print("{}", map.getArea()[x][y].getDescription());
-            break;
+        break;
 
         case Room::Content::CHEST :
-            fmt::print("ÄãÒª´ò¿ªËüÂğ£¿[y / n]");
-            if (get_yes_or_no()) {
-                // ´ò¿ª±¦ÏäµÄ´¦ÀíÂß¼­
-            }
-            break;
+            fmt::print("ä½ è¦æ‰“å¼€å®ƒå—ï¼Ÿ[y / n]");
+        if (get_yes_or_no()) {
+            // æ‰“å¼€å®ç®±çš„å¤„ç†é€»è¾‘
+        }
+        break;
 
         case Room::Content::NPC :
-            fmt::print("ÄãÒªºÍËû¶Ô»°Âğ£¿[y / n]");
-            if (get_yes_or_no()) {
-                // ºÍNPC¶Ô»°µÄ´¦ÀíÂß¼­
-            }
-            break;
+            fmt::print("ä½ è¦å’Œä»–å¯¹è¯å—ï¼Ÿ[y / n]");
+        if (get_yes_or_no()) {
+            // å’ŒNPCå¯¹è¯çš„å¤„ç†é€»è¾‘
+        }
+        break;
 
-        default : // Ğ¡¹Ö£¬¾«Ó¢¹Ö£¬boss
-            fmt::print("ÄãÊÇÒª·¢¶¯¹¥»÷(y)»¹ÊÇÏÈ´ò¿ª±³°üĞİÕûÒ»ÏÂ(n)£º");
-            if (!get_yes_or_no()) {
-                // player.openBag();
-                break;
-            }
-        // Õ½¶·µÄ´¦ÀíÂß¼­
+        default : // å°æ€ªï¼Œç²¾è‹±æ€ªï¼Œboss
+            fmt::print("ä½ æ˜¯è¦å‘åŠ¨æ”»å‡»(y)è¿˜æ˜¯å…ˆæ‰“å¼€èƒŒåŒ…ä¼‘æ•´ä¸€ä¸‹(n)ï¼š");
+        if (!get_yes_or_no()) {
+            // player.openBag();
             break;
+        }
+        // æˆ˜æ–—çš„å¤„ç†é€»è¾‘
+        break;
     }
 }
 
-void movePlayerLocation(Area &map, int &x, int &y)
+void printMap(std::vector<std::vector<std::string> > grid)
 {
-    string command;
-    while (true) {
-        fmt::print("ÄãÏëÍùÄÄÀï×ßÄØ£¿[w / a / s / d]£º");
-        cin >> command;
-        if (command.length() != 1 || strchr("wasd", command[0]) == nullptr) {
-            fmt::print("ÎŞĞ§µÄÖ¸Áî£¡[w / a / s / d]£º");
-            continue;
+    size_t max_width = 0;
+    // è®¡ç®—å­—ç¬¦ä¸²çš„æœ€å¤§å®½åº¦
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            cell = fmt::format("[{}]", cell);
+            max_width = std::max(max_width, cell.length());
         }
-        if (isValidMove(x, y, map, command[0])) {
-            switch (command[0]) {
-                case 'w' :
-                    ++y;
-                    break;
-                case 's' :
-                    --y;
-                    break;
-                case 'a' :
-                    --x;
-                    break;
-                case 'd' :
-                    ++x;
-                    break;
-                default :
-                    break;
-            }
-            break;
-        }
-        fmt::print("Ç°·½ÊÇÒ»¶ÂÇ½£¬ÄãÎŞ·¨Í¨¹ı¡£\nÇë»»Ò»¸ö·½Ïò°É [w / a / s / d]£º");
     }
-    handlePlayerAction(map, x, y);
-}
 
-void handleQuit(Area &current_map, bool &quit, int &x, int &y)
-{
-    string input;
-    // @formatter:off
-    fmt::print(current_map.getName() == area("main_city") ?
-                                            "ÄãÏÖÔÚ´¦ÓÚÖ÷³Ç£¬ÍË³ö½«½áÊøÓÎÏ·£¬ÄãÈ·¶¨Âğ£¿[y/n]: " :
-                                            "ÄãÈ·¶¨ÒªÍË³öµ±Ç°µØÍ¼Âğ£¿[y/n]: ");
-    // @ formatter:on
-    while (true) {
-        cin >> input;
-        if (input == "y" || input == "Y") {
-            if (current_map.getName() == "main_city") {
-                fmt::print("¸ĞĞ»ÄãµÄÓÎÍæ£¡\n");
-                quit = false;
-            }
-            else {
-                current_map = MainCity;
-                x = Gates["main_city"].first;
-                y = Gates["main_city"].second;
-            }
-            break;
+    // è¡¥å……å¯¹é½
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            string fill(max_width - cell.length(), ' ');
+            cell.append(fill);
         }
-        if (input == "n" || input == "N")
-            break;
-        fmt::print("ÎŞĞ§ÊäÈë£¡ÇëÊäÈë[y / n]¡£\n");
     }
-}
 
-void changeMap(Area &map, int &x,int &y)
-{
-    string input;
-    while (true) {
-        cin >> input;
-        if (input.length() != 1) {
-            fmt::print("ÎŞĞ§µÄÊäÈë[1 / 2 / 3 / 4 / 5 / q]: ");
-            continue;
-        }
-        switch (input[0]) {
-            case '1':
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                    waitForLoad(100);
-                return;
-            case '2':
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                    waitForLoad(100);
-                return;
-            case '3':
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                    waitForLoad(100);
-                return;
-            case '4':
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                    waitForLoad(100);
-                return;
-            case '5':
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                    waitForLoad(100);
-                return;
-            case 'q':
-                return;
-            default:
-                fmt::print("ÎŞĞ§µÄÊäÈë[1 / 2 / 3 / 4 / 5 / q]: ");
+    max_width += max_width & 1 ? 1 : 0;
+
+    fmt::print("\n");
+    for (const auto &row : grid) {
+        if (format("{}", fmt::join(row, "")).find_first_not_of(" \n[]") != string::npos) {
+            for (const auto &cell : row) {
+                if (format("{}", fmt::join(cell, "")).find_first_not_of(" \n[]") != string::npos)
+                    fmt::print(fg(fmt::color::blue), "{:<{}}{}{:<{}}", "", max_width >> 1, cell, "", max_width >> 1);
+                else
+                    fmt::print(fg(fmt::color::blue), "{}", "", max_width);
+            }
+            fmt::print("\n");
         }
     }
+    fmt::print("\n");
 }

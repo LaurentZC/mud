@@ -11,8 +11,8 @@
 
 using namespace std;
 
-extern auto MainCity = creatMainCity();
-extern Player Player;
+auto MainCity = creatMainCity();
+Player Player;
 
 void waitForAnyKey()
 {
@@ -22,11 +22,11 @@ void waitForAnyKey()
 
     while (true) {
         // @formatter:off
-        // ¶ÁÈ¡¿ØÖÆÌ¨ÊäÈëÊÂ¼ş
+        // è¯»å–æ§åˆ¶å°è¾“å…¥äº‹ä»¶
         if (ReadConsoleInput(input_handle, &input_record, 1, &events_read) &&
                              input_record.EventType == KEY_EVENT &&
                              input_record.Event.KeyEvent.bKeyDown) {
-            // Èç¹ûÊÇ¼üÅÌ°´ÏÂÊÂ¼ş£¬ÔòÌø³öÑ­»·
+            // å¦‚æœæ˜¯é”®ç›˜æŒ‰ä¸‹äº‹ä»¶ï¼Œåˆ™è·³å‡ºå¾ªç¯
             break;
         }
         // @formatter:on
@@ -38,8 +38,9 @@ int main()
     bool quit = true;
     auto &current_map = MainCity;
     auto &[x, y] = Gates[current_map.getName()];
+    // fmt::print("{}", MainCity);
     while (quit) {
-        fmt::print("\nÒÆ¶¯£º move \t ´ò¿ª±³°ü£ºbag \t ºÍnpc¶Ô»°£ºchat \t »·ÊÓÖÜÎ§£ºwatch \t ÍË³ö£ºquit \n");
+        fmt::print("\nç§»åŠ¨ï¼š move \t æ‰“å¼€èƒŒåŒ…ï¼šbag \t å’Œnpcå¯¹è¯ï¼šchat \t ç¯è§†å‘¨å›´ï¼šwatch \t é€€å‡ºï¼šquit \n");
         string command;
         cin >> command;
 
@@ -50,20 +51,20 @@ int main()
             // player.openBag();
         }
         else if (command == "chat") {
-            // if (npc != "Âí·ò") {
+            // if (npc != "é©¬å¤«") {
             // npc.talk()
             // }
             // else {
             // changeMap(current_map, x, y);
         }
         else if (command == "watch") {
-            // ¿´Ò»¿´
+            // çœ‹ä¸€çœ‹
         }
         else if (command == "quit") {
             handleQuit(current_map, quit, x, y);
         }
         else {
-            fmt::print("ÎŞĞ§µÄÖ¸Áî£¡\n");
+            fmt::print("æ— æ•ˆçš„æŒ‡ä»¤ï¼\n");
         }
     }
 }

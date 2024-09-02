@@ -45,12 +45,12 @@ Weapon &Weapon::operator=(Weapon &&) noexcept = default;
 
 void Weapon::showAttributes() const
 {
-    fmt::println("Ãû×Ö: {}", name);
+    fmt::println("åå­—: {}", name);
     fmt::println("{}", description);
-    fmt::println("¼Û¸ñ: {}", money);
-    fmt::println("ÉËº¦: {}", damage);
-    fmt::println("±©»÷ÂÊ: {}", critical);
-    fmt::println("×îĞ¡Á¦Á¿ÒªÇó: {}", min_strength_to_equip);
+    fmt::println("ä»·æ ¼: {}", money);
+    fmt::println("ä¼¤å®³: {}", damage);
+    fmt::println("æš´å‡»ç‡: {}", critical);
+    fmt::println("æœ€å°åŠ›é‡è¦æ±‚: {}", min_strength_to_equip);
 }
 
 Armor::Armor() = default;
@@ -83,12 +83,12 @@ Armor &Armor::operator=(Armor &&) noexcept = default;
 
 void Armor::showAttributes() const
 {
-    fmt::println("Ãû×Ö: {}", name);
+    fmt::println("åå­—: {}", name);
     fmt::println("{}", description);
-    fmt::println("¼Û¸ñ: {}", money);
-    fmt::println("Ôö¼ÓµÄ×î´óÉúÃüÖµ: {}", add_max_hp);
-    fmt::println("Ôö¼ÓµÄ×î´ó·¨Á¦Öµ: {}", add_max_mp);
-    fmt::println("×îĞ¡Ãô½İÒªÇó: {}", min_agility_to_equip);
+    fmt::println("ä»·æ ¼: {}", money);
+    fmt::println("å¢åŠ çš„æœ€å¤§ç”Ÿå‘½å€¼: {}", add_max_hp);
+    fmt::println("å¢åŠ çš„æœ€å¤§æ³•åŠ›å€¼: {}", add_max_mp);
+    fmt::println("æœ€å°æ•æ·è¦æ±‚: {}", min_agility_to_equip);
 }
 
 int Weapon::getMinStrength() const { return min_strength_to_equip; }
@@ -100,8 +100,8 @@ Armor::Armor(int i)
     auto armor = [](const string &text) { return format(fg(fmt::color::light_green), "{}", text); };
     switch (i) {
         case 0 :
-            name = armor("¸ÖÌúĞØ¼×");
-            description = "¼á¹ÌµÄÌúÖÆ»¤¼×£¬ÊÊºÏÓÂ¸ÒµÄÕ½Ê¿¡£";
+            name = armor("é’¢é“èƒ¸ç”²");
+            description = "åšå›ºçš„é“åˆ¶æŠ¤ç”²ï¼Œé€‚åˆå‹‡æ•¢çš„æˆ˜å£«ã€‚";
             money = 150;
             add_max_hp = 50;
             add_max_mp = 0;
@@ -110,8 +110,8 @@ Armor::Armor(int i)
             evasion = 5;
             break;
         case 1 :
-            name = armor("·ûÎÄ³¤ÅÛ");
-            description = "´øÓĞÉñÃØ·ûÎÄµÄ³¤ÅÛ£¬ÔöÇ¿ÔªÆø¡£";
+            name = armor("ç¬¦æ–‡é•¿è¢");
+            description = "å¸¦æœ‰ç¥ç§˜ç¬¦æ–‡çš„é•¿è¢ï¼Œå¢å¼ºå…ƒæ°”ã€‚";
             money = 200;
             add_max_hp = 0;
             add_max_mp = 30;
@@ -120,8 +120,8 @@ Armor::Armor(int i)
             evasion = 10;
             break;
         case 2 :
-            name = armor("Æ¤¸ï»¤¼ç");
-            description = "Çá±ãµÄ»¤¼ç£¬Ìá¹©Áé»îĞÔºÍ»ù±¾±£»¤¡£";
+            name = armor("çš®é©æŠ¤è‚©");
+            description = "è½»ä¾¿çš„æŠ¤è‚©ï¼Œæä¾›çµæ´»æ€§å’ŒåŸºæœ¬ä¿æŠ¤ã€‚";
             money = 100;
             add_max_hp = 20;
             add_max_mp = 0;
@@ -130,8 +130,8 @@ Armor::Armor(int i)
             evasion = 6;
             break;
         case 3 :
-            name = armor("ÉÙÁÖÉ®ÒÂ");
-            description = "´©×Å¼òµ¥£¬ÄÜÏÔÖøÌáÉıÄÚÁ¦µÄĞŞÁ¶Ğ§¹û¡£";
+            name = armor("å°‘æ—åƒ§è¡£");
+            description = "ç©¿ç€ç®€å•ï¼Œèƒ½æ˜¾è‘—æå‡å†…åŠ›çš„ä¿®ç‚¼æ•ˆæœã€‚";
             money = 250;
             add_max_hp = 30;
             add_max_mp = 20;
@@ -140,8 +140,8 @@ Armor::Armor(int i)
             evasion = 10;
             break;
         case 4 :
-            name = armor("ÔÆº£ôáÅÛ");
-            description = "´øÓĞÓğÃ«×°ÊÎ£¬Ôö¼ÓÊ¹ÓÃÕßµÄÉÁ±ÜÄÜÁ¦¡£";
+            name = armor("äº‘æµ·ç¿è¢");
+            description = "å¸¦æœ‰ç¾½æ¯›è£…é¥°ï¼Œå¢åŠ ä½¿ç”¨è€…çš„é—ªé¿èƒ½åŠ›ã€‚";
             money = 280;
             add_max_hp = 10;
             add_max_mp = 10;
@@ -150,8 +150,8 @@ Armor::Armor(int i)
             evasion = 20;
             break;
         case 5 :
-            name = armor("ÌìÉ½Ñ©±ª¼×");
-            description = "ÓÉÑ©±ªÆ¤ÖÆ³É£¬Ìá¹©¼«Ç¿µÄ±£»¤ºÍ·´»÷ÄÜÁ¦¡£";
+            name = armor("å¤©å±±é›ªè±¹ç”²");
+            description = "ç”±é›ªè±¹çš®åˆ¶æˆï¼Œæä¾›æå¼ºçš„ä¿æŠ¤å’Œåå‡»èƒ½åŠ›ã€‚";
             money = 400;
             add_max_hp = 30;
             add_max_mp = 20;
@@ -160,8 +160,8 @@ Armor::Armor(int i)
             evasion = 4;
             break;
         case 6 :
-            name = armor("¾ÅÒõÕæ¾­»¤È¹");
-            description = "´«ËµÖĞµÄ»¤È¹£¬¸³Óè³ÖÓĞÕßÉñÃØµÄÁ¦Á¿¡£";
+            name = armor("ä¹é˜´çœŸç»æŠ¤è£™");
+            description = "ä¼ è¯´ä¸­çš„æŠ¤è£™ï¼Œèµ‹äºˆæŒæœ‰è€…ç¥ç§˜çš„åŠ›é‡ã€‚";
             money = 600;
             add_max_hp = 50;
             add_max_mp = 40;
@@ -170,8 +170,8 @@ Armor::Armor(int i)
             evasion = 15;
             break;
         case 7 :
-            name = armor("°×»¢Õ½¼×");
-            description = "²ÉÓÃ°×»¢Æ¤ÖÆ×÷£¬ÓµÓĞ¼«¸ßµÄ·ÀÓùÁ¦£¬ÊÊºÏÕıÒåÖ®Ê¿¡£";
+            name = armor("ç™½è™æˆ˜ç”²");
+            description = "é‡‡ç”¨ç™½è™çš®åˆ¶ä½œï¼Œæ‹¥æœ‰æé«˜çš„é˜²å¾¡åŠ›ï¼Œé€‚åˆæ­£ä¹‰ä¹‹å£«ã€‚";
             money = 350;
             add_max_hp = 30;
             add_max_mp = 0;
@@ -180,8 +180,8 @@ Armor::Armor(int i)
             evasion = 2;
             break;
         case 8 :
-            name = armor("Á÷Ñà¶·Åñ");
-            description = "±³ºóÓĞÁ÷ÑàÍ¼°¸£¬Çá±ãÁé¶¯£¬ÊÊºÏ×··çµÄÏÀ¿Í¡£";
+            name = armor("æµç‡•æ–—ç¯·");
+            description = "èƒŒåæœ‰æµç‡•å›¾æ¡ˆï¼Œè½»ä¾¿çµåŠ¨ï¼Œé€‚åˆè¿½é£çš„ä¾ å®¢ã€‚";
             money = 420;
             add_max_hp = 15;
             add_max_mp = 30;
@@ -190,8 +190,8 @@ Armor::Armor(int i)
             evasion = 30;
             break;
         case 9 :
-            name = armor("Ìì²ÏË¿¼×");
-            description = "ÓÉÌì²ÏË¿Ö¯³ÉµÄ¼×ÒÂ£¬Çá±ãÊæÊÊ£¬·ÀÓùÁ¦¾ªÈË¡£";
+            name = armor("å¤©èš•ä¸ç”²");
+            description = "ç”±å¤©èš•ä¸ç»‡æˆçš„ç”²è¡£ï¼Œè½»ä¾¿èˆ’é€‚ï¼Œé˜²å¾¡åŠ›æƒŠäººã€‚";
             money = 500;
             add_max_hp = 80;
             add_max_mp = 40;
@@ -200,8 +200,8 @@ Armor::Armor(int i)
             evasion = 15;
             break;
         case 10 :
-            name = armor("ÁúÁÛ»¤¼×");
-            description = "´«ËµÖĞÁú×åÒÅÁôÏÂÀ´µÄ»¤¼×£¬ÓµÓĞÎŞÓëÂ×±ÈµÄ·ÀÓùÁ¦¡£";
+            name = armor("é¾™é³æŠ¤ç”²");
+            description = "ä¼ è¯´ä¸­é¾™æ—é—ç•™ä¸‹æ¥çš„æŠ¤ç”²ï¼Œæ‹¥æœ‰æ— ä¸ä¼¦æ¯”çš„é˜²å¾¡åŠ›ã€‚";
             money = 1000;
             add_max_hp = 200;
             add_max_mp = 0;
@@ -210,8 +210,8 @@ Armor::Armor(int i)
             evasion = 10;
             break;
         case 11 :
-            name = armor("ÓÄÚ¤Åû·ç");
-            description = "À´×ÔÓÄÚ¤Ö®µØµÄÉñÃØÅû·ç£¬¸³ÓèÅå´÷ÕßÈçÓÄÁé°ãµÄÉÁ±ÜÄÜÁ¦¡£";
+            name = armor("å¹½å†¥æŠ«é£");
+            description = "æ¥è‡ªå¹½å†¥ä¹‹åœ°çš„ç¥ç§˜æŠ«é£ï¼Œèµ‹äºˆä½©æˆ´è€…å¦‚å¹½çµèˆ¬çš„é—ªé¿èƒ½åŠ›ã€‚";
             money = 800;
             add_max_hp = 50;
             add_max_mp = 70;
@@ -220,8 +220,8 @@ Armor::Armor(int i)
             evasion = 30;
             break;
         case 12 :
-            name = armor("ĞşÌúÖØîø");
-            description = "ÒÔĞşÌú´òÔìµÄÖØîø£¬·ÀÓùÁ¦ÎŞ¿ÉÆ¥µĞ£¬ÊÊºÏÖØĞÍÕ½Ê¿¡£";
+            name = armor("ç„é“é‡é“ ");
+            description = "ä»¥ç„é“æ‰“é€ çš„é‡é“ ï¼Œé˜²å¾¡åŠ›æ— å¯åŒ¹æ•Œï¼Œé€‚åˆé‡å‹æˆ˜å£«ã€‚";
             money = 1100;
             add_max_hp = 250;
             add_max_mp = 0;
@@ -230,8 +230,8 @@ Armor::Armor(int i)
             evasion = 5;
             break;
         case 13 :
-            name = armor("Æß²ÊÓğÒÂ");
-            description = "ÓÃ²Ê·ïµÄÓğÃ«±àÖ¯¶ø³É£¬¼ÈÇáÓ¯ÓÖ¾ß±¸Ç¿´óµÄ·ÀÓùÁ¦¡£";
+            name = armor("ä¸ƒå½©ç¾½è¡£");
+            description = "ç”¨å½©å‡¤çš„ç¾½æ¯›ç¼–ç»‡è€Œæˆï¼Œæ—¢è½»ç›ˆåˆå…·å¤‡å¼ºå¤§çš„é˜²å¾¡åŠ›ã€‚";
             money = 1400;
             add_max_hp = 100;
             add_max_mp = 60;
@@ -240,8 +240,8 @@ Armor::Armor(int i)
             evasion = 60;
             break;
         case 14 :
-            name = armor("ÊØ»¤Ö®îø");
-            description = "¼ÄÍĞ×ÅÊØ»¤Ö®ÉñµÄ±Ó»¤µÄîø¼×£¬¾ßÓĞÖÁ¸ßµÄ·ÀÓùÁ¦";
+            name = armor("å®ˆæŠ¤ä¹‹é“ ");
+            description = "å¯„æ‰˜ç€å®ˆæŠ¤ä¹‹ç¥çš„åº‡æŠ¤çš„é“ ç”²ï¼Œå…·æœ‰è‡³é«˜çš„é˜²å¾¡åŠ›";
             money = 1500;
             add_max_hp = 220;
             add_max_mp = 80;
@@ -259,88 +259,88 @@ Weapon::Weapon(int i)
     auto weapon = [](const string &text) { return format(fg(fmt::color::cyan), "{}", text); };
     switch (i) {
         case 0 :
-            name = weapon("Çà·æ½£");
-            description = "½£ÉíÈçÇïË®£¬½£·æÈçÇàºç£¬´«ÎÅÄÜÏ÷ÌúÈçÄà¡£";
+            name = weapon("é’é”‹å‰‘");
+            description = "å‰‘èº«å¦‚ç§‹æ°´ï¼Œå‰‘é”‹å¦‚é’è™¹ï¼Œä¼ é—»èƒ½å‰Šé“å¦‚æ³¥ã€‚";
             money = 300;
             damage = 50;
             min_strength_to_equip = 10;
             critical = 15;
             break;
         case 1 :
-            name = weapon("ĞşÌúÖØ½£");
-            description = "ÒÔĞşÌúÖı³É£¬³ÁÖØÎŞ±È£¬Î¨ÓĞ¾øÊÀ¸ßÊÖ·½ÄÜ¼İÔ¦¡£";
+            name = weapon("ç„é“é‡å‰‘");
+            description = "ä»¥ç„é“é“¸æˆï¼Œæ²‰é‡æ— æ¯”ï¼Œå”¯æœ‰ç»ä¸–é«˜æ‰‹æ–¹èƒ½é©¾é©­ã€‚";
             money = 800;
             damage = 120;
             min_strength_to_equip = 30;
             critical = 5;
             break;
         case 2 :
-            name = weapon("½ğÉß½£");
-            description = "½£ÉíÈçÉß£¬Áé¶¯¶à±ä£¬³öÕĞ¹îÒìÄª²â£¬ÄÑÒÔ×½Ãş¡£";
+            name = weapon("é‡‘è›‡å‰‘");
+            description = "å‰‘èº«å¦‚è›‡ï¼ŒçµåŠ¨å¤šå˜ï¼Œå‡ºæ‹›è¯¡å¼‚è«æµ‹ï¼Œéš¾ä»¥æ‰æ‘¸ã€‚";
             money = 500;
             damage = 70;
             min_strength_to_equip = 15;
             critical = 20;
             break;
         case 3 :
-            name = weapon("´ò¹·¹÷");
-            description = "Ø¤°ï×æ´«ÎäÆ÷£¬¿´ËÆÆ½·²ÎŞÆæ£¬È´ÊÇÍşÁ¦ÎŞÇî¡£";
+            name = weapon("æ‰“ç‹—æ£");
+            description = "ä¸å¸®ç¥–ä¼ æ­¦å™¨ï¼Œçœ‹ä¼¼å¹³å‡¡æ— å¥‡ï¼Œå´æ˜¯å¨åŠ›æ— ç©·ã€‚";
             money = 400;
             damage = 60;
             min_strength_to_equip = 10;
             critical = 10;
             break;
         case 4 :
-            name = weapon("Ëªº®µ¶");
-            description = "µ¶¹âÈçÑ©£¬º®Æø±ÆÈË£¬Õ¶µĞÈçÍ¬±ù·âÊÀ½ç¡£";
+            name = weapon("éœœå¯’åˆ€");
+            description = "åˆ€å…‰å¦‚é›ªï¼Œå¯’æ°”é€¼äººï¼Œæ–©æ•Œå¦‚åŒå†°å°ä¸–ç•Œã€‚";
             money = 600;
             damage = 90;
             min_strength_to_equip = 20;
             critical = 18;
             break;
         case 5 :
-            name = weapon("¾Å»·´óµ¶");
-            description = "µ¶Éí´øÓĞ¾Å»·£¬»ÓÎèÖ®¼äÕğ¶úÓûÁû£¬°ÔÆøÊ®×ã¡£";
+            name = weapon("ä¹ç¯å¤§åˆ€");
+            description = "åˆ€èº«å¸¦æœ‰ä¹ç¯ï¼ŒæŒ¥èˆä¹‹é—´éœ‡è€³æ¬²è‹ï¼Œéœ¸æ°”åè¶³ã€‚";
             money = 700;
             damage = 100;
             min_strength_to_equip = 25;
             critical = 12;
             break;
         case 6 :
-            name = weapon("³àÑæ½£");
-            description = "½£ÉíÈçÁÒÑæÈ¼ÉÕ£¬´«ËµÖĞÄÜÈ¼¾¡Ò»ÇĞĞ°¶ñ¡£";
+            name = weapon("èµ¤ç„°å‰‘");
+            description = "å‰‘èº«å¦‚çƒˆç„°ç‡ƒçƒ§ï¼Œä¼ è¯´ä¸­èƒ½ç‡ƒå°½ä¸€åˆ‡é‚ªæ¶ã€‚";
             money = 650;
             damage = 85;
             min_strength_to_equip = 18;
             critical = 20;
             break;
         case 7 :
-            name = weapon("ÒĞÌì½£");
-            description = "ÌìÏÂÉñÆ÷£¬½£ÖĞÖÁ±¦£¬½­ºş´«ÑÔ¡°ÒĞÌì²»³ö£¬Ë­ÓëÕù·æ¡±¡£";
+            name = weapon("å€šå¤©å‰‘");
+            description = "å¤©ä¸‹ç¥å™¨ï¼Œå‰‘ä¸­è‡³å®ï¼Œæ±Ÿæ¹–ä¼ è¨€â€œå€šå¤©ä¸å‡ºï¼Œè°ä¸äº‰é”‹â€ã€‚";
             money = 1200;
             damage = 150;
             min_strength_to_equip = 28;
             critical = 25;
             break;
         case 8 :
-            name = weapon("ÒøÔÂÍäµ¶");
-            description = "µ¶ÈçÍäÔÂ£¬³öÕĞÈçÔÂÓ°Á÷×ª£¬µ¶¹âÈçÒø£¬ÄÑÒÔ·À·¶¡£";
+            name = weapon("é“¶æœˆå¼¯åˆ€");
+            description = "åˆ€å¦‚å¼¯æœˆï¼Œå‡ºæ‹›å¦‚æœˆå½±æµè½¬ï¼Œåˆ€å…‰å¦‚é“¶ï¼Œéš¾ä»¥é˜²èŒƒã€‚";
             money = 500;
             damage = 75;
             min_strength_to_equip = 12;
             critical = 22;
             break;
         case 9 :
-            name = weapon("°ÔÍõÇ¹");
-            description = "Ç¹ÖĞÖ®Íõ£¬ÆøÊÆÈçºç£¬Ç¹³öÈçÁú£¬ÍşÕğ°Ë·½¡£";
+            name = weapon("éœ¸ç‹æª");
+            description = "æªä¸­ä¹‹ç‹ï¼Œæ°”åŠ¿å¦‚è™¹ï¼Œæªå‡ºå¦‚é¾™ï¼Œå¨éœ‡å…«æ–¹ã€‚";
             money = 1000;
             damage = 130;
             min_strength_to_equip = 35;
             critical = 15;
             break;
         case 10 :
-            name = weapon("Ä¾¹÷");
-            description = "ÆÕÍ¨µÄÄ¾¹÷£¬ÊÊºÏ³õÑ§ÕßÊ¹ÓÃ¡£";
+            name = weapon("æœ¨æ£");
+            description = "æ™®é€šçš„æœ¨æ£ï¼Œé€‚åˆåˆå­¦è€…ä½¿ç”¨ã€‚";
             money = 10;
             damage = 10;
             min_strength_to_equip = 5;

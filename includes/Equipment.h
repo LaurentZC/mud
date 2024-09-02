@@ -2,7 +2,7 @@
 
 #include <string>
 
-// ×°±¸
+// è£…å¤‡
 class Equipment
 {
 public:
@@ -17,12 +17,12 @@ public:
     [[nodiscard]] int getMoney() const;
 
 protected:
-    std::string name {};        // Ãû×Ö
-    std::string description {}; // ÃèÊö
-    int money {};               // ¹ºÂò¼Û¸ñ
+    std::string name {};        // åå­—
+    std::string description {}; // æè¿°
+    int money {};               // è´­ä¹°ä»·æ ¼
 };
 
-// ÎäÆ÷
+// æ­¦å™¨
 class Weapon final : public Equipment
 {
 public:
@@ -37,12 +37,12 @@ public:
     [[nodiscard]] int getMinStrength() const;
 
 private:
-    int damage {};                // ÉËº¦
-    double critical {};           // ±©»÷ÂÊ
-    int min_strength_to_equip {}; // ×°±¸µÄ×îĞ¡Á¦Á¿µãÊıÒªÇó
+    int damage {};                // ä¼¤å®³
+    double critical {};           // æš´å‡»ç‡
+    int min_strength_to_equip {}; // è£…å¤‡çš„æœ€å°åŠ›é‡ç‚¹æ•°è¦æ±‚
 };
 
-// ·À¾ß
+// é˜²å…·
 class Armor final : public Equipment
 {
 public:
@@ -59,7 +59,7 @@ public:
 private:
     int add_max_hp {};
     int add_max_mp {};
-    int defence {};              // ·ÀÓùÁ¦
-    double evasion {};           // ÉÁ±ÜÂÊ
-    int min_agility_to_equip {}; // ×°±¸µÄ×îĞ¡Ãô½İµãÊıÒªÇó
+    int defence {};              // é˜²å¾¡åŠ›
+    double evasion {};           // é—ªé¿ç‡
+    int min_agility_to_equip {}; // è£…å¤‡çš„æœ€å°æ•æ·ç‚¹æ•°è¦æ±‚
 };

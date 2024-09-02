@@ -1,14 +1,14 @@
-# ×îµÍ°æ±¾ cmake
+# æœ€ä½ç‰ˆæœ¬ cmake
 cmake_minimum_required(VERSION 3.20)
 
-# ÉèÖÃÏîÄ¿
+# è®¾ç½®é¡¹ç›®
 project(mud)
 
-# ÒªÇóÖÁÉÙ C++17 ±ê×¼
+# è¦æ±‚è‡³å°‘ C++17 æ ‡å‡†
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Ìí¼Ó .cpp Ô´ÎÄ¼ş
+# æ·»åŠ  .cpp æºæ–‡ä»¶
 file(GLOB SOURCES
      "src/*.cpp"
      "src/player/*.cpp"
@@ -18,24 +18,24 @@ file(GLOB SOURCES
      "src/npc/*.cpp"
      "src/skill/*.cpp")
 
-# É¾³ı byd windows ¶¨ÒåµÄ min ºÍ max
+# åˆ é™¤ byd windows å®šä¹‰çš„ min å’Œ max
 if (WIN32)
     add_definitions(-DNOMINMAX -D_USE_MATH_DEFINES)
 endif ()
 
-# Îª .cpp ÎÄ¼şÌí¼Ó¿ÉÖ´ĞĞÎÄ¼ş
+# ä¸º .cpp æ–‡ä»¶æ·»åŠ å¯æ‰§è¡Œæ–‡ä»¶
 add_executable(mud ${SOURCES})
 
-# Ìí¼ÓÍ·ÎÄ¼ş
+# æ·»åŠ å¤´æ–‡ä»¶
 target_include_directories(mud PUBLIC ${CMAKE_SOURCE_DIR}/includes)
 
-# Ìí¼Ó fmt Í·ÎÄ¼şÄ¿Â¼
+# æ·»åŠ  fmt å¤´æ–‡ä»¶ç›®å½•
 add_subdirectory(fmt)
 
-# Á´½Ó fmt ¿â
+# é“¾æ¥ fmt åº“
 target_link_libraries(mud PUBLIC fmt::fmt)
 
-# ÉèÖÃ ccache ¼ÓËÙ±àÒë
+# è®¾ç½® ccache åŠ é€Ÿç¼–è¯‘
 find_program(CCACHE_PROGRAM ccache)
 if (CCACHE_PROGRAM)
     message(STATUS "Found CCache: ${CCACHE_PROGRAM}")

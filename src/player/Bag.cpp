@@ -16,41 +16,41 @@ void Bag::display()
 {
     auto display_items = [](const auto &container, const string &label) {
         if (container.empty()) {
-            fmt::print("Äã»¹Ã»ÓĞ{}¡£\n", label);
+            fmt::print("ä½ è¿˜æ²¡æœ‰{}ã€‚\n", label);
         }
         else {
-            fmt::print("{}£º\n", label);
+            fmt::print("{}ï¼š\n", label);
             int i = 0;
             for (auto it = container.begin(); it != container.end(); ++it, ++i) {
                 fmt::print("{}. {}", i + 1, it->getName());
                 if ((i + 1) % 5 == 0) {
-                    fmt::print("\n"); // 5¸ö»»ĞĞ
+                    fmt::print("\n"); // 5ä¸ªæ¢è¡Œ
                 }
             }
             if (i % 5 != 0) {
-                fmt::print("\n"); // ×îºóÒ»ĞĞ»»ĞĞ
+                fmt::print("\n"); // æœ€åä¸€è¡Œæ¢è¡Œ
             }
         }
     };
 
-    display_items(weapons, "ÎäÆ÷");
-    display_items(armors, "·À¾ß");
+    display_items(weapons, "æ­¦å™¨");
+    display_items(armors, "é˜²å…·");
 
-    fmt::print("ÄãµÄµ¤Ò©ÓĞ£º\n");
-    fmt::print("»ØÑªµ¤£º \t ¸ß¼¶{}¿Å \t ÖĞ¼¶{}¿Å \t ³õ¼¶{}¿Å", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("»ØÔªµ¤£º \t ³õ¼¶{}¿Å \t ÖĞ¼¶{}¿Å \t ¸ß¼¶{}¿Å", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("ä½ çš„ä¸¹è¯æœ‰ï¼š\n");
+    fmt::print("å›è¡€ä¸¹ï¼š \t é«˜çº§{}é¢— \t ä¸­çº§{}é¢— \t åˆçº§{}é¢—", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("å›å…ƒä¸¹ï¼š \t åˆçº§{}é¢— \t ä¸­çº§{}é¢— \t é«˜çº§{}é¢—", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
 }
 
 void Bag::useEquipment(const Player &player)
 {
     display();
-    fmt::print("ÄãÏëÓÃÎäÆ÷[w]¡¢·À¾ß[a]»¹ÊÇÍË³ö[q]:\n");
+    fmt::print("ä½ æƒ³ç”¨æ­¦å™¨[w]ã€é˜²å…·[a]è¿˜æ˜¯é€€å‡º[q]:\n");
     string choice;
     size_t max_size;
     while (true) {
         cin >> choice;
         if (choice.length() > 1) {
-            fmt::print("ÎŞĞ§µÄÊäÈë£¡[w(ÎäÆ÷) / a(·À¾ß) / q(·ÅÆú)]£º");
+            fmt::print("æ— æ•ˆçš„è¾“å…¥ï¼[w(æ­¦å™¨) / a(é˜²å…·) / q(æ”¾å¼ƒ)]ï¼š");
             continue;
         }
         if (choice == "w") {
@@ -63,11 +63,11 @@ void Bag::useEquipment(const Player &player)
         }
         if (choice == "q")
             return;
-        fmt::print("ÎŞĞ§µÄÊäÈë£¡[w(ÎäÆ÷) / a(·À¾ß) / q(·ÅÆú)]£º");
+        fmt::print("æ— æ•ˆçš„è¾“å…¥ï¼[w(æ­¦å™¨) / a(é˜²å…·) / q(æ”¾å¼ƒ)]ï¼š");
     }
 
     while (true) {
-        fmt::print("ÄãÏë×°±¸ÄÄ¼ş(ÇëÊäÈëÆä±àºÅ, 0ÊÇÍË³ö):");
+        fmt::print("ä½ æƒ³è£…å¤‡å“ªä»¶(è¯·è¾“å…¥å…¶ç¼–å·, 0æ˜¯é€€å‡º):");
         int pos;
         while (true) {
             cin >> pos;
@@ -75,7 +75,7 @@ void Bag::useEquipment(const Player &player)
             if (0 < pos && pos < max_size) {
                 break;
             }
-            fmt::print("ÇëÊäÈë¶ÔµÄ±àºÅ\n");
+            fmt::print("è¯·è¾“å…¥å¯¹çš„ç¼–å·\n");
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
@@ -86,10 +86,10 @@ void Bag::useEquipment(const Player &player)
             auto &vec = get<vector<Weapon> >(equipment);
             vec[pos].showAttributes();
             if (vec[pos].getMinStrength() > player.getStrength()) {
-                fmt::print("ÄãµÄÁ¦Á¿²»×ãÒÔÊ¹ÓÃÕâ°ÑÎäÆ÷¡£\n");
+                fmt::print("ä½ çš„åŠ›é‡ä¸è¶³ä»¥ä½¿ç”¨è¿™æŠŠæ­¦å™¨ã€‚\n");
             }
             else {
-                fmt::print("×°±¸³É¹¦£¡\n");
+                fmt::print("è£…å¤‡æˆåŠŸï¼\n");
                 swap(vec[0], vec[pos]);
             }
             weapons = std::move(vec);
@@ -99,10 +99,10 @@ void Bag::useEquipment(const Player &player)
             auto &vec = get<vector<Armor> >(equipment);
             vec[pos].showAttributes();
             if (vec[pos].getMinAgility() > player.getStrength()) {
-                fmt::print("ÄãµÄÁ¦Á¿²»×ãÒÔÊ¹ÓÃÕâ°ÑÎäÆ÷¡£\n");
+                fmt::print("ä½ çš„åŠ›é‡ä¸è¶³ä»¥ä½¿ç”¨è¿™æŠŠæ­¦å™¨ã€‚\n");
             }
             else {
-                fmt::print("×°±¸³É¹¦£¡\n");
+                fmt::print("è£…å¤‡æˆåŠŸï¼\n");
                 swap(vec[0], vec[pos]);
             }
             armors = std::move(vec);
@@ -112,17 +112,17 @@ void Bag::useEquipment(const Player &player)
 
 void Bag::usePill()
 {
-    fmt::print("ÄãµÄµ¤Ò©ÓĞ£º\n");
-    fmt::print("»ØÑªµ¤£º \t ¸ß¼¶{}¿Å \t ÖĞ¼¶{}¿Å \t ³õ¼¶{}¿Å", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("»ØÔªµ¤£º \t ³õ¼¶{}¿Å \t ÖĞ¼¶{}¿Å \t ¸ß¼¶{}¿Å", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
-    // Ñ¡Ôñµ¤Ò©ÀàĞÍ
-    fmt::print("ÄãÏëÓÃÊ²Ã´µ¤Ò©£¿[b(»ØÑªµ¤) / m(»ØÔªµ¤) / q(·ÅÆúÊ¹ÓÃ)]£º");
+    fmt::print("ä½ çš„ä¸¹è¯æœ‰ï¼š\n");
+    fmt::print("å›è¡€ä¸¹ï¼š \t é«˜çº§{}é¢— \t ä¸­çº§{}é¢— \t åˆçº§{}é¢—", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("å›å…ƒä¸¹ï¼š \t åˆçº§{}é¢— \t ä¸­çº§{}é¢— \t é«˜çº§{}é¢—", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    // é€‰æ‹©ä¸¹è¯ç±»å‹
+    fmt::print("ä½ æƒ³ç”¨ä»€ä¹ˆä¸¹è¯ï¼Ÿ[b(å›è¡€ä¸¹) / m(å›å…ƒä¸¹) / q(æ”¾å¼ƒä½¿ç”¨)]ï¼š");
     string type_choice;
     Pill::Type type;
     while (true) {
         cin >> type_choice;
         if (type_choice.length() > 1) {
-            fmt::print("ÎŞĞ§µÄÊäÈë£¡[b(»ØÑªµ¤) / m(»ØÔªµ¤) / q(·ÅÆúÊ¹ÓÃ)]£º");
+            fmt::print("æ— æ•ˆçš„è¾“å…¥ï¼[b(å›è¡€ä¸¹) / m(å›å…ƒä¸¹) / q(æ”¾å¼ƒä½¿ç”¨)]ï¼š");
             continue;
         }
         switch (type_choice[0]) {
@@ -133,21 +133,21 @@ void Bag::usePill()
                 type = Pill::Type::MANA_PILL;
                 break;
             case 'q':
-                fmt::print("È¡ÏûÊ¹ÓÃµ¤Ò©¡£\n");
+                fmt::print("å–æ¶ˆä½¿ç”¨ä¸¹è¯ã€‚\n");
                 return;
             default:
-                fmt::print("ÎŞĞ§Ö¸Áî£¡[b / m / q]£º\n");
+                fmt::print("æ— æ•ˆæŒ‡ä»¤ï¼[b / m / q]ï¼š\n");
                 continue;
         }
         break;
     }
-    // Ñ¡Ôñµ¤Ò©´óĞ¡
-    fmt::print("Ñ¡Ôñµ¤Ò©´óĞ¡£º[s(³õ¼¶) / m(ÖĞ¼¶) / l(¸ß¼¶)]£º");
+    // é€‰æ‹©ä¸¹è¯å¤§å°
+    fmt::print("é€‰æ‹©ä¸¹è¯å¤§å°ï¼š[s(åˆçº§) / m(ä¸­çº§) / l(é«˜çº§)]ï¼š");
     string size_choice;
     while (true) {
         cin >> size_choice;
         if (size_choice.length() > 1) {
-            fmt::print("ÎŞĞ§µÄÊäÈë£¡[s(³õ¼¶) / m(ÖĞ¼¶) / l(¸ß¼¶)]£º");
+            fmt::print("æ— æ•ˆçš„è¾“å…¥ï¼[s(åˆçº§) / m(ä¸­çº§) / l(é«˜çº§)]ï¼š");
             continue;
         }
         Pill::Size size;
@@ -162,18 +162,18 @@ void Bag::usePill()
                 size = Pill::Size::BIG;
                 break;
             case 'q':
-                fmt::print("·ÅÆúÊ¹ÓÃµ¤Ò©¡£\n");
+                fmt::print("æ”¾å¼ƒä½¿ç”¨ä¸¹è¯ã€‚\n");
                 return;
             default:
-                fmt::print("ÎŞĞ§Ö¸Áî£¡[s / m / l / q]£º\n");
+                fmt::print("æ— æ•ˆæŒ‡ä»¤ï¼[s / m / l / q]ï¼š\n");
                 continue;
         }
 
-        // Ê¹ÓÃÑ¡ÔñµÄµ¤Ò©
+        // ä½¿ç”¨é€‰æ‹©çš„ä¸¹è¯
         const Pill pill {type, size};
         const string name = pill.getPillName();
         if (pills[pill] == 0) {
-            fmt::print("ÄãÃ»ÓĞ{}!\n", name);
+            fmt::print("ä½ æ²¡æœ‰{}!\n", name);
             return;
         }
         pills[pill] -= 1;
@@ -185,12 +185,12 @@ int Bag::addPill(const Pill pill, const int num)
     auto &amount = pills[pill];
     if (amount + num > 10) {
         amount = 10;
-        fmt::println("Äã³¢ÊÔ°Ñ×îºóµÄµ¤Ò©·Å½øÈ¥£¬¿ÉÏ§Å¬Á¦ÁË°ëÌìÖ»ÄÜ×°ÏÂ10¿Å");
+        fmt::println("ä½ å°è¯•æŠŠæœ€åçš„ä¸¹è¯æ”¾è¿›å»ï¼Œå¯æƒœåŠªåŠ›äº†åŠå¤©åªèƒ½è£…ä¸‹10é¢—");
         return 0;
     }
     amount += num;
 
-    fmt::print("Ìí¼ÓÁË{}¸ö{}¡£\n", num, pill.getPillName());
+    fmt::print("æ·»åŠ äº†{}ä¸ª{}ã€‚\n", num, pill.getPillName());
     return num;
 }
 

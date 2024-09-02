@@ -6,8 +6,8 @@
 
 class NPC
 {
-    Task task;         // ÈÎÎñ
-    int experience {}; // ÈÎÎñµÄ¾­Ñé
+    Task task;         // ä»»åŠ¡
+    int experience {}; // ä»»åŠ¡çš„ç»éªŒ
 };
 
 class EquipmentGiving : public NPC

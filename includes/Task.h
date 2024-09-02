@@ -5,10 +5,10 @@
 class Task
 {
 public:
-    // 完成任务
+    // 瀹屾垚浠诲姟
     void finish();
 
 private:
-    std::string name {}; // 名字
-    int experience {};   // 完成后的经验
+    std::string name {}; // 鍚嶅瓧
+    int experience {};   // 瀹屾垚鍚庣殑缁忛獙
 };

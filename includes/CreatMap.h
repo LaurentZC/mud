@@ -7,7 +7,7 @@
 #include "Area.h"
 #include "fmt/color.h"
 
-// ³ÇÃÅÎ»ÖÃ
+// åŸé—¨ä½ç½®
 // @formatter:off
 inline std::unordered_map<std::string, std::pair<int, int> > Gates = {
     {area("main_city"), {3, 1}},
