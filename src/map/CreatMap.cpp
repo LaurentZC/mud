@@ -31,7 +31,7 @@ void changeColor(string &text, const vector<TextColor> &colors)
 //  X        X       Ёг це      X          X
 Area creatMainCity()
 {
-    Area main_city("main_city");
+    Area main_city(area("main_city"));
     auto &rooms = main_city.getArea();
     ifstream input_file("MainCity.txt");
     if (!input_file.is_open()) {
@@ -70,7 +70,7 @@ Area creatMainCity()
 
 Area creatWuWeiCheng()
 {
-    Area wu_wei_cheng("wu_wei_cheng");
+    Area wu_wei_cheng(area("wu_wei_cheng"));
     auto &rooms = wu_wei_cheng.getArea();
     ifstream input_file("WuWeiCheng.txt");
     if (!input_file.is_open()) {
@@ -121,7 +121,7 @@ Area creatWuWeiCheng()
 
 Area creatShangHui()
 {
-    Area shang_hui("shang_hui");
+    Area shang_hui(area("shang_hui"));
     auto &rooms = shang_hui.getArea();
     ifstream input_file("ShangHui.txt");
     if (!input_file.is_open()) {

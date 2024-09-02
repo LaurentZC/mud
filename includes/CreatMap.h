@@ -8,11 +8,13 @@
 #include "fmt/color.h"
 
 // ³ÇÃÅÎ»ÖÃ
+// @formatter:off
 inline std::unordered_map<std::string, std::pair<int, int> > Gates = {
-    {area("main_city"), std::make_pair(3, 1)},
-    {area("wu_wei_cheng"), std::make_pair(3, 1)},
-    {area("shang_hui"), std::make_pair(3, 5)}
+    {area("main_city"), {3, 1}},
+    {area("wu_wei_cheng"), {3, 1}},
+    {area("shang_hui"), {3, 5}}
 };
+// @formatter:on
 
 struct TextColor
 {

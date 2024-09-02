@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BackendCodeEditorSettings">
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Windows_0020Form_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Windows Form Designer generated code" type="string" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Windows_0020Form_0020Designer_0020generated_0020code/@EntryIndexRemoved" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Component_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Component Designer generated code" type="string" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Component_0020Designer_0020generated_0020code/@EntryIndexRemoved" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Designer_0020generated_0020code/@EntryIndexedValue" value="Designer generated code" type="string" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Designer_0020generated_0020code/@EntryIndexRemoved" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Web_0020Form_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Web Form Designer generated code" type="string" />
-    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Web_0020Form_0020Designer_0020generated_0020code/@EntryIndexRemoved" />
-    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/CASE_BLOCK_BRACES/@EntryValue" value="END_OF_LINE" type="string" />
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_BEFORE_PTR_IN_DATA_MEMBER/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_AFTER_PTR_IN_DATA_MEMBER/@EntryValue" value="false" type="bool" />
@@ -76,13 +67,18 @@
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_BEFORE_REF_IN_METHOD/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_AFTER_REF_IN_METHOD/@EntryValue" value="false" type="bool" />
     <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_BEFORE_REF_IN_ABSTRACT_DECL/@EntryValue" value="true" type="bool" />
+    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Windows_0020Form_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Windows Form Designer generated code" type="string" />
+    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Component_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Component Designer generated code" type="string" />
+    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Designer_0020generated_0020code/@EntryIndexedValue" value="Designer generated code" type="string" />
+    <option name="/Default/CodeInspection/GeneratedCode/GeneratedCodeRegions/=Web_0020Form_0020Designer_0020generated_0020code/@EntryIndexedValue" value="Web Form Designer generated code" type="string" />
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8BC9CEB8_002D8B4A_002D11D0_002D8D11_002D00A0C91BC942_002Ff_003Amain_002Ecpp/@EntryIndexedValue" value="ForceIncluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=8BC9CEB8_002D8B4A_002D11D0_002D8D11_002D00A0C91BC942_002Ff_003AIntMatrix_002Ecpp/@EntryIndexedValue" value="ForceIncluded" type="string" />
     <option name="/Default/CodeEditing/TypingAssist/Cpp/CloseBlockComment/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aallocator_002Eh_002Fl_003AD_0021_003Fapp_003FJetBrain_003FCLion_0020Nova_003Fbin_003Fmingw_003Flib_003Fgcc_003Fx86_005F64_002Dw64_002Dmingw32_003F13_002E1_002E0_003Finclude_003Fc_002B_002B_003Fbits_003Fallocator_002Eh/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aiostream_002Fl_003AD_0021_003Fapp_003FJetBrain_003FCLion_003Fbin_003Fmingw_003Flib_003Fgcc_003Fx86_005F64_002Dw64_002Dmingw32_003F13_002E1_002E0_003Finclude_003Fc_002B_002B_003Fiostream/@EntryIndexedValue" value="ForceIncluded" type="string" />
     <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
-    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="166" type="long" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="38" type="long" />
     <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/@KeyIndexDefined" value="true" type="bool" />
     <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Reformat/@EntryValue" value="true" type="bool" />
     <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
@@ -130,6 +126,7 @@
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aiostream_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003Fusr_003Finclude_003Fc_002B_002B_003F12_003Fiostream/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003Aistream_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003Fusr_003Finclude_003Fc_002B_002B_003F12_003Fistream/@EntryIndexedValue" value="ExplicitlyExcluded" type="string" />
     <option name="/Default/Environment/UserInterface/HierarchyView/ViewStyle/@EntryValue" value="SuperTypes" type="string" />
+    <option name="/Default/Housekeeping/RefactoringsMru/RenameRefactoring/DoSearchForTextInStrings/@EntryValue" value="true" type="bool" />
     <option name="/Default/CodeInspection/Highlighting/InspectionSeverities/=CppInconsistentNaming/@EntryIndexedValue" value="HINT" type="string" />
     <option name="/Default/CodeInspection/Highlighting/InspectionSeverities/=CppInconsistentNaming/@EntryIndexRemoved" />
   </component>

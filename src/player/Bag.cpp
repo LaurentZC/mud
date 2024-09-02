@@ -1,11 +1,11 @@
-#include "../../includes/Bag.h"
+#include "Bag.h"
 
 #include <algorithm>
 #include <iostream>
 #include <variant>
 
-#include "../../includes/Helper.h"
-#include "../../includes/Player.h"
+#include "Helper.h"
+#include "Player.h"
 #include "../../fmt/include/fmt/core.h"
 
 using namespace std;
@@ -22,8 +22,7 @@ void Bag::display()
             fmt::print("{}£º\n", label);
             int i = 0;
             for (auto it = container.begin(); it != container.end(); ++it, ++i) {
-                fmt::print("{}. ", i + 1);
-                it->getName();
+                fmt::print("{}. {}", i + 1, it->getName());
                 if ((i + 1) % 5 == 0) {
                     fmt::print("\n"); // 5¸ö»»ÐÐ
                 }

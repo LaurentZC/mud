@@ -1,13 +1,13 @@
 #include "Area.h"
 #include <string>
 #include <vector>
-#include "Helper.h"
+#include "fmt/color.h"
 
 using namespace std;
 
 Room::Room() = default;
 
-Room::Room(string name, const Content content) : name(std::move(name)), content(content) { }
+Room::Room(string name, const Content content) : name(std::move(format(fg(fmt::color::blue), "{}", std::move(name)))), content(content) { }
 
 string Room::getName() const { return name; }
 
@@ -21,10 +21,10 @@ string Room::getDescription() const { return description; }
 
 void Room::setDescription(string description) { this->description = std::move(description); }
 
-void Room::setup(const string &name, string description, const Content content)
+void Room::setup(string name, string description, const Content content)
 {
     this->can_pass = true;
-    this->name = place(name);
+    this->name = std::move(format(fg(fmt::color::blue), "{}", name));
     this->description = std::move(description);
     this->content = content;
 }

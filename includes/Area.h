@@ -43,7 +43,7 @@ public:
     [[nodiscard]] bool canPass() const;
     [[nodiscard]] std::string getDescription() const;
     void setDescription(std::string description);
-    void setup(const std::string &name, std::string description, Content content);
+    void setup(std::string name, std::string description, Content content);
 
 private:
     bool can_pass {};                 // ÄÜ·ñÍ¨¹ý
