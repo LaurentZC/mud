@@ -31,7 +31,7 @@ void Player::checkSkill() const
         fmt::println("你没有习得任何技能！");
         return;
     }
-    fmt::println("你习得的技能有：");
+    fmt::println("你习得的技能有: ");
     int i = 0;
     for (auto it = skills.begin(); it != skills.end(); ++it, ++i) {
         fmt::print("{}. {}", i + 1, it->getName());
@@ -44,36 +44,9 @@ void Player::checkSkill() const
     }
 }
 
-int Player::useSkill()
-{
-    checkSkill();
-    while (true) {
-        fmt::println("你想用哪个技能(请输入其编号，0是退出)：");
-        int pos;
-        while (true) {
-            cin >> pos;
-            if (pos == 0)
-                return 0;
-            if (0 < pos && pos < skills.size()) {
-                break;
-            }
-            fmt::print("请输入对的编号\n");
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-        if (skills[pos].getConsumption() > mp) {
-            fmt::println("技能释放成功!");
-            swap(skills[pos], skills[0]);
-            return 1;
-        }
-        fmt::println("元气不足，不能释放技能");
-        return 0;
-    }
-}
-
 void Player::usePoint()
 {
-    fmt::print("请选择你想要加点的选项：\n");
+    fmt::print("请选择你想要加点的选项: \n");
     while (true) {
         fmt::print("健康点数[health] \t 攻击点数 [strength] \t 敏捷点数[agility]\n");
         string choice;

@@ -2,13 +2,13 @@
 
 #include <chrono>
 #include <thread>
+#include <windows.h>
+
 #include "fmt/color.h"
 
-using namespace std;
+std::string area(const std::string &text) { return format(fg(fmt::color::purple), "{}", text); }
 
-string area(const string &text) { return format(fg(fmt::color::purple), "{}", text); }
-
-string npc(const string &text) { return format(fg(fmt::color::green), "{}", text); }
+std::string npc(const std::string &text) { return format(fg(fmt::color::green), "{}", text); }
 
 void waitForLoad(const int total_time_ms)
 {
@@ -27,6 +27,26 @@ void waitForLoad(const int total_time_ms)
                 fmt::print(" ");
         }
         fmt::print("] {}% \r", static_cast<int>(progress_rate * total));
-        this_thread::sleep_for(chrono::milliseconds(total_time_ms / total));
+        std::this_thread::sleep_for(std::chrono::milliseconds(total_time_ms / total));
+    }
+    fmt::print("\n");
+}
+
+char waitForAnyKey()
+{
+    const auto input_handle = GetStdHandle(STD_INPUT_HANDLE);
+    INPUT_RECORD input_record;
+    DWORD events_read;
+
+    while (true) {
+        // @formatter:off
+        // 读取控制台输入事件
+        if (ReadConsoleInput(input_handle, &input_record, 1, &events_read) &&
+                             input_record.EventType == KEY_EVENT &&
+                             input_record.Event.KeyEvent.bKeyDown) {
+            // 如果是键盘按下事件，则跳出循环
+            return input_record.Event.KeyEvent.uChar.AsciiChar;
+        }
+        // @formatter:on
     }
 }

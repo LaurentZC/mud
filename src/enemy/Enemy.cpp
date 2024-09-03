@@ -33,30 +33,43 @@ void Enemy::showEnemy() const
 
 Enemy::Type Enemy::getType() const { return type; }
 void Enemy::setType(const Type type) { this->type = type; }
+
 string Enemy::getName() const { return name; }
 void Enemy::setName(const string &name) { this->name = name; }
+
 int Enemy::getLevel() const { return level; }
 void Enemy::setLevel(const int level) { this->level = level; }
+
 int Enemy::getHp() const { return hp; }
-void Enemy::setHp(const int hp) { this->hp = hp; }
+void Enemy::decHp(const int hp) { this->hp -= hp; }
+
 int Enemy::getMaxHp() const { return max_hp; }
 void Enemy::setMaxHp(const int max_hp) { this->max_hp = max_hp; }
+
 int Enemy::getDefence() const { return defence; }
 void Enemy::setDefence(const int defence) { this->defence = defence; }
+
 int Enemy::getExperience() const { return experience; }
 void Enemy::setExperience(const int experience) { this->experience = experience; }
+
 int Enemy::getMoney() const { return money; }
 void Enemy::setMoney(const int money) { this->money = money; }
+
 int Enemy::getAttack() const { return attack; }
 void Enemy::setAttack(const int attack) { this->attack = attack; }
+
 int Enemy::getWeapon() const { return weapon; }
 void Enemy::setWeapon(const int weapon) { this->weapon = weapon; }
+
 int Enemy::getArmor() const { return armor; }
 void Enemy::setArmor(const int armor) { this->armor = armor; }
+
 double Enemy::getCritical() const { return critical; }
 void Enemy::setCritical(const double critical) { this->critical = critical; }
+
 double Enemy::getEvasion() const { return evasion; }
 void Enemy::setEvasion(const double evasion) { this->evasion = evasion; }
+
 int Enemy::getSkillId() const { return skill_id; }
 void Enemy::setSkillId(const int skill_id) { this->skill_id = skill_id; }
 

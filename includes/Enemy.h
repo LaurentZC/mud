@@ -2,8 +2,6 @@
 
 #include <string>
 
-using namespace std;
-
 class Enemy
 {
 public:
@@ -17,12 +15,12 @@ public:
 
     [[nodiscard]] Type getType() const;
     void setType(Type type);
-    [[nodiscard]] string getName() const;
-    void setName(const string &name);
+    [[nodiscard]] std::string getName() const;
+    void setName(const std::string &name);
     [[nodiscard]] int getLevel() const;
     void setLevel(int level);
     [[nodiscard]] int getHp() const;
-    void setHp(int hp);
+    void decHp(int hp);
     [[nodiscard]] int getMaxHp() const;
     void setMaxHp(int max_hp);
     [[nodiscard]] int getDefence() const;
@@ -46,7 +44,7 @@ public:
 
 private:
     Type type {Type::SMALL}; // 怪物类型
-    string name {};          // 怪物名字
+    std::string name {};          // 怪物名字
     int level {};            // 等级
     int hp {};               // 血量
     int max_hp {};           // 满血量

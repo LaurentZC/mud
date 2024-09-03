@@ -19,7 +19,7 @@ void Bag::display()
             fmt::print("你还没有{}。\n", label);
         }
         else {
-            fmt::print("{}：\n", label);
+            fmt::print("{}: \n", label);
             int i = 0;
             for (auto it = container.begin(); it != container.end(); ++it, ++i) {
                 fmt::print("{}. {}", i + 1, it->getName());
@@ -36,9 +36,9 @@ void Bag::display()
     display_items(weapons, "武器");
     display_items(armors, "防具");
 
-    fmt::print("你的丹药有：\n");
-    fmt::print("回血丹： \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("你的丹药有: \n");
+    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
 }
 
 void Bag::useEquipment(const Player &player)
@@ -50,7 +50,7 @@ void Bag::useEquipment(const Player &player)
     while (true) {
         cin >> choice;
         if (choice.length() > 1) {
-            fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
+            fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]: ");
             continue;
         }
         if (choice == "w") {
@@ -63,7 +63,7 @@ void Bag::useEquipment(const Player &player)
         }
         if (choice == "q")
             return;
-        fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]：");
+        fmt::print("无效的输入！[w(武器) / a(防具) / q(放弃)]: ");
     }
 
     while (true) {
@@ -112,11 +112,11 @@ void Bag::useEquipment(const Player &player)
 
 void Bag::usePill()
 {
-    fmt::print("你的丹药有：\n");
-    fmt::print("回血丹： \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹： \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("你的丹药有: \n");
+    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     // 选择丹药类型
-    fmt::print("你想用什么丹药？[b(回血丹) / m(回元丹) / q(放弃使用)]：");
+    fmt::print("你想用什么丹药？[b(回血丹) / m(回元丹) / q(放弃使用)]: ");
     string type_choice;
     Pill::Type type;
     while (true) {

@@ -79,11 +79,11 @@ void changeMap(Area &map, int &x, int &y)
 void movePlayerLocation(Area &map, int &x, int &y)
 {
     string command;
-    fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit)：");
+    fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit): ");
     while (true) {
         cin >> command;
         if (command.length() != 1 || strchr("wasdq", command[0]) == nullptr) {
-            fmt::print("无效的指令！[w / a / s / d / q]：");
+            fmt::print("无效的指令！[w / a / s / d / q]: ");
             continue;
         }
         if (isValidMove(x, y, map, command[0])) {
@@ -106,7 +106,7 @@ void movePlayerLocation(Area &map, int &x, int &y)
             }
             break;
         }
-        fmt::print("前方是一堵墙，你无法通过。\n请换一个方向吧 [w / a / s / d / q]：");
+        fmt::print("前方是一堵墙，你无法通过。\n请换一个方向吧 [w / a / s / d / q]: ");
     }
     handlePlayerAction(map, x, y);
 }
@@ -168,7 +168,7 @@ void handlePlayerAction(Area &map, const int x, const int y)
                 return true;
             if (input == "n" || input == "N")
                 return false;
-            cout << "无效指令！[y / n]：";
+            cout << "无效指令！[y / n]: ";
         }
     };
 
@@ -192,7 +192,7 @@ void handlePlayerAction(Area &map, const int x, const int y)
         break;
 
         default : // 小怪，精英怪，boss
-            fmt::print("你是要发动攻击(y)还是先打开背包休整一下(n)：");
+            fmt::print("你是要发动攻击(y)还是先打开背包休整一下(n): ");
         if (!get_yes_or_no()) {
             // player.openBag();
             break;

@@ -14,7 +14,6 @@ public:
     void showPlayer() const;
     void checkSkill() const;
 
-    int useSkill();
     void usePoint();
 
     void gainWeapon(int index) const;

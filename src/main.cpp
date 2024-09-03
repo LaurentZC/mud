@@ -1,7 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
-#include <windows.h>
 
 #include "Area.h"
 #include "CreatMap.h"
@@ -14,25 +13,6 @@ using namespace std;
 auto MainCity = creatMainCity();
 Player Player;
 
-void waitForAnyKey()
-{
-    const auto input_handle = GetStdHandle(STD_INPUT_HANDLE);
-    INPUT_RECORD input_record;
-    DWORD events_read;
-
-    while (true) {
-        // @formatter:off
-        // 读取控制台输入事件
-        if (ReadConsoleInput(input_handle, &input_record, 1, &events_read) &&
-                             input_record.EventType == KEY_EVENT &&
-                             input_record.Event.KeyEvent.bKeyDown) {
-            // 如果是键盘按下事件，则跳出循环
-            break;
-        }
-        // @formatter:on
-    }
-}
-
 int main()
 {
     bool quit = true;
@@ -40,7 +20,7 @@ int main()
     auto &[x, y] = Gates[current_map.getName()];
     printMap(current_map.getArea());
     while (quit) {
-        fmt::print("\n移动： move \t 打开背包：bag \t 和npc对话：chat \t 环视周围：watch \t 退出：quit \n");
+        fmt::print("\n移动:  move \t 打开背包: bag \t 和npc对话: chat \t 环视周围: watch \t 退出: quit \n");
         string command;
         cin >> command;
 
