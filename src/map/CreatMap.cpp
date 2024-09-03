@@ -41,10 +41,9 @@ void changeColor(string &text, const vector<TextColor> &colors)
 //  X        X       城 门      X          X
 Area creatMainCity()
 {
-    fmt::println("begin");
     Area main_city(area("main_city"));
     auto &rooms = main_city.getArea();
-    ifstream input_file("MainCity.txt");
+    ifstream input_file("../files/MainCity.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file MainCity.txt" << endl;
         exit(1);
@@ -62,7 +61,6 @@ Area creatMainCity()
     int x, y;
     string name, description, content;
     while (input_file >> x >> y >> name >> description >> content) {
-        fmt::println("read");
         Room::Content content_handled;
         changeColor(description, COLORS);
         if (content == "empty")
@@ -70,9 +68,7 @@ Area creatMainCity()
         if (content == "npc")
             content_handled = Room::Content::NPC;
         rooms[x][y].setup(name, description, content_handled);
-        fmt::println("read finish");
     }
-    fmt::println("end");
     return main_city;
 }
 
@@ -86,7 +82,7 @@ Area creatWuWeiCheng()
 {
     Area wu_wei_cheng(area("wu_wei_cheng"));
     auto &rooms = wu_wei_cheng.getArea();
-    ifstream input_file("WuWeiCheng.txt");
+    ifstream input_file("../files/WuWeiCheng.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file WuWeiCheng.txt" << endl;
         exit(1);
@@ -137,7 +133,7 @@ Area creatShangHui()
 {
     Area shang_hui(area("shang_hui"));
     auto &rooms = shang_hui.getArea();
-    ifstream input_file("ShangHui.txt");
+    ifstream input_file("../files/ShangHui.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file ShangHui.txt" << endl;
         exit(1);

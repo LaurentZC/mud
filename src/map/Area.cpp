@@ -11,6 +11,8 @@ Room::Room(string name, const Content content) : name(std::move(format(fg(fmt::c
 
 string Room::getName() const { return name; }
 
+void Room::setName(const string &name) { this->name = name; }
+
 Room::Content Room::getContent() const { return content; }
 
 void Room::setContent(const Content content) { this->content = content; }
@@ -24,7 +26,7 @@ void Room::setDescription(string description) { this->description = std::move(de
 void Room::setup(string name, string description, const Content content)
 {
     this->can_pass = true;
-    this->name = std::move(format(fg(fmt::color::blue), "{}", name));
+    this->name = std::move(name);
     this->description = std::move(description);
     this->content = content;
 }

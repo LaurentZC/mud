@@ -38,7 +38,7 @@ int main()
     bool quit = true;
     auto &current_map = MainCity;
     auto &[x, y] = Gates[current_map.getName()];
-    // fmt::print("{}", MainCity);
+    printMap(current_map.getArea());
     while (quit) {
         fmt::print("\n移动： move \t 打开背包：bag \t 和npc对话：chat \t 环视周围：watch \t 退出：quit \n");
         string command;

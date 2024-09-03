@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/CodeEditing/TypingAssist/Cpp/CloseBlockComment/@EntryValue" value="true" type="bool" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppCodeGeneration" type="string" />
+    <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="37" type="long" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Shortcut/@EntryValue" value="binarySearch" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Description/@EntryValue" value="二分查找" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/Text/@EntryValue" value="int binarySearch(vector&lt;int&gt; &amp;nums, int target)&#10;{&#10;    int left = 0, right = nums.size() - 1;&#10;&#10;    while (left &lt;= right)&#10;    {&#10;        int mid = left + ((right - left) &gt;&gt; 1);&#10;&#10;        if (nums[mid] == right)&#10;            return mid;&#10;        else if (nums[mid] &lt; target)&#10;            left = mid + 1;&#10;        else&#10;            right = mid - 1;&#10;    }&#10;    return -1;&#10;}" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=EBB310C571F5A64784403B4F8146C692/IsBlessed/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/Shortcut/@EntryValue" value="binarySearch" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=F9303DBD0F2346469BA1D93DE693D577/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Shortcut/@EntryValue" value="cvvec" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Description/@EntryValue" value="二维向量" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=456F93808A5DB746963718622D258E1A/Text/@EntryValue" value="vector&lt;vector&lt;int&gt;&gt; $name$($n$, vector&lt;int&gt;($m$));" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Text/@EntryValue" value="vector&lt;int&gt; sieve(int n)&#10;{&#10;    vector&lt;int&gt; primes;&#10;    vector&lt;bool&gt; nums(n + 1, true);&#10;&#10;    for (int i = 2; i &lt;= n; i++)&#10;    {&#10;        if (nums[i])&#10;            primes.emplace_back(i);&#10;&#10;        for (int j = 0; j &lt; primes.size() &amp;&amp; i * primes[j] &lt;= n; j++)&#10;        {&#10;            nums[i * primes[j]] = false;&#10;            if (i % primes[j] == 0)&#10;                break;&#10;        }&#10;    }&#10;    return primes;&#10;}" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Shortcut/@EntryValue" value="esieve" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=468537712F9FEA40BF15A7624ECFEF6B/Description/@EntryValue" value="欧拉素数筛" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Text/@EntryValue" value="#include &lt;bits/stdc++.h&gt;&#10;using namespace std;&#10;&#10;int main()&#10;{&#10;    ios::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);&#10;&#10;    return 0;&#10;}" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Shortcut/@EntryValue" value="lk" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=42AFDC1DB1881D42A7E65F666FADB3AB/Description/@EntryValue" value="OJ" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=215E7054AB495A4F9AFB50ABDD50E987/Field/=TYPE/Expression/@EntryValue" value="guessExpectedType(&quot;&quot;)" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=215E7054AB495A4F9AFB50ABDD50E987/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/Type/@EntryValue" value="Everywhere" type="string" />
+    <option name="/Default/Environment/UserInterface/HierarchyView/ViewStyle/@EntryValue" value="SuperTypes" type="string" />
+    <option name="/Default/Housekeeping/RefactoringsMru/RenameRefactoring/DoSearchForTextInStrings/@EntryValue" value="true" type="bool" />
+  </component>
   <component name="CMakePythonSetting">
     <option name="pythonIntegrationState" value="YES" />
   </component>

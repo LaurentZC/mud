@@ -29,35 +29,44 @@ void changeMap(Area &map, int &x, int &y)
         }
         switch (input[0]) {
             case '1' :
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
-                // fmt::print("{}\n", map);
+                map = creatWuWeiCheng();
+                x = Gates[map.getName()].first;
+                y = Gates[map.getName()].second;
                 waitForLoad(100);
+            // npc.talk();
+                printMap(map.getArea());
                 return;
             case '2' :
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
+                map = creatShangHui();
+                x = Gates[map.getName()].first;
+                y = Gates[map.getName()].second;
                 waitForLoad(100);
+            // npc.talk();
+                printMap(map.getArea());
                 return;
             case '3' :
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
+                map = creatWuWeiCheng();
+                x = Gates[map.getName()].first;
+                y = Gates[map.getName()].second;
                 waitForLoad(100);
+            // npc.talk();
+                printMap(map.getArea());
                 return;
             case '4' :
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
+                map = creatWuWeiCheng();
+                x = Gates[map.getName()].first;
+                y = Gates[map.getName()].second;
                 waitForLoad(100);
+            // npc.talk();
+                printMap(map.getArea());
                 return;
             case '5' :
-                // map = creat()
-                // x = Gates[map].first;
-                // y = Gates[map].second;
+                map = creatWuWeiCheng();
+                x = Gates[map.getName()].first;
+                y = Gates[map.getName()].second;
                 waitForLoad(100);
+            // npc.talk();
+                printMap(map.getArea());
                 return;
             case 'q' :
                 return;
@@ -70,11 +79,11 @@ void changeMap(Area &map, int &x, int &y)
 void movePlayerLocation(Area &map, int &x, int &y)
 {
     string command;
+    fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit)：");
     while (true) {
-        fmt::print("你想往哪里走呢？[w / a / s / d]：");
         cin >> command;
-        if (command.length() != 1 || strchr("wasd", command[0]) == nullptr) {
-            fmt::print("无效的指令！[w / a / s / d]：");
+        if (command.length() != 1 || strchr("wasdq", command[0]) == nullptr) {
+            fmt::print("无效的指令！[w / a / s / d / q]：");
             continue;
         }
         if (isValidMove(x, y, map, command[0])) {
@@ -91,12 +100,13 @@ void movePlayerLocation(Area &map, int &x, int &y)
                 case 'd' :
                     ++x;
                     break;
-                default :
-                    break;
+                case 'q' :
+                    return;
+                default : ;
             }
             break;
         }
-        fmt::print("前方是一堵墙，你无法通过。\n请换一个方向吧 [w / a / s / d]：");
+        fmt::print("前方是一堵墙，你无法通过。\n请换一个方向吧 [w / a / s / d / q]：");
     }
     handlePlayerAction(map, x, y);
 }
@@ -141,7 +151,9 @@ bool isValidMove(const int x, const int y, Area &map, const char dir)
             return x - 1 >= 1 && rooms[x - 1][y].canPass();
         case 'r' :
             return x + 1 <= MAP_MAX_SIZE && rooms[x + 1][y].canPass();
-        default :
+        case 'q' :
+            return true;
+        default:
             return false;
     }
 }
@@ -190,22 +202,22 @@ void handlePlayerAction(Area &map, const int x, const int y)
     }
 }
 
-void printMap(std::vector<std::vector<std::string> > grid)
+void printMap(std::vector<std::vector<Room> > grid)
 {
     size_t max_width = 0;
     // 计算字符串的最大宽度
     for (auto &row : grid) {
         for (auto &cell : row) {
-            cell = fmt::format("[{}]", cell);
-            max_width = std::max(max_width, cell.length());
+            cell.setName(fmt::format("[{}]", cell.getName()));
+            max_width = std::max(max_width, cell.getName().length());
         }
     }
 
     // 补充对齐
     for (auto &row : grid) {
         for (auto &cell : row) {
-            string fill(max_width - cell.length(), ' ');
-            cell.append(fill);
+            string fill(max_width - cell.getName().length(), ' ');
+            cell.getName().append(fill);
         }
     }
 
@@ -213,12 +225,16 @@ void printMap(std::vector<std::vector<std::string> > grid)
 
     fmt::print("\n");
     for (const auto &row : grid) {
-        if (format("{}", fmt::join(row, "")).find_first_not_of(" \n[]") != string::npos) {
+        string check;
+        for (auto &cell : row) {
+            check += cell.getName();
+        }
+        if (check.find_first_not_of(" \n[]") != string::npos) {
             for (const auto &cell : row) {
-                if (format("{}", fmt::join(cell, "")).find_first_not_of(" \n[]") != string::npos)
-                    fmt::print(fg(fmt::color::blue), "{:<{}}{}{:<{}}", "", max_width >> 1, cell, "", max_width >> 1);
+                if (format("{}", fmt::join(cell.getName(), "")).find_first_not_of(" \n[]") != string::npos)
+                    print(fg(fmt::color::blue), "{:<{}}{}{:<{}}", "", max_width >> 1, cell.getName(), "", max_width >> 1);
                 else
-                    fmt::print(fg(fmt::color::blue), "{}", "", max_width);
+                    print(fg(fmt::color::blue), "{}", "", max_width);
             }
             fmt::print("\n");
         }

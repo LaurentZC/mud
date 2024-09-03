@@ -38,6 +38,7 @@ public:
 
     // getter & setter
     [[nodiscard]] std::string getName() const;
+    void setName(const std::string &name);
     [[nodiscard]] Content getContent() const;
     void setContent(Content content);
     [[nodiscard]] bool canPass() const;

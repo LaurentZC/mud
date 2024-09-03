@@ -12,6 +12,7 @@
     <file url="file://$PROJECT_DIR$/includes/CreatMap.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Enemy.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Equipment.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/includes/Fight.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Helper.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/NPC.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Pill.h" charset="UTF-8" />
@@ -19,6 +20,7 @@
     <file url="file://$PROJECT_DIR$/includes/Player.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Skill.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Task.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Fight.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Helper.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/enemy/Enemy.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/equipment/Equipment.cpp" charset="UTF-8" />
