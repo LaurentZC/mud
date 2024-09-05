@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
@@ -11,7 +12,31 @@
 using namespace std;
 
 auto MainCity = creatMainCity();
+
 Player Player;
+
+void creat()
+{
+
+}
+
+bool load()
+{
+    namespace fs = filesystem;
+    const fs::path path = "../files";
+    int i = 0;
+    for (const auto &entry : fs::directory_iterator(path)) {
+        if (entry.is_directory() && entry.path().filename() != "maps") {
+            ++i;
+            fmt::print("{}. {}", i, entry.path().filename().string());
+        }
+    }
+    if (i == 0) {
+        fmt::print("你还没有存档！\n");
+        return false;
+    }
+    return true;
+}
 
 int main()
 {
@@ -28,7 +53,7 @@ int main()
             movePlayerLocation(current_map, x, y);
         }
         else if (command == "bag") {
-            // player.openBag();
+            Player.openBag();
         }
         else if (command == "chat") {
             // if (npc != "马夫") {
@@ -36,6 +61,7 @@ int main()
             // }
             // else {
             // changeMap(current_map, x, y);
+            // }
         }
         else if (command == "watch") {
             // 看一看

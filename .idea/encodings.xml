@@ -20,6 +20,7 @@
     <file url="file://$PROJECT_DIR$/includes/Player.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Skill.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/includes/Task.h" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/includes/save.h" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Fight.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Helper.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/enemy/Enemy.cpp" charset="UTF-8" />
@@ -33,6 +34,7 @@
     <file url="file://$PROJECT_DIR$/src/npc/Task.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/player/Bag.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/player/Player.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/save.cpp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/skill/Skill.cpp" charset="UTF-8" />
   </component>
 </project>

@@ -1,17 +1,19 @@
 #include "Equipment.h"
 
-#include <array>
+#include <Player.h>
+#include <fstream>
 #include <utility>
 
-#include "fmt/color.h"
 #include "fmt/core.h"
 
 using namespace std;
 
+extern Player Player;
+
 // Equipment
 Equipment::Equipment() = default;
 
-Equipment::Equipment(std::string name, std::string description, const int money) : name(std::move(name)), description(std::move(description)), money(money) { }
+Equipment::Equipment(const int id, std::string name, std::string description, const int money) : id(id), name(std::move(name)), description(std::move(description)), money(money) { }
 
 Equipment::Equipment(Equipment &&) noexcept = default;
 
@@ -23,13 +25,14 @@ string Equipment::getName() const { return name; }
 
 int Equipment::getMoney() const { return money; }
 
+
 // Weapon
 Weapon::Weapon() = default;
 
 // @formatter:off
-Weapon::Weapon(std::string name, std::string description, const int money,
+Weapon::Weapon(const int id, std::string name, std::string description, const int money,
                const int damage, const double critical, const int min_strength_to_equip)
-              : Equipment(std::move(name), std::move(description), money),
+              : Equipment(id, std::move(name), std::move(description), money),
               damage(damage), critical(critical), min_strength_to_equip(min_strength_to_equip) { }
 // @formatter:on
 
@@ -70,13 +73,30 @@ void Weapon::showAttributes() const
     fmt::println("最小力量要求: {}", min_strength_to_equip);
 }
 
+void Weapon::save() const
+{
+    ofstream out_file("../../files/" + Player.getName() + "/Bag/weapon.dat", ios::binary);
+    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+}
+
+vector<int> Weapon::load()
+{
+    ifstream in_file("../../files/" + Player.getName() + "/Bag/weapon.dat", ios::binary);
+    vector<int> ids;
+    int id;
+    while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {
+        ids.emplace_back(id);
+    }
+    return ids;
+}
+
 // Armor
 Armor::Armor() = default;
 
 // @formatter:off
-Armor::Armor(std::string name, std::string description, const int money,
+Armor::Armor(const int id, std::string name, std::string description, const int money,
              const int add_max_hp, const int add_max_mp, const double evasion, const int defence, const int min_agility_to_equip)
-            : Equipment(std::move(name), std::move(description), money),
+            : Equipment(id,std::move(name), std::move(description), money),
             add_max_hp(add_max_hp), add_max_mp(add_max_mp), evasion(evasion), defence(defence), min_agility_to_equip(min_agility_to_equip) { }
 // @formatter:on
 
@@ -118,3 +138,20 @@ void Armor::showAttributes() const
 }
 
 int Armor::getMinAgility() const { return min_agility_to_equip; }
+
+void Armor::save() const
+{
+    ofstream out_file("../../files/" + Player.getName() + "/Bag/armor.dat", ios::binary);
+    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+}
+
+vector<int> Armor::load()
+{
+    ifstream in_file("../../files/" + Player.getName() + "/Bag/armor.dat", ios::binary);
+    vector<int> ids;
+    int id;
+    while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {
+        ids.emplace_back(id);
+    }
+    return ids;
+}

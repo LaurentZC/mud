@@ -1,16 +1,17 @@
 #include "Bag.h"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <variant>
 
-#include "Helper.h"
 #include "Player.h"
-#include "../../fmt/include/fmt/core.h"
+#include "fmt/core.h"
 
 using namespace std;
 
-Bag::Bag() = default;
+extern Player Player;
 
 void Bag::display()
 {
@@ -33,15 +34,17 @@ void Bag::display()
         }
     };
 
+    fmt::print("\n\n");
     display_items(weapons, "武器");
     display_items(armors, "防具");
 
     fmt::print("你的丹药有: \n");
-    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗\n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("\n");
 }
 
-void Bag::useEquipment(const Player &player)
+void Bag::useEquipment()
 {
     display();
     fmt::print("你想用武器[w]、防具[a]还是退出[q]:\n");
@@ -71,7 +74,8 @@ void Bag::useEquipment(const Player &player)
         int pos;
         while (true) {
             cin >> pos;
-            if (pos == 0) return;
+            if (pos == 0)
+                return;
             if (0 < pos && pos < max_size) {
                 break;
             }
@@ -85,7 +89,7 @@ void Bag::useEquipment(const Player &player)
             equipment = std::move(weapons);
             auto &vec = get<vector<Weapon> >(equipment);
             vec[pos].showAttributes();
-            if (vec[pos].getMinStrength() > player.getStrength()) {
+            if (vec[pos].getMinStrength() > Player.getStrength()) {
                 fmt::print("你的力量不足以使用这把武器。\n");
             }
             else {
@@ -98,7 +102,7 @@ void Bag::useEquipment(const Player &player)
             equipment = std::move(armors);
             auto &vec = get<vector<Armor> >(equipment);
             vec[pos].showAttributes();
-            if (vec[pos].getMinAgility() > player.getStrength()) {
+            if (vec[pos].getMinAgility() > Player.getStrength()) {
                 fmt::print("你的力量不足以使用这把武器。\n");
             }
             else {
@@ -126,16 +130,16 @@ void Bag::usePill()
             continue;
         }
         switch (type_choice[0]) {
-            case 'b':
+            case 'b' :
                 type = Pill::Type::BLOOD_PILL;
                 break;
-            case 'm':
+            case 'm' :
                 type = Pill::Type::MANA_PILL;
                 break;
-            case 'q':
+            case 'q' :
                 fmt::print("取消使用丹药。\n");
                 return;
-            default:
+            default :
                 fmt::print("无效指令！[b / m / q]：\n");
                 continue;
         }
@@ -152,19 +156,19 @@ void Bag::usePill()
         }
         Pill::Size size;
         switch (size_choice[0]) {
-            case 's':
+            case 's' :
                 size = Pill::Size::SMALL;
                 break;
-            case 'm':
+            case 'm' :
                 size = Pill::Size::MID;
                 break;
-            case 'l':
+            case 'l' :
                 size = Pill::Size::BIG;
                 break;
-            case 'q':
+            case 'q' :
                 fmt::print("放弃使用丹药。\n");
                 return;
-            default:
+            default :
                 fmt::print("无效指令！[s / m / l / q]：\n");
                 continue;
         }
@@ -194,6 +198,63 @@ int Bag::addPill(const Pill pill, const int num)
     return num;
 }
 
+void Bag::save() const
+{
+    const string path = "../../files/" + Player.getName() + "/Bag";
+    filesystem::create_directories(path);
+
+    for (const auto &weapons : weapons) {
+        weapons.save();
+    }
+    for (const auto &armor : armors) {
+        armor.save();
+    }
+
+    ofstream file(path + "/pill.dat", ios::binary);
+    // 保存 map 大小
+    const size_t map_size = pills.size();
+    file.write(reinterpret_cast<const char *>(&map_size), sizeof(map_size));
+
+    // 保存每个 Pill 和对应的数量
+    for (const auto &[pill, cnt] : pills) {
+        pill.serialize(file);
+        file.write(reinterpret_cast<const char *>(&cnt), sizeof(cnt));
+    }
+
+    file.close();
+}
+
+void Bag::load()
+{
+    const string path = "../../files/" + Player.getName() + "/Bag";
+
+    ifstream file(path, ios::binary);
+
+    vector<int> ids = Weapon::load();
+    for (const auto &id : ids) {
+        weapons.push_back(Weapons[id]);
+    }
+    ids = Armor::load();
+    for (const auto &id : ids) {
+        armors.push_back(Armors[id]);
+    }
+    // 读取 map 大小
+    size_t map_size;
+    file.read(reinterpret_cast<char *>(&map_size), sizeof(map_size));
+
+    // 读取每个 Pill 和对应的数量
+    for (size_t i = 0; i < map_size; ++i) {
+        // 没写默认构造
+        Pill pill {Pill::Type::BLOOD_PILL, Pill::Size::SMALL};
+        pill.deserialize(file);
+        int value;
+        file.read(reinterpret_cast<char *>(&value), sizeof(value));
+        pills[pill] = value;
+    }
+
+    file.close();
+}
+
 void Bag::addArmor(const Armor &armor) { armors.emplace_back(armor); }
 
 void Bag::addWeapon(const Weapon &weapon) { weapons.emplace_back(weapon); }
@@ -203,7 +264,8 @@ void Bag::removeArmor(const Armor &armor)
     const auto it = find_if(armors.begin(), armors.end(), [&](const Armor &arm) {
         return arm.getName() == armor.getName();
     });
-    armors.erase(it);
+    if (it != armors.end())
+        armors.erase(it);
 }
 
 void Bag::removeWeapon(const Weapon &weapon)
@@ -211,5 +273,6 @@ void Bag::removeWeapon(const Weapon &weapon)
     const auto it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &wea) {
         return wea.getName() == weapon.getName();
     });
-    weapons.erase(it);
+    if (it != weapons.end())
+        weapons.erase(it);
 }

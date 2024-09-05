@@ -9,11 +9,12 @@ class Skill
 public:
     enum class Type { AGGRESSIVE, RESTORATIVE, GAIN }; // 攻击型，恢复型，增益型
 
+    Skill() = default;
     // @formatter:off
-     Skill(const int id, std::string name, std::string description, const int consumption, const int damage, const Type type,
-           const int add_hp, const int add_defence, const int add_critical, const int add_damage, const int exist_time)
-     : id(id), name(std::move(name)), description(std::move(description)), consumption(consumption), damage(damage), type(type),
-     add_hp(add_hp), add_defence(add_defence), add_critical(add_critical), add_damage(add_damage), exist_time(exist_time) { }
+    Skill(const int id, std::string name, std::string description, const int consumption, const int damage, const Type type,
+          const int add_hp, const int add_defence, const int add_critical, const int add_damage, const int exist_time)
+    : id(id), name(std::move(name)), description(std::move(description)), consumption(consumption), damage(damage), type(type),
+      add_hp(add_hp), add_defence(add_defence), add_critical(add_critical), add_damage(add_damage), exist_time(exist_time) { }
     // @formatter:on
 
     void display();
@@ -30,6 +31,8 @@ public:
     [[nodiscard]] int getAddDamage() const;
     [[nodiscard]] int getExistTime() const;
     void setExistTime(int exist_time);
+
+    void save() const;
 
 private:
     int id {};               // id

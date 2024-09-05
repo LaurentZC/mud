@@ -50,13 +50,22 @@ bool achievePercent(const double probability)
 }
 
 
-void Fight::attack()
+void Fight::attackEnemy()
 {
     if (achievePercent(Player.getCritical())) {
         enemy.decHp(calculateDamage(Player.getDamage() * 2, enemy.getDefence()));
         return;
     }
     enemy.decHp(calculateDamage(Player.getDamage(), enemy.getDefence()));
+}
+
+void Fight::attackPlayer(const int defence) const
+{
+    if (achievePercent(enemy.getCritical())) {
+        Player.setHp(Player.getHp() - calculateDamage(Player.getDamage() * 2, defence));
+        return;
+    }
+    Player.setHp(Player.getHp() - calculateDamage(enemy.getDamage(), defence));
 }
 
 void Fight::useSkill() const
@@ -243,7 +252,7 @@ bool Fight::fight()
                 ++round;
             }
             else if (choice == "attack") {
-                attack();
+                attackEnemy();
                 ++round;
             }
             else {
@@ -272,9 +281,9 @@ bool Fight::fight()
                 }
             }
             if (choice == "defence") {
-                const int damage = calculateDamage(enemy.getAttack(), Player.getDefence());
+                const int damage = calculateDamage(enemy.getDamage(), Player.getDefence());
                 fmt::print("你受到了{}点伤害", damage);
-                Player.setHp(Player.getHp() - damage);
+                attackPlayer(Player.getDefence());
                 ++round;
             }
             else {
@@ -283,8 +292,9 @@ bool Fight::fight()
                     ++round;
                 }
                 else {
-                    Player.setHp(Player.getHp() - enemy.getAttack());
-                    fmt::println("你受到{}点伤害，还剩{}点血量", enemy.getAttack(), Player.getHp());
+                    attackPlayer(0);
+                    Player.setHp(Player.getHp() - enemy.getDamage());
+                    fmt::println("你受到{}点伤害，还剩{}点血量", enemy.getDamage(), Player.getHp());
                 }
             }
         }

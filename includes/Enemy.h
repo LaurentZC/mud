@@ -7,11 +7,14 @@ class Enemy
 public:
     enum class Type { SMALL, ELITE, BOSS };
 
-    Enemy(const Enemy &e);
-
-    explicit Enemy(int small_enemy_type);
+    Enemy();
+    // @formatter:off
+    Enemy(Type type, std::string name, int level, int hp, int max_hp, int damage, double critical, int defence,
+          int experience, int money, int weapon, int armor, int skill_id);
+    // @formatter:on
 
     void showEnemy() const; //展示怪物信息
+    [[nodiscard]] static Enemy creatBoss(int index);
 
     [[nodiscard]] Type getType() const;
     void setType(Type type);
@@ -29,8 +32,8 @@ public:
     void setExperience(int experience);
     [[nodiscard]] int getMoney() const;
     void setMoney(int money);
-    [[nodiscard]] int getAttack() const;
-    void setAttack(int attack);
+    [[nodiscard]] int getDamage() const;
+    void setDamage(int attack);
     [[nodiscard]] int getWeapon() const;
     void setWeapon(int weapon);
     [[nodiscard]] int getArmor() const;
@@ -44,17 +47,20 @@ public:
 
 private:
     Type type {Type::SMALL}; // 怪物类型
-    std::string name {};          // 怪物名字
+    std::string name;        // 怪物名字
     int level {};            // 等级
-    int hp {};               // 血量
-    int max_hp {};           // 满血量
-    int defence {};          // 防御力
-    int experience {};       // 经验值
-    int money {};            // 掉落金钱
-    int attack {};           // 攻击力
-    int weapon {};           // 打怪掉落的物品
-    int armor {};            // 打怪掉落的物品数量
-    double critical {};      // 暴击率
-    double evasion {};       // 闪避率
-    int skill_id {};         // 技能
+
+    int hp {};     // 血量
+    int max_hp {}; // 满血量
+
+    int damage {};      // 攻击力
+    double critical {}; // 暴击率
+    int defence {};     // 防御力
+
+    int experience {}; // 经验值
+    int money {};      // 掉落金钱
+
+    int weapon {-1};   // 打怪掉落的物品
+    int armor {-1};    // 打怪掉落的物品数量
+    int skill_id {-1}; // 技能
 };

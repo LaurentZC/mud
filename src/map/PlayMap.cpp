@@ -6,12 +6,16 @@
 #include <string>
 
 #include "Area.h"
+#include "Fight.h"
 #include "Helper.h"
+#include "Player.h"
 #include "fmt/color.h"
 #include "fmt/core.h"
 #include "fmt/ranges.h"
 
 using namespace std;
+
+extern Player Player;
 extern Area MainCity;
 
 bool isValidMove(int x, int y, Area &map, char dir);
@@ -115,9 +119,9 @@ void handleQuit(Area &current_map, bool &quit, int &x, int &y)
 {
     string input;
     // @formatter:off
-    fmt::print(current_map.getName() == area("main_city") ?
-                                            "你现在处于主城，退出将结束游戏，你确定吗？[y/n]: " :
-                                            "你确定要退出当前地图吗？[y/n]: ");
+    fmt::print(current_map.getName() == area("main_city")
+                ? "你现在处于主城，退出将结束游戏，你确定吗？[y/n]: "
+                : "你确定要退出当前地图吗？[y/n]: ");
     // @ formatter:on
     while (true) {
         cin >> input;
@@ -128,8 +132,8 @@ void handleQuit(Area &current_map, bool &quit, int &x, int &y)
             }
             else {
                 current_map = MainCity;
-                x = Gates["main_city"].first;
-                y = Gates["main_city"].second;
+                x = Gates[current_map.getName()].first;
+                y = Gates[current_map.getName()].second;
             }
             break;
         }
@@ -160,7 +164,7 @@ bool isValidMove(const int x, const int y, Area &map, const char dir)
 
 void handlePlayerAction(Area &map, const int x, const int y)
 {
-    auto get_yes_or_no = []() -> bool {
+    auto get_yes_or_no = [] {
         while (true) {
             string input;
             cin >> input;
@@ -192,12 +196,12 @@ void handlePlayerAction(Area &map, const int x, const int y)
         break;
 
         default : // 小怪，精英怪，boss
-            fmt::print("你是要发动攻击(y)还是先打开背包休整一下(n): ");
+            fmt::print("你是要发动攻击[y]还是先打开背包休整一下[n]: ");
         if (!get_yes_or_no()) {
-            // player.openBag();
+            Player.openBag();
             break;
         }
-        // 战斗的处理逻辑
+        // Fight(Enemies[]).fight()
         break;
     }
 }

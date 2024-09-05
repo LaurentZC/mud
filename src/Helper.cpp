@@ -1,10 +1,15 @@
 #include "Helper.h"
 
 #include <chrono>
+#include <fstream>
+#include <iostream>
 #include <thread>
 #include <windows.h>
 
+#include "Player.h"
 #include "fmt/color.h"
+
+extern Player Player;
 
 std::string area(const std::string &text) { return format(fg(fmt::color::purple), "{}", text); }
 
@@ -50,3 +55,4 @@ char waitForAnyKey()
         // @formatter:on
     }
 }
+

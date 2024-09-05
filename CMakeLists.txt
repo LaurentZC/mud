@@ -36,10 +36,10 @@ add_subdirectory(fmt)
 target_link_libraries(mud PUBLIC fmt::fmt)
 
 # 设置 ccache 加速编译
-find_program(CCACHE_PROGRAM ccache)
-if (CCACHE_PROGRAM)
-    message(STATUS "Found CCache: ${CCACHE_PROGRAM}")
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_PROGRAM})
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ${CCACHE_PROGRAM})
-endif ()
+#find_program(CCACHE_PROGRAM ccache)
+#if (CCACHE_PROGRAM)
+#    message(STATUS "Found CCache: ${CCACHE_PROGRAM}")
+#    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_PROGRAM})
+#    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ${CCACHE_PROGRAM})
+#endif ()
 

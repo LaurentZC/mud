@@ -13,7 +13,8 @@ private:
     std::vector<Skill> buff_skills;
     Enemy enemy;
 
-    void attack();
+    void attackEnemy();
+    void attackPlayer(int) const;
     void useSkill() const;
     void gainTrophy() const;
 };

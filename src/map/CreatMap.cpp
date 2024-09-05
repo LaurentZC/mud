@@ -43,7 +43,7 @@ Area creatMainCity()
 {
     Area main_city(area("main_city"));
     auto &rooms = main_city.getArea();
-    ifstream input_file("../files/MainCity.txt");
+    ifstream input_file("../files/maps/MainCity.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file MainCity.txt" << endl;
         exit(1);
@@ -82,7 +82,7 @@ Area creatWuWeiCheng()
 {
     Area wu_wei_cheng(area("wu_wei_cheng"));
     auto &rooms = wu_wei_cheng.getArea();
-    ifstream input_file("../files/WuWeiCheng.txt");
+    ifstream input_file("../files/maps/WuWeiCheng.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file WuWeiCheng.txt" << endl;
         exit(1);
@@ -133,7 +133,7 @@ Area creatShangHui()
 {
     Area shang_hui(area("shang_hui"));
     auto &rooms = shang_hui.getArea();
-    ifstream input_file("../files/ShangHui.txt");
+    ifstream input_file("../files/maps/ShangHui.txt");
     if (!input_file.is_open()) {
         cerr << "Could not open file ShangHui.txt" << endl;
         exit(1);
