@@ -11,8 +11,6 @@
 
 using namespace std;
 
-auto MainCity = creatMainCity();
-
 Player Player;
 
 void creat() { }

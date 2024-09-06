@@ -9,6 +9,13 @@ Room::Room() = default;
 
 Room::Room(string name, const Content content) : name(std::move(format(fg(fmt::color::blue), "{}", std::move(name)))), content(content) { }
 
+void Room::clear()
+{
+    name = "空房间";
+    description = "这里已经什么也没有了";
+    content = Content::EMPTY;
+}
+
 string Room::getName() const { return name; }
 
 void Room::setName(const string &name) { this->name = name; }

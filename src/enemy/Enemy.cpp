@@ -27,73 +27,92 @@ void Enemy::showEnemy() const
     cout << "防御:" << defence << endl;
 }
 
+// @formatter:off
 Enemy Enemy::creatEnemy(const int index)
 {
     switch (index) {
-        case 1 :
-            return {Type::SMALL, "烈风剑士", 3, 120, 120, 15, 0.3, 12, 60, 80, -1, -1, -1};
+        case 1 : return {Type::SMALL, "烈风剑士", 3, 120, 120,
+                15, 0.3, 12, 60, 80,
+                -1, -1, -1
+            };
 
-        case 2 :
-            return {Type::SMALL, "地煞狂徒", 8, 200, 200, 20, 0.3, 18, 120, 100, -1, -1, -1};
+        case 2 : return {Type::SMALL, "地煞狂徒", 8, 200, 200,
+                20, 0.3, 18, 120, 100,
+                -1, -1, -1
+            };
 
-        case 3 :
-            return {Type::SMALL, "铁壁守卫", 13, 300, 300, 30, 0.4, 25, 200, 110, -1, -1, -1};
+        case 3 : return {Type::SMALL, "铁壁守卫", 13, 300, 300,
+                30, 0.4, 25, 200, 110,
+                -1, -1, -1
+            };
 
-        case 4 :
-            return {Type::SMALL, "黑影刺客", 17, 400, 400, 40, 0.4, 35, 260, 120, -1, -1, -1};
+        case 4 : return {Type::SMALL, "黑影刺客", 17, 400, 400,
+                40, 0.4, 35, 260, 120,
+                -1, -1, -1
+            };
 
-        case 5 :
-            return {Type::SMALL, "雷霆战将", 22, 550, 550, 60, 0.5, 50, 300, 130, -1, -1, -1};
+        case 5 : return {Type::SMALL, "雷霆战将", 22, 550, 550,
+                60, 0.5, 50, 300, 130,
+                -1, -1, -1
+            };
 
-        default :
-            return {};
+        default : return {};
     }
 }
 
 Enemy Enemy::creatElite(const int index)
 {
     switch (index) {
-        case 1 :
-            return {Type::ELITE, "风刃卫", 10, 500, 500, 50, 0.3, 15, 400, 40, -1, -1, 3};
+        case 1 : return {
+                Type::ELITE, "风刃卫", 10, 500, 500,
+                50, 0.3, 15, 400, 40,
+                -1, -1, 3
+            };
 
-        case 2 :
-            return {Type::ELITE, "雷霆卫", 15, 700, 700, 80, 0.3, 20, 800, 50, -1, -1, 5};
+        case 2 : return {Type::ELITE, "雷霆卫", 15, 700, 700,
+                80, 0.3, 20, 800, 50,
+                -1, -1, 5
+            };
 
-        case 3 :
-            return {Type::ELITE, "影刃卫", 20, 900, 900, 110, 0.4, 30, 1200, 60, -1, -1, 7};
+        case 3 : return {Type::ELITE, "影刃卫", 20, 900, 900,
+                110, 0.4, 30, 1200, 60,
+                -1, -1, 7
+            };
 
-        case 4 :
-            return {Type::ELITE, "天霸卫", 25, 1200, 1200, 120, 0.4, 40, 1500, 70, -1, -1, 8};
+        case 4 : return {Type::ELITE, "天霸卫", 25, 1200, 1200,
+                120, 0.4, 40, 1500, 70,
+                -1, -1, 8
+            };
 
-        case 5 :
-            return {Type::ELITE, "怒焰卫", 30, 1800, 1800, 150, 0.5, 45, 1800, 80, -1, -1, 9};
+        case 5 : return {Type::ELITE, "怒焰卫", 30, 1800, 1800,
+                150, 0.5, 45, 1800, 80,
+                -1, -1, 9
+            };
 
-        default :
-            return {};
+        default : return {};
     }
 }
 
 Enemy Enemy::creatBoss(const int index)
 {
-    // @formatter:off
     switch (index) {
         case 0 : return  {
-                Type::BOSS, "师傅", Player.getLevel(), Player.getHp(), Player.getMaxHp(),
+                Type::BOSS, "城主", Player.getLevel(), Player.getHp(), Player.getMaxHp(),
                 Player.getDamage(), Player.getCritical(), Player.getDefence(),
-                static_cast<int> (Player.getLevel() * 0.1), 0,
+                static_cast<int> (Player.getLvExp() * 0.5), 0,
                 -1, -1, -1
             };
         case 1 : return {
                 Type::BOSS, "陆洪", 32, 3000, 3000,
                 60, 0.7, 80,
-                static_cast<int> (Player.getLevel() * 0.3), 500,
+                5000, 500,
                 9, 13, 13
             };
 
         case 2 : return {
                 Type::BOSS, "段霖", 48, 5000, 5000,
                 150, 0.3, 120,
-                static_cast<int> (Player.getLevel() * 0.5), 800,
+                8000, 800,
                 10, 14, 14
             };
 
@@ -141,84 +160,3 @@ void Enemy::setCritical(const double critical) { this->critical = critical; }
 int Enemy::getSkillId() const { return skill_id; }
 void Enemy::setSkillId(const int skill_id) { this->skill_id = skill_id; }
 
-//小怪兽
-// Enemy::Enemy(int id)
-// {
-//     switch (id) {
-//         case 1 : {
-//             name = "小火焰怪";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 10;
-//             defence = 10;
-//             experience = 1; //打死该怪物得到的经验
-//             money = 2;      //打死该怪物得到的金钱
-//             skill_id = 0;
-//         }
-//
-//         case 2 : {
-//             name = "迷雾精灵";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 15;
-//             defence = 10;
-//             experience = 2; //打死该怪物得到的经验
-//             money = 3;      //打死该怪物得到的金钱
-//             skill_id = 0;
-//         }
-//
-//         case 3 : {
-//             name = "小任";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 10;
-//             defence = 15;
-//             experience = 3; //打死该怪物得到的经验
-//             money = 5;      //打死该怪物得到的金钱
-//             skill_id = 0;
-//         }
-//
-//         case 4 : {
-//             name = "冰霜小鬼";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 20;
-//             defence = 20;
-//             experience = 4; //打死该怪物得到的经验
-//             money = 7;      //打死该怪物得到的金钱
-//             skill_id = 0;
-//         }
-//         case 5 : {
-//             name = "小牛";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 30;
-//             defence = 30;
-//             experience = 5; //打死该怪物得到的经验
-//             money = 9;      //打死该怪物得到的金钱
-//         }
-//         case 6 : {
-//             name = "冰霜大怪";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 40;
-//             defence = 40;
-//             experience = 6; //打死该怪物得到的经验
-//             money = 11;     //打死该怪物得到的金钱
-//         }
-//
-//         case 7 : {
-//             name = "小花";
-//             hp = 100;
-//             max_hp = 100;
-//             damage = 15;
-//             defence = 20;
-//             experience = 7; //打死该怪物得到的经验
-//             money = 15;     //打死该怪物得到的金钱
-//         }
-//
-//
-//         default :
-//             break;;
-//     }
-// }

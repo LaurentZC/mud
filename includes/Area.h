@@ -33,6 +33,8 @@ public:
     Room();
     Room(std::string name, Content content);
 
+    void clear();
+
     // getter & setter
     [[nodiscard]] std::string getName() const;
     void setName(const std::string &name);
