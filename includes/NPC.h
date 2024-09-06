@@ -1,30 +1,66 @@
 #pragma once
 
+#include <map>
+#include <vector>
+
 #include "Equipment.h"
 #include "Pill.h"
 #include "Task.h"
 
 class NPC
 {
-    Task task;         // 任务
-    int experience {}; // 任务的经验
+public:
+    NPC() = default;
+    virtual ~NPC() = default;
+    virtual void talk() = 0;
+
+protected:
+    std::string name;        // 名字
+    std::string description; // 描述特征
+    std::string dialogue;    // 对白
 };
 
-class EquipmentGiving : public NPC
+class TaskGivingNPC final : public NPC
 {
 public:
-    EquipmentGiving();
-    void talk();
+    void talk() override;
 
 private:
-    Equipment *equipment {};
+    void giveTask() const;
+    void giveReward() const;
+    [[nodiscard]] bool ifFinishTask() const;
+    Task task {};
+    bool if_first_talk = true;  //是否发布任务
+    bool if_give_reward = true; //是否给予奖励
 };
 
-class PillGiving : public NPC
+class ShopKeeper final : public NPC
 {
 public:
-    void talk();
+    void talk() override;
+    int getPillNum(const Pill &pill) const;
 
 private:
-    Pill pill;
+    void showGoods();
+    void buy();
+    void sell();
+    void enterStore();
+    void buyPills();
+    void buyWeapon();
+    void buyArmor();
+    void sellArmor();
+    void sellWeapon();
+
+    std::vector<Weapon> weapons;
+    std::vector<Armor> armors;
+    // @formatter:off
+    std::map<Pill, int> pills = {
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::BIG}, 0},
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::MID}, 0},
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::SMALL}, 0},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::BIG}, 0},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::MID}, 0},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::SMALL}, 0}
+    };
+    // @formatter:on
 };

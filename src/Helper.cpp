@@ -37,8 +37,9 @@ void waitForLoad(const int total_time_ms)
     fmt::print("\n");
 }
 
-char waitForAnyKey()
+void waitForAnyKey()
 {
+    fmt::print("Press any key to continue...");
     const auto input_handle = GetStdHandle(STD_INPUT_HANDLE);
     INPUT_RECORD input_record;
     DWORD events_read;
@@ -50,7 +51,8 @@ char waitForAnyKey()
                              input_record.EventType == KEY_EVENT &&
                              input_record.Event.KeyEvent.bKeyDown) {
             // 如果是键盘按下事件，则跳出循环
-            return input_record.Event.KeyEvent.uChar.AsciiChar;
+            fmt::print("\r\033[K");
+            return;
         }
         // @formatter:on
     }

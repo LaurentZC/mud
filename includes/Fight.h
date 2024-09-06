@@ -6,8 +6,8 @@
 class Fight
 {
 public:
-    explicit Fight(const Enemy &enemy);
-    bool fight();
+    explicit Fight(Enemy enemy);
+    void fight();
 
 private:
     std::vector<Skill> buff_skills;

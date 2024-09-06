@@ -6,9 +6,6 @@
 // 地图最大尺寸
 inline constexpr int MAP_MAX_SIZE = 5;
 
-
-enum class Map { MainCity, WuWeiCheng };
-
 class Room;
 
 class Area

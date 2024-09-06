@@ -2,6 +2,8 @@
 
 #include <array>
 #include <memory>
+#include <unordered_map>
+
 #include "Bag.h"
 #include "Skill.h"
 #include "Task.h"
@@ -11,19 +13,32 @@ class Bag;
 class Player
 {
 public:
+    std::array<int, 3> position {0, 3, 2};
+
     void showPlayer() const;
     void checkSkill() const;
     void checkTask() const;
     void openBag() const;
     void usePoint();
 
-    void gainWeapon(int index) const;
-    void sellWeapon(int index) const;
-    void gainArmor(int index) const;
-    void sellArmor(int index) const;
-    void gainSkill(int index);
-    void gainPill(Pill pill, int index) const;
     void acceptTask(const Task &task);
+    void gainSkill(int index);
+    [[nodiscard]] int gainPill(Pill pill, int index) const;
+
+    void buyArmor(const Armor &armor) const;
+    void buyWeapon(const Weapon &weapon) const;
+    void gainWeapon(int index) const;
+    void gainArmor(int index) const;
+
+    void sellArmor(const Armor &armor) const;
+    void sellWeapon(const Weapon &weapon) const;
+    void removeArmor(const Armor &armor); //卸下装备
+    void removeWeapon(const Weapon &weapon);
+    void equipWeapon(const Weapon &weapon); //装上装备
+    void equipArmor(const Armor &armor);
+
+    void save() const;
+    bool load(Player &player);
 
     [[nodiscard]] std::string getName() const;
     void setName(const std::string &name);
@@ -56,8 +71,6 @@ public:
     void gainMoney(int money);
     [[nodiscard]] std::vector<Skill> &getSkills();
 
-    friend std::ostream &operator<<(std::ostream &os, const Player &player);
-
 private:
     std::string name;
     int level {1};
@@ -83,9 +96,6 @@ private:
     const std::unique_ptr<Bag> bag; // 背包
     std::vector<Skill> skills;      // 技能
     std::vector<Task> tasks;        // 任务
-
-    void save() const;
-    bool load(Player &player);
 };
 
 // @formatter:off

@@ -8,4 +8,4 @@ std::string npc(const std::string &text);
 
 void waitForLoad(int total_time_ms);
 
-char waitForAnyKey();
+void waitForAnyKey();

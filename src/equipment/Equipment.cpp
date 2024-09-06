@@ -62,6 +62,8 @@ Weapon::Weapon(Weapon &&) noexcept = default;
 Weapon &Weapon::operator=(Weapon &&) noexcept = default;
 
 int Weapon::getMinStrength() const { return min_strength_to_equip; }
+int Weapon::getDamage() const { return damage; }
+double Weapon::getCritical() const { return critical; }
 
 void Weapon::showAttributes() const
 {
@@ -138,6 +140,10 @@ void Armor::showAttributes() const
 }
 
 int Armor::getMinAgility() const { return min_agility_to_equip; }
+int Armor::getAddMaxHp() const { return add_max_hp; }
+int Armor::getAddMaxMp() const { return add_max_mp; }
+double Armor::getEvasion() const { return evasion; }
+int Armor::getDefence() const { return defence; }
 
 void Armor::save() const
 {

@@ -94,7 +94,9 @@ void Bag::useEquipment()
             }
             else {
                 fmt::print("装备成功！\n");
+                Player.removeWeapon(vec[0]);
                 swap(vec[0], vec[pos]);
+                Player.equipWeapon(vec[0]);
             }
             weapons = std::move(vec);
         }
@@ -107,7 +109,9 @@ void Bag::useEquipment()
             }
             else {
                 fmt::print("装备成功！\n");
+                Player.removeArmor(vec[0]);
                 swap(vec[0], vec[pos]);
+                Player.equipArmor(vec[0]);
             }
             armors = std::move(vec);
         }
@@ -188,12 +192,11 @@ int Bag::addPill(const Pill pill, const int num)
 {
     auto &amount = pills[pill];
     if (amount + num > 10) {
-        amount = 10;
         fmt::println("你尝试把最后的丹药放进去，可惜努力了半天只能装下10颗");
+        amount = 10;
         return 0;
     }
     amount += num;
-
     fmt::print("添加了{}个{}。\n", num, pill.getPillName());
     return num;
 }

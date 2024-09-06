@@ -44,6 +44,8 @@ public:
     void save() const override;
     static std::vector<int> load();
     [[nodiscard]] int getMinStrength() const;
+    [[nodiscard]] int getDamage() const;
+    [[nodiscard]] double getCritical() const;
 
 private:
     int damage {};                // 伤害
@@ -63,9 +65,13 @@ public:
     Armor &operator=(Armor &&) noexcept;
 
     void showAttributes() const override;
-    [[nodiscard]] int getMinAgility() const;
     void save() const override;
     static std::vector<int> load();
+    [[nodiscard]] int getMinAgility() const;
+    [[nodiscard]] int getAddMaxHp() const;
+    [[nodiscard]] int getAddMaxMp() const;
+    [[nodiscard]] double getEvasion() const;
+    [[nodiscard]] int getDefence() const;
 
 private:
     int add_max_hp {};

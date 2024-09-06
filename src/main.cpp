@@ -15,10 +15,7 @@ auto MainCity = creatMainCity();
 
 Player Player;
 
-void creat()
-{
-
-}
+void creat() { }
 
 bool load()
 {
@@ -40,11 +37,22 @@ bool load()
 
 int main()
 {
-    bool quit = true;
-    auto &current_map = MainCity;
-    auto &[x, y] = Gates[current_map.getName()];
+    auto &[c, x, y] = Player.position;
+    Area current_map = creatMainCity();
+    switch (c) {
+        case 1 :
+            current_map = creatWuWeiCheng();
+            playWuWeiCheng(current_map, x, y);
+            break;
+        case 2 :
+            current_map = creatShangHui();
+            playShangHui(current_map, x, y);
+            break;
+        default : ;
+    }
+
     printMap(current_map.getArea());
-    while (quit) {
+    while (true) {
         fmt::print("\n移动:  move \t 打开背包: bag \t 和npc对话: chat \t 环视周围: watch \t 退出: quit \n");
         string command;
         cin >> command;
@@ -67,7 +75,9 @@ int main()
             // 看一看
         }
         else if (command == "quit") {
-            handleQuit(current_map, quit, x, y);
+            Player.save();
+            fmt::print("感谢你的游玩。");
+            return 0;
         }
         else {
             fmt::print("无效的指令！\n");

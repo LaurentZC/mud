@@ -6,10 +6,12 @@
 #include <iostream>
 #include <vector>
 
-#include "Helper.h"
 #include "fmt/core.h"
+#include "fmt/format-inl.h"
 
 using namespace std;
+
+void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
 void Player::showPlayer() const
 {
@@ -93,14 +95,25 @@ void Player::usePoint()
     }
 }
 
-void Player::gainWeapon(const int index) const { bag->addWeapon(Weapons[index]); }
-
-void Player::gainArmor(const int index) const { bag->addArmor(Armors[index]); }
-
 void Player::gainSkill(const int index) { skills.push_back(Skills[index]); }
-void Player::gainPill(const Pill pill, const int index) const { bag->addPill(pill, index); }
 
-void Player::acceptTask(const Task &task) { tasks.push_back(task); }
+int Player::gainPill(const Pill pill, const int index) const
+{
+    const int num = bag->addPill(pill, index);
+    return num;
+}
+
+void Player::gainWeapon(const int index) const
+{
+    bag->addWeapon(Weapons[index]);
+    fmt::println("获得了{}", Weapons[index].getName());
+}
+
+void Player::gainArmor(const int index) const
+{
+    bag->addArmor(Armors[index]);
+    fmt::println("获得了{}", Armors[index].getName());
+}
 
 string Player::getName() const { return name; }
 void Player::setName(const string &name) { this->name = name; }
@@ -125,42 +138,122 @@ void Player::gainExp(const int exp)
     }
 }
 
-int Player::getLevel() const { return level; }
-
 int Player::getMaxHp() const { return max_hp; }
 void Player::setMaxHp(const int max_hp) { this->max_hp = max_hp; }
-
 int Player::getMaxMp() const { return max_mp; }
 void Player::setMaxMp(const int max_mp) { this->max_mp = max_mp; }
-
 int Player::getHp() const { return hp; }
 void Player::setHp(const int hp) { this->hp = hp; }
-
 int Player::getMp() const { return mp; }
 void Player::setMp(const int mp) { this->mp = mp; }
-
 int Player::getHealth() const { return health; }
 void Player::setHealth(const int health) { this->health = health; }
 
-int Player::getDamage() const { return damage; }
-void Player::setDamage(const int damage) { this->damage = damage; }
+void Player::buyArmor(const Armor &armor) const { bag->addArmor(armor); }
 
-double Player::getCritical() const { return critical; }
-void Player::setCritical(const double critical) { this->critical = critical; }
 
-int Player::getStrength() const { return strength; }
-void Player::setStrength(const int strength) { this->strength = strength; }
+void Player::buyWeapon(const Weapon &weapon) const { bag->addWeapon(weapon); }
 
-int Player::getDefence() const { return defence; }
-void Player::setDefence(const int defence) { this->defence = defence; }
+void Player::sellArmor(const Armor &armor) const { bag->removeArmor(armor); }
 
-double Player::getEvasion() const { return evasion; }
-void Player::setEvasion(const double evasion) { this->evasion = evasion; }
+void Player::sellWeapon(const Weapon &weapon) const { bag->removeWeapon(weapon); }
 
-int Player::getAgility() const { return agility; }
-void Player::setAgility(const int agility) { this->agility = agility; }
+void Player::removeArmor(const Armor &armor)
+{
+    max_hp -= armor.getAddMaxHp();
+    max_mp -= armor.getAddMaxMp();
+    defence -= armor.getDefence();
+    evasion -= armor.getEvasion();
+}
 
-int Player::getMoney() const { return money; }
+void Player::removeWeapon(const Weapon &weapon)
+{
+    damage -= weapon.getDamage();
+    critical -= weapon.getCritical();
+}
+
+void Player::equipArmor(const Armor &armor)
+{
+    max_hp += armor.getAddMaxHp();
+    max_mp += armor.getAddMaxMp();
+    defence += armor.getDefence();
+    evasion += armor.getEvasion();
+}
+
+
+void Player::equipWeapon(const Weapon &weapon)
+{
+    damage += weapon.getDamage();
+    critical += weapon.getCritical();
+}
+
+int Player::getLevel() const { return level; }
+
+int Player::getDamage() const
+{
+    return damage;
+}
+
+void Player::setDamage(const int damage)
+{
+    this->damage = damage;
+}
+
+double Player::getCritical() const
+{
+    return critical;
+}
+
+void Player::setCritical(const double critical)
+{
+    this->critical = critical;
+}
+
+int Player::getStrength() const
+{
+    return strength;
+}
+
+void Player::setStrength(const int strength)
+{
+    this->strength = strength;
+}
+
+int Player::getDefence() const
+{
+    return defence;
+}
+
+void Player::setDefence(const int defence)
+{
+    this->defence = defence;
+}
+
+double Player::getEvasion() const
+{
+    return evasion;
+}
+
+void Player::setEvasion(const double evasion)
+{
+    this->evasion = evasion;
+}
+
+int Player::getAgility() const
+{
+    return agility;
+}
+
+void Player::setAgility(const int agility)
+{
+    this->agility = agility;
+}
+
+int Player::getMoney() const
+{
+    return money;
+}
+
 void Player::gainMoney(const int money) { this->money += money; }
 
 vector<Skill> &Player::getSkills() { return skills; }
@@ -174,8 +267,7 @@ void Player::save() const
     ofstream out_file(folder_path + "/Player.dat", ios::binary);
 
     if (!out_file.is_open()) {
-        fmt::print("无法打开保存文件！\n");
-        fmt::print("不能成功保存！\n");
+        fmt::print("保存失败！\n");
     }
     // 保存 name 长度和内容
     const size_t name_length = name.size();
@@ -183,6 +275,9 @@ void Player::save() const
     out_file.write(name.c_str(), name_length);
 
     // 将玩家信息写入 Player.dat
+    out_file.write(reinterpret_cast<const char *>(&position[0]), sizeof(position[0]));
+    out_file.write(reinterpret_cast<const char *>(&position[1]), sizeof(position[1]));
+    out_file.write(reinterpret_cast<const char *>(&position[2]), sizeof(position[2]));
     out_file.write(reinterpret_cast<const char *>(&level), sizeof(level));
     out_file.write(reinterpret_cast<const char *>(&experience), sizeof(experience));
     out_file.write(reinterpret_cast<const char *>(&level_up_exp), sizeof(level_up_exp));
@@ -208,7 +303,7 @@ void Player::save() const
         task.save();
     }
     bag->save();
-    fmt::print("成功保存！\n");
+    fmt::print("保存成功！\n");
 }
 
 bool Player::load(Player &player)
@@ -222,6 +317,9 @@ bool Player::load(Player &player)
         file_to_player.read(&name[0], name_length);
 
         // 从 Player.dat 中读取其他属性
+        file_to_player.read(reinterpret_cast<char *>(&position[0]), sizeof(position[0]));
+        file_to_player.read(reinterpret_cast<char *>(&position[1]), sizeof(position[1]));
+        file_to_player.read(reinterpret_cast<char *>(&position[2]), sizeof(position[2]));
         file_to_player.read(reinterpret_cast<char *>(&level), sizeof(level));
         file_to_player.read(reinterpret_cast<char *>(&experience), sizeof(experience));
         file_to_player.read(reinterpret_cast<char *>(&level_up_exp), sizeof(level_up_exp));

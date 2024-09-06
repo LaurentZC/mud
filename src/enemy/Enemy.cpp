@@ -27,44 +27,76 @@ void Enemy::showEnemy() const
     cout << "防御:" << defence << endl;
 }
 
+Enemy Enemy::creatEnemy(const int index)
+{
+    switch (index) {
+        case 1 :
+            return {Type::SMALL, "烈风剑士", 3, 120, 120, 15, 0.3, 12, 60, 80, -1, -1, -1};
+
+        case 2 :
+            return {Type::SMALL, "地煞狂徒", 8, 200, 200, 20, 0.3, 18, 120, 100, -1, -1, -1};
+
+        case 3 :
+            return {Type::SMALL, "铁壁守卫", 13, 300, 300, 30, 0.4, 25, 200, 110, -1, -1, -1};
+
+        case 4 :
+            return {Type::SMALL, "黑影刺客", 17, 400, 400, 40, 0.4, 35, 260, 120, -1, -1, -1};
+
+        case 5 :
+            return {Type::SMALL, "雷霆战将", 22, 550, 550, 60, 0.5, 50, 300, 130, -1, -1, -1};
+
+        default :
+            return {};
+    }
+}
+
+Enemy Enemy::creatElite(const int index)
+{
+    switch (index) {
+        case 1 :
+            return {Type::ELITE, "风刃卫", 10, 500, 500, 50, 0.3, 15, 400, 40, -1, -1, 3};
+
+        case 2 :
+            return {Type::ELITE, "雷霆卫", 15, 700, 700, 80, 0.3, 20, 800, 50, -1, -1, 5};
+
+        case 3 :
+            return {Type::ELITE, "影刃卫", 20, 900, 900, 110, 0.4, 30, 1200, 60, -1, -1, 7};
+
+        case 4 :
+            return {Type::ELITE, "天霸卫", 25, 1200, 1200, 120, 0.4, 40, 1500, 70, -1, -1, 8};
+
+        case 5 :
+            return {Type::ELITE, "怒焰卫", 30, 1800, 1800, 150, 0.5, 45, 1800, 80, -1, -1, 9};
+
+        default :
+            return {};
+    }
+}
+
 Enemy Enemy::creatBoss(const int index)
 {
     // @formatter:off
     switch (index) {
+        case 0 : return  {
+                Type::BOSS, "师傅", Player.getLevel(), Player.getHp(), Player.getMaxHp(),
+                Player.getDamage(), Player.getCritical(), Player.getDefence(),
+                static_cast<int> (Player.getLevel() * 0.1), 0,
+                -1, -1, -1
+            };
         case 1 : return {
-                Type::BOSS, "陆洪", 30, 150, 150,
-                20, 0.4, 10,
-                static_cast<int> (Player.getLevel() * 0.3), 50,
-                6, 10, 12
+                Type::BOSS, "陆洪", 32, 3000, 3000,
+                60, 0.7, 80,
+                static_cast<int> (Player.getLevel() * 0.3), 500,
+                9, 13, 13
             };
 
         case 2 : return {
-                Type::BOSS, "段霖", 35, 350, 350,
-                30, 0.3, 15,
-                static_cast<int> (Player.getLevel() * 0.3), 80,
-                7, 11, 13
+                Type::BOSS, "段霖", 48, 5000, 5000,
+                150, 0.3, 120,
+                static_cast<int> (Player.getLevel() * 0.5), 800,
+                10, 14, 14
             };
 
-        case 3 : return {
-                Type::BOSS, "风云", 40, 550, 550,
-                50, 0.3, 50,
-                static_cast<int> (Player.getLevel() * 0.3), 10,
-                8, 12, 14
-            };
-
-        case 4 : return {
-            Type::BOSS, "李乾坤", 45, 750, 750,
-            80, 0.3, 80,
-            static_cast<int> (Player.getLevel() * 0.3), 10,
-            9, 13, 15
-            };
-
-        case 5 : return {
-            Type::BOSS, "墨惊天", 50, 1000, 1000,
-            120, 0.8, 120,
-            static_cast<int> (Player.getLevel() * 0.3), 10,
-            10, 14, 16
-            };
         default : return {};
         // @formatter:on
     }

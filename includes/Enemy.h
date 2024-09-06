@@ -14,6 +14,8 @@ public:
     // @formatter:on
 
     void showEnemy() const; //展示怪物信息
+    [[nodiscard]] static Enemy creatEnemy(int index);
+    [[nodiscard]] static Enemy creatElite(int index);
     [[nodiscard]] static Enemy creatBoss(int index);
 
     [[nodiscard]] Type getType() const;

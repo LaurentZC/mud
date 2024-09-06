@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <thread>
+#include <utility>
 #include <vector>
 #include <windows.h>
 
@@ -13,7 +14,7 @@
 
 extern Player Player;
 
-Fight::Fight(const Enemy &enemy): enemy(enemy) { }
+Fight::Fight(Enemy enemy): enemy(std::move(enemy)) { }
 
 // 获得奖励
 void Fight::gainTrophy() const
@@ -199,7 +200,7 @@ void defeat()
 }
 
 // 赢了返回true
-bool Fight::fight()
+void Fight::fight()
 {
     system("cls");
     int round = 1;
@@ -266,7 +267,7 @@ bool Fight::fight()
                 clearBuff(it);
             }
             gainTrophy();
-            return true;
+            return;
         }
 
         system("cls");
@@ -302,7 +303,20 @@ bool Fight::fight()
         if (Player.getHp() <= 0) {
             fmt::println("你被打败了！");
             defeat();
-            return false;
+            // 问的大佬: 重启程序
+            TCHAR sz_file_name[MAX_PATH];
+            GetModuleFileName(nullptr, sz_file_name, MAX_PATH);
+            // 设置启动信息
+            STARTUPINFO si = {sizeof(si)};
+            PROCESS_INFORMATION pi;
+            // 启动新进程
+            if (CreateProcess(nullptr, sz_file_name, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+                // 关闭句柄
+                CloseHandle(pi.hProcess);
+                CloseHandle(pi.hThread);
+                // 退出当前进程
+                exit(0);
+            }
         }
         for (auto &buff_skill : buff_skills) {
             buff_skill.setExistTime(buff_skill.getExistTime() - 1);
