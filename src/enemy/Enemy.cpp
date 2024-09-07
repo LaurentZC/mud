@@ -36,8 +36,13 @@ Enemy Enemy::creatEnemy(const array<int, 3> &pos)
                 30, 0.2, 20, 500, 100,
                 -1, -1, -1
             };
+        if (y == 2 && (x == 2 || x == 4))
+            return {Type::SMALL, "伏地魔", 30, 500, 500,
+                20, 0.2, 35, 500, 100,
+                -1, -1, -1
+            };
     }
-    else {
+    else if (c == 2) {
         if (x == 3 && y == 4)
             return {Type::SMALL, "烈风剑士", 40, 1000, 1000,
                 100, 0.2, 30, 1000, 250,

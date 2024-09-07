@@ -3,25 +3,46 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
+#include "Helper.h"
 #include "Player.h"
 #include "fmt/core.h"
 
 extern Player Player;
 
-void TaskGivingNPC::giveTask() const { Player.acceptTask(task); }
+using namespace std;
 
-bool TaskGivingNPC::ifFinishTask() const { return task.ifTaskFinished(); }
+void TaskGivingNPC::giveTask() const { Player.acceptTask(tasks[task_index]); }
+
+bool TaskGivingNPC::ifFinishTask() const { return tasks[task_index].ifTaskFinished(); }
 
 void TaskGivingNPC::giveReward() const
 {
     fmt::print("这是我的谢礼\n");
-    fmt::println("获得了{}经验", task.getExperience());
-    Player.gainExp(task.getExperience());
-    fmt::println("获得了{}元钱", task.getExperience());
-    Player.gainMoney(task.getMoney());
-    Player.gainSkill(task.getSkillId());
+    fmt::println("获得了{}经验", tasks[task_index].getExperience());
+    Player.gainExp(tasks[task_index].getExperience());
+    fmt::println("获得了{}元钱", tasks[task_index].getExperience());
+    Player.gainMoney(tasks[task_index].getMoney());
+    fmt::print("习得{}技能", Tasks[tasks[task_index].getSkillId()].getName());
+    Player.gainSkill(tasks[task_index].getSkillId());
+}
+
+NPC::NPC() = default;
+
+NPC::NPC(std::string name, std::string description, std::vector<std::string> dialogues): name(std::move(name)), description(std::move(description)), dialogues(std::move(dialogues)) { }
+
+NPC::~NPC() = default;
+
+TaskGivingNPC::TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &task_id): NPC(std::move(name), std::move(description), std::move(dia))
+{
+    for (const int id : task_id) {
+        if (id == -1) {
+            break;
+        }
+        tasks.push_back(Tasks[id]);
+    }
 }
 
 void TaskGivingNPC::talk()
@@ -30,25 +51,45 @@ void TaskGivingNPC::talk()
     if (ifFinishTask() == true && if_give_reward == true) {
         fmt::print("感谢你帮助了我\n");
         giveReward();
-        if_give_reward = false;
+        Player.removeTask(tasks[task_index]);
+        //最后一个任务做完，就不能再给奖励和发任务了
+        if (task_index == tasks.size() - 1) {
+            if_give_reward = false;
+            if_give_task = false;
+        }
+        task_index++;
+        if_give_task = true;
         return;
     }
-    if (if_first_talk) {
-        fmt::print("{} : 你是外来的旅人吧，能不能{}。[yes]接受,[no]拒绝:", name, task.getDescription());
+    //如果有任务要给
+    if (if_give_task == true) {
+        fmt::print("{} : ", name);
+        printSlowly(dialogues[task_index + 1], 50);
+        fmt::print("\n");
         std::string choice;
         std::cin >> choice;
+        fmt::print("是否接受请求[yes],[no]");
         while (choice != "yes" && choice != "no") {
             fmt::print("错误指令！\n");
             std::cin >> choice;
         }
         if (choice == "yes") {
             giveTask();
-            if_first_talk = false;
+            if_give_task = false; //上一个任务没完成时不能接受新任务
+            return;
         }
     }
-    else {
-        fmt::print("{}", dialogue);
-    }
+    //所有任务都完成
+    fmt::print("{} : ", name);
+    printSlowly(dialogues[0], 50);
+    fmt::print("\n");
+}
+
+
+void ShopKeeper::setPillNum(const Pill &pill, const int pill_num)
+{
+    const auto it = pills.find(pill);
+    it->second -= pill_num;
 }
 
 void ShopKeeper::showGoods()
@@ -74,8 +115,8 @@ void ShopKeeper::enterStore()
     while (true) {
         system("cls");
         fmt::print("你想买入[buy]还是卖出[sell],输入[out]退出:");
-        std::string choice;
-        std::cin >> choice;
+        string choice;
+        cin >> choice;
         if (choice == "out") { break; }
         if (choice == "sell") {
             Player.openBag();
@@ -89,78 +130,62 @@ void ShopKeeper::enterStore()
     }
 }
 
-void ShopKeeper::buyPills() const
+void ShopKeeper::buyPills()
 {
-    fmt::print("你想什么类型的药品，回血丹[red]还是定神丹[blue]:");
-    std::string choice2;
-    std::cin >> choice2;
-    while (choice2 != "red" && choice2 != "blue") {
+    fmt::print("你想什么类型的药品，");
+    print(fg(fmt::color::red), "回血丹");
+    fmt::print("[red]还是");
+    print(fg(fmt::color::blue), "回元丹");
+    fmt::print("[blue]: ");
+
+    string pill_type;
+    cin >> pill_type;
+    while (pill_type != "red" && pill_type != "blue") {
         fmt::print("错误指令！\n");
-        std::cin >> choice2;
+        cin >> pill_type;
     }
 
     fmt::print("你想要什么大小的药品，大[big]、中[mid]还是小[small]:");
-    std::string choice3;
-    std::cin >> choice3;
-    while (choice3 != "big" && choice3 != "mid" && choice3 != "small") {
+    string pill_size;
+    cin >> pill_size;
+    while (pill_size != "big" && pill_size != "mid" && pill_size != "small") {
         fmt::print("错误指令！\n");
-        std::cin >> choice3;
+        cin >> pill_size;
+    }
+
+    Pill pill_buy {Pill::Type::BLOOD_PILL, Pill::Size::BIG};
+    int price_per_unit = 0;
+    // 根据药品类型和大小设置价格
+    if (pill_type == "blue") {
+        pill_buy.type = Pill::Type::MANA_PILL;
+    }
+
+    if (pill_size == "big") {
+        price_per_unit = 100;
+    }
+    else if (pill_size == "mid") {
+        price_per_unit = 80;
+        pill_buy.size = Pill::Size::MID;
+    }
+    else {
+        price_per_unit = 50;
+        pill_buy.size = Pill::Size::SMALL;
     }
 
     fmt::print("你想购买多少瓶(不超过10瓶)？:");
-    std::string input;
-    bool error = false;
+    string input;
     int quantity = 0;
-    do {
-        error = false;
-        std::cin >> input;
-        for (const auto c : input) {
-            if (!isdigit(c)) {
-                fmt::print("你输入了非数字。");
-                error = true;
-                break;
-            }
-        }
-        if (!error) {
+    while (true) {
+        cin >> input;
+        if (!input.empty() && all_of(input.begin(), input.end(), ::isdigit)) {
             quantity = stoi(input);
-            if (quantity > 10) {
+            if (quantity > 10)
                 fmt::print("不得购买超过10瓶");
-                error = true;
-            }
+            else
+                break;
         }
-    } while (error);
-
-    Pill::Size size = {};
-    int price_per_unit = 0;
-
-    // 根据药品类型和大小设置价格
-    if (choice2 == "red") {
-        if (choice3 == "big") {
-            price_per_unit = 100;
-            size = Pill::Size::BIG;
-        }
-        else if (choice3 == "mid") {
-            price_per_unit = 80;
-            size = Pill::Size::MID;
-        }
-        else {
-            price_per_unit = 50;
-            size = Pill::Size::SMALL;
-        }
-    }
-    else if (choice2 == "blue") {
-        if (choice3 == "big") {
-            price_per_unit = 200;
-            size = Pill::Size::BIG;
-        }
-        else if (choice3 == "mid") {
-            price_per_unit = 120;
-            size = Pill::Size::MID;
-        }
-        else {
-            price_per_unit = 60;
-            size = Pill::Size::SMALL;
-        }
+        else
+            fmt::print("你输入的不是数字，请重新输入。");
     }
 
     int total_cost = price_per_unit * quantity;
@@ -172,48 +197,30 @@ void ShopKeeper::buyPills() const
     }
 
     // 处理购买逻辑
-    if (choice2 == "red") {
-        const Pill red_pill = {Pill::Type::BLOOD_PILL, size};
-        if (getPillNum(red_pill) < quantity) {
-            fmt::print("没有这么多瓶药，购买失败！");
-            return;
-        }
-        const int result = Player.gainPill(red_pill, quantity);
-        total_cost = result * price_per_unit;
-        Player.gainMoney(-total_cost); // 减少玩家的钱
-        if (result == quantity) {
-            fmt::print("你购买了{}瓶{}大小的回血丹，花费{}元。\n", input, choice3, total_cost);
-        }
-        else {
-            fmt::print("你的背包有限，无法装下剩余的{}颗丹药。", quantity - result);
-        }
+    if (getPillNum(pill_buy) < quantity) {
+        fmt::print("没有这么多瓶药，购买失败！");
+        return;
     }
-    else if (choice2 == "blue") {
-        const auto blue_pill = Pill {Pill::Type::MANA_PILL, size};
-        if (getPillNum(blue_pill) < quantity) {
-            fmt::print("没有这么多瓶药，购买失败！");
-            return;
-        }
-        int result = Player.gainPill(blue_pill, quantity);
-        total_cost = result * price_per_unit;
-        Player.gainMoney(-total_cost); // 减少玩家的钱
-        if (result == quantity) {
-            fmt::print("你购买了{}瓶{}大小的回元丹，花费{}元。\n", input, choice3, total_cost);
-        }
-        else {
-            fmt::print("你的背包有限，无法装下剩余的{}颗丹药。", quantity - result);
-        }
+    int result = Player.gainPill(pill_buy, quantity);
+    total_cost = result * price_per_unit;
+    Player.gainMoney(-total_cost); // 减少玩家的钱
+    if (result == quantity) {
+        fmt::print("你购买了{}瓶{}，花费{}元。\n", input, pill_buy.getPillName(), total_cost);
     }
+    else {
+        fmt::print("你的背包有限，无法装下剩余的{}颗丹药，共装下了{}颗丹药。", quantity - result, result);
+    }
+    setPillNum(pill_buy, result); //减少商户的丹药
 }
 
 void ShopKeeper::buyWeapon()
 {
     fmt::print("你想购买哪件武器？请输入武器名称:\n");
-    std::string weapon_name;
-    std::cin >> weapon_name;
+    string weapon_name;
+    cin >> weapon_name;
 
     // 查找玩家选择的武器
-    const auto it = std::find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
+    const auto it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
         return weapon.getName() == weapon_name;
     });
 
@@ -241,11 +248,11 @@ void ShopKeeper::buyWeapon()
 void ShopKeeper::buyArmor()
 {
     fmt::print("你想购买哪件护甲？请输入护甲名称:\n");
-    std::string armor_name;
-    std::cin >> armor_name;
+    string armor_name;
+    cin >> armor_name;
 
     // 查找玩家选择的护甲
-    const auto it = std::find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
+    const auto it = find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
         return armor.getName() == armor_name;
     });
 
@@ -273,11 +280,11 @@ void ShopKeeper::buyArmor()
 void ShopKeeper::buy()
 {
     fmt::print("你想买什么，武器[weapon]、护甲[armor]还是药品[pill]:");
-    std::string choice1;
-    std::cin >> choice1;
+    string choice1;
+    cin >> choice1;
     while (choice1 != "weapon" && choice1 != "armor" && choice1 != "pill") {
         fmt::print("错误指令！\n");
-        std::cin >> choice1;
+        cin >> choice1;
     }
     if (choice1 == "pill") {
         buyPills();
@@ -295,10 +302,10 @@ void ShopKeeper::buy()
 void ShopKeeper::sellArmor()
 {
     fmt::print("你想购卖哪件护甲？请输入护甲名称:\n");
-    std::string armorName;
-    std::cin >> armorName;
+    string armorName;
+    cin >> armorName;
     // 查找玩家选择的护甲
-    const auto it = std::find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
+    const auto it = find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
         return armor.getName() == armorName;
     });
 
@@ -323,11 +330,11 @@ void ShopKeeper::sellArmor()
 void ShopKeeper::sellWeapon()
 {
     fmt::print("你想购买哪件武器？请输入武器名称:\n");
-    std::string weapon_name;
-    std::cin >> weapon_name;
+    string weapon_name;
+    cin >> weapon_name;
 
     // 查找玩家选择的武器
-    const auto it = std::find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
+    const auto it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
         return weapon.getName() == weapon_name;
     });
 
@@ -353,11 +360,11 @@ void ShopKeeper::sellWeapon()
 void ShopKeeper::sell()
 {
     fmt::print("你想卖什么，武器[weapon]、护甲[armor]");
-    std::string choice1;
-    std::cin >> choice1;
+    string choice1;
+    cin >> choice1;
     while (choice1 != "weapon" && choice1 != "armor") {
         fmt::print("错误指令！\n");
-        std::cin >> choice1;
+        cin >> choice1;
     }
     if (choice1 == "armor") {
         sellArmor();
@@ -368,16 +375,32 @@ void ShopKeeper::sell()
 }
 
 
+ShopKeeper::ShopKeeper(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &weapons_id, const std::vector<int> &armors_id): NPC(std::move(name), std::move(description), std::move(dia))
+{
+    for (const int id : armors_id) {
+        if (id == -1) {
+            break;
+        }
+        armors.push_back(Armors[id]);
+    }
+    for (const int id : weapons_id) {
+        if (id == -1) {
+            break;
+        }
+        weapons.push_back(Weapons[id]);
+    }
+}
+
 void ShopKeeper::talk()
 {
     system("cls");
-    fmt::print("{} : {}", name, dialogue);
+    fmt::print("{} : {}", name, dialogues[0]);
     fmt::print("要来看看我的店铺吗[yes]或[no]:");
-    std::string choice;
-    std::cin >> choice;
+    string choice;
+    cin >> choice;
     while (choice != "yes" && choice != "no") {
         fmt::print("错误指令！\n");
-        std::cin >> choice;
+        cin >> choice;
     }
     if (choice == "no")
         return;

@@ -73,6 +73,6 @@ void Skill::setExistTime(const int exist_time) { this->exist_time = exist_time; 
 
 void Skill::save() const
 {
-    ofstream out_file("../../files/" + Player.getName() + "/skill.dat", ios::binary);
+    ofstream out_file("../files/" + Player.getName() + "/skill.dat", ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }

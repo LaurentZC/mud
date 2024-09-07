@@ -195,7 +195,7 @@ int Bag::addPill(const Pill pill, const int num)
     if (amount + num > 10) {
         fmt::println("你尝试把最后的丹药放进去，可惜努力了半天只能装下10颗");
         amount = 10;
-            temp = amount - temp;
+        temp = amount - temp;
     }
     else {
         amount += num;
@@ -207,33 +207,36 @@ int Bag::addPill(const Pill pill, const int num)
 
 void Bag::save() const
 {
-    const string path = "../../files/" + Player.getName() + "/Bag";
+    const string path = "../files/" + Player.getName() + "/Bag";
     filesystem::create_directories(path);
-
-    for (const auto &weapons : weapons) {
-        weapons.save();
+    if (!weapons.empty()) {
+        for (const Weapon &weapon : weapons) {
+            weapon.save();
+        }
     }
-    for (const auto &armor : armors) {
-        armor.save();
+    if (!armors.empty()) {
+        for (const Armor &armor : armors) {
+            armor.save();
+        }
     }
-
     ofstream file(path + "/pill.dat", ios::binary);
     // 保存 map 大小
-    const size_t map_size = pills.size();
-    file.write(reinterpret_cast<const char *>(&map_size), sizeof(map_size));
+    if (!pills.empty()) {
+        const size_t map_size = pills.size();
+        file.write(reinterpret_cast<const char *>(&map_size), sizeof(map_size));
 
-    // 保存每个 Pill 和对应的数量
-    for (const auto &[pill, cnt] : pills) {
-        pill.serialize(file);
-        file.write(reinterpret_cast<const char *>(&cnt), sizeof(cnt));
+        // 保存每个 Pill 和对应的数量
+        for (const auto &[pill, cnt] : pills) {
+            pill.serialize(file);
+            file.write(reinterpret_cast<const char *>(&cnt), sizeof(cnt));
+        }
     }
-
     file.close();
 }
 
 void Bag::load()
 {
-    const string path = "../../files/" + Player.getName() + "/Bag";
+    const string path = "../files/" + Player.getName() + "/Bag";
 
     ifstream file(path, ios::binary);
 

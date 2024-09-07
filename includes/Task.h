@@ -20,6 +20,8 @@ public:
     [[nodiscard]] int getMoney() const;
     [[nodiscard]] bool ifTaskFinished() const;
 
+    bool operator==(const Task &other) const;
+
 private:
     int id {};                // id
     std::string name;         // 名字

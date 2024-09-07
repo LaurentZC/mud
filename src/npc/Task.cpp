@@ -20,7 +20,7 @@ void Task::showTask()
 
 void Task::save() const
 {
-    std::ofstream out_file("../../files/" + Player.getName() + "/task.dat", std::ios::binary);
+    std::ofstream out_file("../files/" + Player.getName() + "/task.dat", std::ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }
 
@@ -35,6 +35,8 @@ int Task::getExperience() const { return experience; }
 int Task::getMoney() const { return money; }
 
 bool Task::ifTaskFinished() const { return if_finished; }
+
+bool Task::operator==(const Task &other) const { return id == other.id; }
 
 Task::Task() = default;
 Task::Task(const int id, std::string n, std::string desc, const int exp, const int skill_id_, const int m): id(id), name(std::move(n)), description(std::move(desc)), experience(exp), skill_id(skill_id_), money(m) { }

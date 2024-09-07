@@ -148,13 +148,13 @@ Area creatShangHui()
         // 小怪
         TextColor {{"敌人"}, fmt::color::yellow},
         // 精英怪
-        TextColor {{"敌方"}, fmt::color::orange},
+        TextColor {{"影刃卫", "怒焰卫", "天霸卫"}, fmt::color::orange},
         // boss
         TextColor {{"段霖"}, fmt::color::gold},
         // 奖励
         TextColor {{"箱子"}, fmt::color::cyan},
         // 陷阱
-        TextColor {{"陷阱", "毒气", "爆炸"}, fmt::color::red}
+        TextColor {{"陷阱", "毒气", "爆炸", "箭"}, fmt::color::red}
     };
     // @formatter:on
 

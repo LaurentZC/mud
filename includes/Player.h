@@ -23,6 +23,9 @@ public:
 
     void acceptTask(const Task &task);
     void gainSkill(int index);
+    void showTask() const;
+
+    void removeTask(const Task &task);
     [[nodiscard]] int gainPill(Pill pill, int index) const;
 
     void buyArmor(const Armor &armor) const;

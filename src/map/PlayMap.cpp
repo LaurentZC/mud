@@ -40,7 +40,7 @@ void changeMap(Area &map)
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../../files/" + Player.getName() + "/maps/WuWeiCheng.txt"; !exists(file_path)) {
+                if (const filesystem::path file_path = "../files/" + Player.getName() + "/maps/WuWeiCheng.txt"; !exists(file_path)) {
                     fmt::print("你：师傅，你知道现如今武威城的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n");
@@ -67,7 +67,7 @@ void changeMap(Area &map)
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../../files/" + Player.getName() + "/maps/ShangHui.txt"; !exists(file_path)) {
+                if (const filesystem::path file_path = "../files/" + Player.getName() + "/maps/ShangHui.txt"; !exists(file_path)) {
                     fmt::print("你：师傅，你知道现如今天下商会的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n");
@@ -149,7 +149,7 @@ void playWuWeiCheng(Area &map)
                     Fight(Enemy::creatElite(Player.position)).fight();
                     rooms[x][y].clear();
 
-                    filesystem::path base_path = "../../files";
+                    filesystem::path base_path = "../files";
                     filesystem::path player_path = Player.getName();
                     filesystem::path maps_path = "maps/WuWeiCheng.txt";
                     filesystem::path file_path = base_path / player_path / maps_path;
@@ -262,7 +262,7 @@ void playShangHui(Area &map)
                     waitForLoad(1000);
                     Fight(Enemy::creatElite(Player.position)).fight();
                     rooms[x][y].clear();
-                    filesystem::path base_path = "../../files";
+                    filesystem::path base_path = "../files";
                     filesystem::path player_path = Player.getName();
                     filesystem::path maps_path = "maps/ShangHui.txt";
                     filesystem::path file_path = base_path / player_path / maps_path;
@@ -439,10 +439,13 @@ void printMap(std::vector<std::vector<Room> > grid)
 {
     size_t max_width = 0;
     // 计算字符串的最大宽度
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            cell.setName(fmt::format("[{}]", cell.getName()));
-            max_width = std::max(max_width, cell.getName().length());
+    for (size_t i = 0; i < grid.size(); ++i) {
+        for (size_t j = 0; j < grid[i].size(); ++j) {
+            if (i == Player.position[2] && j == Player.position[3])
+                grid[i][j].setName(fmt::format("[{}](*)", grid[i][j].getName()));
+            else
+                grid[i][j].setName(fmt::format("[{}]", grid[i][j].getName()));
+            max_width = std::max(max_width, grid[i][j].getName().length());
         }
     }
 

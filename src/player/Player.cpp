@@ -98,6 +98,19 @@ void Player::usePoint()
 
 void Player::gainSkill(const int index) { skills.push_back(Skills[index]); }
 
+void Player::showTask() const
+{
+    if (tasks.begin() == tasks.end()) {
+        fmt::print("你现在没有任务");
+        return;
+    }
+    for (const auto &task : tasks) {
+        fmt::print("{}: {}\n任务奖励: {}钱，{}经验\n", task.getName(), task.getDescription(), task.getMoney(), task.getExperience());
+    }
+}
+
+void Player::removeTask(const Task &task) { tasks.erase(remove(tasks.begin(), tasks.end(), task), tasks.end()); }
+
 int Player::gainPill(const Pill pill, const int index) const
 {
     const int num = bag->addPill(pill, index);
@@ -225,7 +238,7 @@ vector<Skill> &Player::getSkills() { return skills; }
 void Player::save() const
 {
     // 玩家创建一个新的文件夹
-    const string folder_path = "../../files/" + name;
+    const string folder_path = "../files/" + name;
     filesystem::create_directories(folder_path);
     //创建了一个fileToPlayer的文件输出流对象，以二进制写入SavePlayer.txt
     ofstream out_file(folder_path + "/Player.dat", ios::binary);
@@ -260,11 +273,15 @@ void Player::save() const
     out_file.write(reinterpret_cast<const char *>(&money), sizeof(money));
     out_file.close();
     //向文件中写入数据，将skill类型的类型数据转换成char类型的指针
-    for (const auto &skill : skills) {
-        skill.save();
+    if (!skills.empty()) {
+        for (const auto &skill : skills) {
+            skill.save();
+        }
     }
-    for (const auto &task : tasks) {
-        task.save();
+    if (!tasks.empty()) {
+        for (const auto &task : tasks) {
+            task.save();
+        }
     }
     bag->save();
     fmt::print("保存成功！\n");
@@ -272,7 +289,7 @@ void Player::save() const
 
 bool Player::load(const string &archive)
 {
-    if (string folder_path = "../../files/" + archive; filesystem::exists(folder_path) && filesystem::is_directory(folder_path)) {
+    if (string folder_path = "../files/" + archive; filesystem::exists(folder_path) && filesystem::is_directory(folder_path)) {
         ifstream file_to_player(folder_path + "/Player.dat", ios::binary);
         // 读取 name 长度和内容
         size_t name_length;
