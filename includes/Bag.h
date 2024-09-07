@@ -5,9 +5,6 @@
 
 #include "Equipment.h"
 #include "Pill.h"
-#include "Player.h"
-
-class Player;
 
 class Bag
 {

@@ -12,18 +12,18 @@
 #include "Helper.h"
 #include "fmt/core.h"
 
-extern Player Player;
+extern Player Gamer;
 
 Fight::Fight(Enemy enemy): enemy(std::move(enemy)) { }
 
 // 获得奖励
 void Fight::gainTrophy() const
 {
-    Player.gainExp(enemy.getExperience());
-    Player.gainMoney(enemy.getMoney());
-    Player.gainArmor(enemy.getArmor());
-    Player.gainWeapon(enemy.getWeapon());
-    Player.gainSkill(enemy.getSkillId());
+    Gamer.gainExp(enemy.getExperience());
+    Gamer.gainMoney(enemy.getMoney());
+    Gamer.gainArmor(enemy.getArmor());
+    Gamer.gainWeapon(enemy.getWeapon());
+    Gamer.gainSkill(enemy.getSkillId());
 }
 
 // 计算伤害
@@ -36,9 +36,9 @@ int calculateDamage(const int damage, const int defence)
 // 清空状态
 void clearBuff(const std::vector<Skill>::iterator &skill)
 {
-    Player.setDamage(Player.getDamage() - skill->getAddDamage());
-    Player.setDefence(Player.getDefence() - skill->getAddDamage());
-    Player.setCritical(Player.getCritical() - skill->getAddCritical());
+    Gamer.setDamage(Gamer.getDamage() - skill->getAddDamage());
+    Gamer.setDefence(Gamer.getDefence() - skill->getAddDamage());
+    Gamer.setCritical(Gamer.getCritical() - skill->getAddCritical());
 }
 
 // 随机返回 true / false
@@ -53,39 +53,39 @@ bool achievePercent(const double probability)
 
 void Fight::attackEnemy()
 {
-    if (achievePercent(Player.getCritical())) {
-        enemy.decHp(calculateDamage(Player.getDamage() * 2, enemy.getDefence()));
+    if (achievePercent(Gamer.getCritical())) {
+        enemy.decHp(calculateDamage(Gamer.getDamage() * 2, enemy.getDefence()));
         return;
     }
-    enemy.decHp(calculateDamage(Player.getDamage(), enemy.getDefence()));
+    enemy.decHp(calculateDamage(Gamer.getDamage(), enemy.getDefence()));
 }
 
 void Fight::attackPlayer(const int defence) const
 {
     if (achievePercent(enemy.getCritical())) {
-        Player.setHp(Player.getHp() - calculateDamage(Player.getDamage() * 2, defence));
+        Gamer.setHp(Gamer.getHp() - calculateDamage(Gamer.getDamage() * 2, defence));
         return;
     }
-    Player.setHp(Player.getHp() - calculateDamage(enemy.getDamage(), defence));
+    Gamer.setHp(Gamer.getHp() - calculateDamage(enemy.getDamage(), defence));
 }
 
 void Fight::useSkill() const
 {
-    Player.checkSkill();
+    Gamer.checkSkill();
     int pos;
     fmt::print("你想用哪个技能[请输入其编号，0是退出]: ");
     while (true) {
         std::cin >> pos;
         if (pos == 0)
             break;
-        if (0 < pos && pos < Player.getSkills().size()) {
+        if (0 < pos && pos < Gamer.getSkills().size()) {
             break;
         }
         fmt::print("请输入对的编号: ");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    const auto skill = Player.getSkills()[pos];
+    const auto skill = Gamer.getSkills()[pos];
     const auto check = Skills[skill.getId()].use();
     if (!check.has_value()) {
         fmt::print("元气不足，无法释放。\n");
@@ -98,7 +98,7 @@ void Fight::useSkill() const
 // 弹反
 bool ifSucceedDodge()
 {
-    if (achievePercent(Player.getEvasion())) {
+    if (achievePercent(Gamer.getEvasion())) {
         return true;
     }
     fmt::println("准备！！！");
@@ -231,7 +231,7 @@ void Fight::fight()
         auto showHp = [&description, &slowPrintDescription, this] {
             description = "玩家血量: ";
             slowPrintDescription();
-            print(fg(fmt::color::red), "{} / {}\n", Player.getHp(), Player.getMaxHp());
+            print(fg(fmt::color::red), "{} / {}\n", Gamer.getHp(), Gamer.getMaxHp());
 
             description = "敌人血量: ";
             slowPrintDescription();
@@ -243,7 +243,7 @@ void Fight::fight()
             fmt::print("[player]查看自身状态,[enemy]查看敌人属性,[attack]攻击,[skill]释放技能: ");
             std::cin >> choice;
             if (choice == "player") {
-                Player.showPlayer();
+                Gamer.showPlayer();
             }
             else if (choice == "enemy") {
                 enemy.showEnemy();
@@ -282,9 +282,9 @@ void Fight::fight()
                 }
             }
             if (choice == "defence") {
-                const int damage = calculateDamage(enemy.getDamage(), Player.getDefence());
+                const int damage = calculateDamage(enemy.getDamage(), Gamer.getDefence());
                 fmt::print("你受到了{}点伤害", damage);
-                attackPlayer(Player.getDefence());
+                attackPlayer(Gamer.getDefence());
                 ++round;
             }
             else {
@@ -294,13 +294,13 @@ void Fight::fight()
                 }
                 else {
                     attackPlayer(0);
-                    Player.setHp(Player.getHp() - enemy.getDamage());
-                    fmt::println("你受到{}点伤害，还剩{}点血量", enemy.getDamage(), Player.getHp());
+                    Gamer.setHp(Gamer.getHp() - enemy.getDamage());
+                    fmt::println("你受到{}点伤害，还剩{}点血量", enemy.getDamage(), Gamer.getHp());
                 }
             }
         }
 
-        if (Player.getHp() <= 0) {
+        if (Gamer.getHp() <= 0) {
             fmt::println("你被打败了！");
             defeat();
             // 问的大佬: 重启程序

@@ -16,14 +16,14 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 extern Area MainCity;
 
 bool isValidMove(int x, int y, Area &map, char dir);
 
 void changeMap(Area &map)
 {
-    auto &[c, x, y] = Player.position;
+    auto &[c, x, y] = Gamer.position;
     string input;
     print(fg(fmt::color::green), "马夫：公子要去那个地方？。\n");
     fmt::print("1. 武威城 \t 2. 天下商会 \t q. 暂不出行");
@@ -36,11 +36,11 @@ void changeMap(Area &map)
         print(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n");
         switch (input[0]) {
             case '1' :
-                if (Player.getLevel() < 30) {
+                if (Gamer.getLevel() < 30) {
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../files/" + Player.getName() + "/maps/WuWeiCheng.txt"; !exists(file_path)) {
+                if (const filesystem::path file_path = "../files/" + Gamer.getName() + "/maps/WuWeiCheng.txt"; !exists(file_path)) {
                     fmt::print("你：师傅，你知道现如今武威城的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n");
@@ -63,11 +63,11 @@ void changeMap(Area &map)
                 return;
 
             case '2' :
-                if (Player.getLevel() < 40) {
+                if (Gamer.getLevel() < 40) {
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../files/" + Player.getName() + "/maps/ShangHui.txt"; !exists(file_path)) {
+                if (const filesystem::path file_path = "../files/" + Gamer.getName() + "/maps/ShangHui.txt"; !exists(file_path)) {
                     fmt::print("你：师傅，你知道现如今天下商会的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n");
@@ -104,7 +104,7 @@ void changeMap(Area &map)
 
 void playWuWeiCheng(Area &map)
 {
-    const auto &[c, x, y] = Player.position;
+    const auto &[c, x, y] = Gamer.position;
     auto &rooms = map.getArea();
     fmt::print("{}\n", rooms[x][y].getDescription());
     fmt::print("你想做些什么呢。");
@@ -128,7 +128,7 @@ void playWuWeiCheng(Area &map)
                     print(fg(fmt::color::yellow), "陆洪的手下: 小子，竟敢擅闯我们的地盘，拿命来！");
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatEnemy(Player.position)).fight();
+                    Fight(Enemy::creatEnemy(Gamer.position)).fight();
                     rooms[x][y].clear();
                     break;
                 }
@@ -137,7 +137,7 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Player.position)).fight();
+                    Fight(Enemy::creatElite(Gamer.position)).fight();
                     rooms[x][y].clear();
                     break;
                 }
@@ -146,11 +146,11 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Player.position)).fight();
+                    Fight(Enemy::creatElite(Gamer.position)).fight();
                     rooms[x][y].clear();
 
                     filesystem::path base_path = "../files";
-                    filesystem::path player_path = Player.getName();
+                    filesystem::path player_path = Gamer.getName();
                     filesystem::path maps_path = "maps/WuWeiCheng.txt";
                     filesystem::path file_path = base_path / player_path / maps_path;
                     filesystem::remove(file_path);
@@ -172,12 +172,12 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     if (x == 1 && y == 3) {
                         fmt::print("这里有一颗丹药，你服用之后获得了三个属性点。");
-                        Player.addPoints(3);
+                        Gamer.addPoints(3);
                     }
                     else {
                         fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。");
-                        Player.gainWeapon(7);
-                        Player.gainArmor(11);
+                        Gamer.gainWeapon(7);
+                        Gamer.gainArmor(11);
                         fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。");
                     }
                     rooms[x][y].clear();
@@ -202,7 +202,7 @@ void playWuWeiCheng(Area &map)
             }
         }
         else if (command == "bag") {
-            Player.openBag();
+            Gamer.openBag();
         }
         else if (command == "quit") {
             handleQuit(map, quit);
@@ -216,7 +216,7 @@ void playWuWeiCheng(Area &map)
 
 void playShangHui(Area &map)
 {
-    auto &[c, x, y] = Player.position;
+    auto &[c, x, y] = Gamer.position;
     auto &rooms = map.getArea();
     fmt::print("{}\n", rooms[x][y].getDescription());
     fmt::print("你想做些什么呢。");
@@ -242,7 +242,7 @@ void playShangHui(Area &map)
                     print(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！");
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatEnemy(Player.position)).fight();
+                    Fight(Enemy::creatEnemy(Gamer.position)).fight();
                     rooms[x][y].clear();
                     break;
                 }
@@ -251,7 +251,7 @@ void playShangHui(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Player.position)).fight();
+                    Fight(Enemy::creatElite(Gamer.position)).fight();
                     rooms[x][y].clear();
                     break;
                 }
@@ -260,10 +260,10 @@ void playShangHui(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Player.position)).fight();
+                    Fight(Enemy::creatElite(Gamer.position)).fight();
                     rooms[x][y].clear();
                     filesystem::path base_path = "../files";
-                    filesystem::path player_path = Player.getName();
+                    filesystem::path player_path = Gamer.getName();
                     filesystem::path maps_path = "maps/ShangHui.txt";
                     filesystem::path file_path = base_path / player_path / maps_path;
                     filesystem::remove(file_path);
@@ -279,12 +279,12 @@ void playShangHui(Area &map)
                     // 两个箱子获得点什么
                     if (x == 1 && y == 5) {
                         fmt::print("这里有一颗丹药，你服用之后获得了五个属性点。");
-                        Player.addPoints(5);
+                        Gamer.addPoints(5);
                     }
                     else {
                         fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。");
-                        Player.gainWeapon(9);
-                        Player.gainArmor(13);
+                        Gamer.gainWeapon(9);
+                        Gamer.gainArmor(13);
                         fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。");
                     }
                     rooms[x][y].clear();
@@ -301,8 +301,8 @@ void playShangHui(Area &map)
                     while (true) {
                         cin >> choice;
                         if (choice == "y" || choice == "Y") {
-                            if (Player.getMoney() >= 800)
-                                Player.gainMoney(-800);
+                            if (Gamer.getMoney() >= 800)
+                                Gamer.gainMoney(-800);
                             else {
                                 fmt::print("你还没有这么多钱。");
                             }
@@ -327,7 +327,7 @@ void playShangHui(Area &map)
 
                 case Room::Content::TRAP : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    Player.setHp(static_cast<int>(Player.getHp() * 0.5));
+                    Gamer.setHp(static_cast<int>(Gamer.getHp() * 0.5));
                     break;
                 }
 
@@ -338,8 +338,8 @@ void playShangHui(Area &map)
                         waitForAnyKey();
                     }
                     else {
-                        Player.setHp(10);
-                        print(fg(fmt::color::red), "血量: {} / {}\n", Player.getHp(), Player.getMaxHp());
+                        Gamer.setHp(10);
+                        print(fg(fmt::color::red), "血量: {} / {}\n", Gamer.getHp(), Gamer.getMaxHp());
                         fmt::print("你：糟糕，没想到这毒气这么厉害。");
                     }
                 }
@@ -347,7 +347,7 @@ void playShangHui(Area &map)
             }
         }
         else if (command == "bag") {
-            Player.openBag();
+            Gamer.openBag();
         }
         else if (command == "quit") {
             handleQuit(map, quit);
@@ -361,7 +361,7 @@ void playShangHui(Area &map)
 
 void movePlayerLocation(Area &map)
 {
-    auto &[c, x, y] = Player.position;
+    auto &[c, x, y] = Gamer.position;
     string command;
     fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit): ");
     while (true) {
@@ -396,7 +396,7 @@ void movePlayerLocation(Area &map)
 
 void handleQuit(Area &current_map, bool &quit)
 {
-    auto &[c, x, y] = Player.position;
+    auto &[c, x, y] = Gamer.position;
     string input;
     while (true) {
         cin >> input;
@@ -441,7 +441,7 @@ void printMap(std::vector<std::vector<Room> > grid)
     // 计算字符串的最大宽度
     for (size_t i = 0; i < grid.size(); ++i) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
-            if (i == Player.position[2] && j == Player.position[3])
+            if (i == Gamer.position[2] && j == Gamer.position[3])
                 grid[i][j].setName(fmt::format("[{}](*)", grid[i][j].getName()));
             else
                 grid[i][j].setName(fmt::format("[{}]", grid[i][j].getName()));

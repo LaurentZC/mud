@@ -11,7 +11,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 void Bag::display()
 {
@@ -89,14 +89,14 @@ void Bag::useEquipment()
             equipment = std::move(weapons);
             auto &vec = get<vector<Weapon> >(equipment);
             vec[pos].showAttributes();
-            if (vec[pos].getMinStrength() > Player.getStrength()) {
+            if (vec[pos].getMinStrength() > Gamer.getStrength()) {
                 fmt::print("你的力量不足以使用这把武器。\n");
             }
             else {
                 fmt::print("装备成功！\n");
-                Player.removeWeapon(vec[0]);
+                Gamer.removeWeapon(vec[0]);
                 swap(vec[0], vec[pos]);
-                Player.equipWeapon(vec[0]);
+                Gamer.equipWeapon(vec[0]);
             }
             weapons = std::move(vec);
         }
@@ -104,14 +104,14 @@ void Bag::useEquipment()
             equipment = std::move(armors);
             auto &vec = get<vector<Armor> >(equipment);
             vec[pos].showAttributes();
-            if (vec[pos].getMinAgility() > Player.getStrength()) {
+            if (vec[pos].getMinAgility() > Gamer.getStrength()) {
                 fmt::print("你的力量不足以使用这把武器。\n");
             }
             else {
                 fmt::print("装备成功！\n");
-                Player.removeArmor(vec[0]);
+                Gamer.removeArmor(vec[0]);
                 swap(vec[0], vec[pos]);
-                Player.equipArmor(vec[0]);
+                Gamer.equipArmor(vec[0]);
             }
             armors = std::move(vec);
         }
@@ -207,7 +207,7 @@ int Bag::addPill(const Pill pill, const int num)
 
 void Bag::save() const
 {
-    const string path = "../files/" + Player.getName() + "/Bag";
+    const string path = "../files/" + Gamer.getName() + "/Bag";
     filesystem::create_directories(path);
     if (!weapons.empty()) {
         for (const Weapon &weapon : weapons) {
@@ -236,7 +236,7 @@ void Bag::save() const
 
 void Bag::load()
 {
-    const string path = "../files/" + Player.getName() + "/Bag";
+    const string path = "../files/" + Gamer.getName() + "/Bag";
 
     ifstream file(path, ios::binary);
 

@@ -10,11 +10,11 @@
 #include "Player.h"
 #include "fmt/core.h"
 
-extern Player Player;
+extern Player Gamer;
 
 using namespace std;
 
-void TaskGivingNPC::giveTask() const { Player.acceptTask(tasks[task_index]); }
+void TaskGivingNPC::giveTask() const { Gamer.acceptTask(tasks[task_index]); }
 
 bool TaskGivingNPC::ifFinishTask() const { return tasks[task_index].ifTaskFinished(); }
 
@@ -22,11 +22,11 @@ void TaskGivingNPC::giveReward() const
 {
     fmt::print("这是我的谢礼\n");
     fmt::println("获得了{}经验", tasks[task_index].getExperience());
-    Player.gainExp(tasks[task_index].getExperience());
+    Gamer.gainExp(tasks[task_index].getExperience());
     fmt::println("获得了{}元钱", tasks[task_index].getExperience());
-    Player.gainMoney(tasks[task_index].getMoney());
+    Gamer.gainMoney(tasks[task_index].getMoney());
     fmt::print("习得{}技能", Tasks[tasks[task_index].getSkillId()].getName());
-    Player.gainSkill(tasks[task_index].getSkillId());
+    Gamer.gainSkill(tasks[task_index].getSkillId());
 }
 
 NPC::NPC() = default;
@@ -51,7 +51,7 @@ void TaskGivingNPC::talk()
     if (ifFinishTask() == true && if_give_reward == true) {
         fmt::print("感谢你帮助了我\n");
         giveReward();
-        Player.removeTask(tasks[task_index]);
+        Gamer.removeTask(tasks[task_index]);
         //最后一个任务做完，就不能再给奖励和发任务了
         if (task_index == tasks.size() - 1) {
             if_give_reward = false;
@@ -119,7 +119,7 @@ void ShopKeeper::enterStore()
         cin >> choice;
         if (choice == "out") { break; }
         if (choice == "sell") {
-            Player.openBag();
+            Gamer.openBag();
             sell();
         }
         else {
@@ -191,7 +191,7 @@ void ShopKeeper::buyPills()
     int total_cost = price_per_unit * quantity;
 
     // 检查玩家是否有足够的钱
-    if (Player.getMoney() < total_cost) {
+    if (Gamer.getMoney() < total_cost) {
         fmt::print("你的钱不够，无法购买。\n");
         return;
     }
@@ -201,9 +201,9 @@ void ShopKeeper::buyPills()
         fmt::print("没有这么多瓶药，购买失败！");
         return;
     }
-    int result = Player.gainPill(pill_buy, quantity);
+    int result = Gamer.gainPill(pill_buy, quantity);
     total_cost = result * price_per_unit;
-    Player.gainMoney(-total_cost); // 减少玩家的钱
+    Gamer.gainMoney(-total_cost); // 减少玩家的钱
     if (result == quantity) {
         fmt::print("你购买了{}瓶{}，花费{}元。\n", input, pill_buy.getPillName(), total_cost);
     }
@@ -233,14 +233,14 @@ void ShopKeeper::buyWeapon()
     int weapon_price = selected_weapon.getMoney();
 
     // 检查玩家是否有足够的钱
-    if (Player.getMoney() < weapon_price) {
+    if (Gamer.getMoney() < weapon_price) {
         fmt::print("你的钱不够，无法购买{}。\n", selected_weapon.getName());
         return;
     }
 
     // 处理购买逻辑
-    Player.gainMoney(weapon_price);    // 减少玩家的钱
-    Player.buyWeapon(selected_weapon); //添加装备至背包
+    Gamer.gainMoney(weapon_price);    // 减少玩家的钱
+    Gamer.buyWeapon(selected_weapon); //添加装备至背包
     fmt::print("你成功购买了{}，花费{}元。\n", selected_weapon.getName(), weapon_price);
     weapons.erase(it); //买完了商店里就没有了
 }
@@ -265,13 +265,13 @@ void ShopKeeper::buyArmor()
     int armor_price = selected_armor.getMoney();
 
     // 检查玩家是否有足够的钱
-    if (Player.getMoney() < armor_price) {
+    if (Gamer.getMoney() < armor_price) {
         fmt::print("你的钱不够，无法购买{}。\n", selected_armor.getName());
         return;
     }
 
-    Player.gainMoney(-armor_price); // 减少玩家的钱
-    Player.buyArmor(selected_armor);
+    Gamer.gainMoney(-armor_price); // 减少玩家的钱
+    Gamer.buyArmor(selected_armor);
     fmt::print("你成功购买了{}，花费{}元。\n", selected_armor.getName(), armor_price);
     armors.erase(it);
 }
@@ -321,8 +321,8 @@ void ShopKeeper::sellArmor()
     const Armor &selected_armor = *it;
     int armorPrice = selected_armor.getMoney();
 
-    Player.gainMoney(static_cast<int>(armorPrice * 0.7));
-    Player.sellArmor(selected_armor); //去掉背包里的装备
+    Gamer.gainMoney(static_cast<int>(armorPrice * 0.7));
+    Gamer.sellArmor(selected_armor); //去掉背包里的装备
     fmt::print("卖掉了{}，得到了{}钱\n", selected_armor.getName(), armorPrice);
     armors.push_back(selected_armor); //卖给商店之后还可以再买回来
 }
@@ -351,8 +351,8 @@ void ShopKeeper::sellWeapon()
     const Weapon &selected_weapon = *it;
     int weapon_price = selected_weapon.getMoney();
 
-    Player.gainMoney(Player.getMoney() + static_cast<int>(weapon_price * 0.7));
-    Player.sellWeapon(selected_weapon);
+    Gamer.gainMoney(Gamer.getMoney() + static_cast<int>(weapon_price * 0.7));
+    Gamer.sellWeapon(selected_weapon);
     fmt::print("卖掉了{}，得到了{}钱\n", selected_weapon.getName(), weapon_price);
     weapons.push_back(selected_weapon);
 }

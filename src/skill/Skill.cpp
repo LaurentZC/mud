@@ -7,7 +7,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 void Skill::display()
 {
@@ -26,20 +26,20 @@ void Skill::display()
 
 optional<int> Skill::use() const
 {
-    if (consumption > Player.getMp()) {
+    if (consumption > Gamer.getMp()) {
         return nullopt;
     }
     switch (type) {
         case Type::AGGRESSIVE :
             return damage;
         case Type::RESTORATIVE :
-            Player.setHp(Player.getHp() + add_hp);
+            Gamer.setHp(Gamer.getHp() + add_hp);
             fmt::print("你回复了{}点血量\n", add_hp);
             return 0;
         case Type::GAIN :
-            Player.setDamage(Player.getDamage() + add_damage);
-            Player.setCritical(Player.getCritical() + add_critical);
-            Player.setDefence(Player.getDefence() + add_defence);
+            Gamer.setDamage(Gamer.getDamage() + add_damage);
+            Gamer.setCritical(Gamer.getCritical() + add_critical);
+            Gamer.setDefence(Gamer.getDefence() + add_defence);
             fmt::print("你的伤害增加了{}点\n", add_damage);
             fmt::print("你的暴击率增加了{}%\n", add_critical * 100);
             fmt::print("你的防御力增加了{}点\n", add_defence);
@@ -73,6 +73,6 @@ void Skill::setExistTime(const int exist_time) { this->exist_time = exist_time; 
 
 void Skill::save() const
 {
-    ofstream out_file("../files/" + Player.getName() + "/skill.dat", ios::binary);
+    ofstream out_file("../files/" + Gamer.getName() + "/skill.dat", ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }

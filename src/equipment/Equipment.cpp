@@ -9,7 +9,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 // Equipment
 Equipment::Equipment() = default;
@@ -78,13 +78,13 @@ void Weapon::showAttributes() const
 
 void Weapon::save() const
 {
-    ofstream out_file("../files/" + Player.getName() + "/Bag/weapon.dat", ios::binary);
+    ofstream out_file("../files/" + Gamer.getName() + "/Bag/weapon.dat", ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }
 
 vector<int> Weapon::load()
 {
-    ifstream in_file("../files/" + Player.getName() + "/Bag/weapon.dat", ios::binary);
+    ifstream in_file("../files/" + Gamer.getName() + "/Bag/weapon.dat", ios::binary);
     vector<int> ids;
     int id;
     while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {
@@ -148,13 +148,13 @@ int Armor::getDefence() const { return defence; }
 
 void Armor::save() const
 {
-    ofstream out_file("../files/" + Player.getName() + "/Bag/armor.dat", ios::binary);
+    ofstream out_file("../files/" + Gamer.getName() + "/Bag/armor.dat", ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }
 
 vector<int> Armor::load()
 {
-    ifstream in_file("../files/" + Player.getName() + "/Bag/armor.dat", ios::binary);
+    ifstream in_file("../files/" + Gamer.getName() + "/Bag/armor.dat", ios::binary);
     vector<int> ids;
     int id;
     while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {

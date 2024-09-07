@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Player Player;
+Player Gamer;
 
 void creat()
 {
@@ -21,10 +21,10 @@ void creat()
     fmt::print("请告诉我你的名字: ");
     string name;
     cin >> name;
-    Player.setName(name);
-    Player.save();
+    Gamer.setName(name);
+    Gamer.save();
     const fs::path map_folder = "../files/maps";
-    const fs::path player_folder = "../files/" + Player.getName();
+    const fs::path player_folder = "../files/" + Gamer.getName();
     copy(map_folder, player_folder / map_folder.filename(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 
     printSlowly("江湖，风起云涌，无数人浪迹天涯，闯荡江湖，只为追求那心中的侠客梦。\n");
@@ -60,7 +60,7 @@ bool load()
             if (!choice.empty() && all_of(choice.begin(), choice.end(), ::isdigit)) {
                 index = stoi(choice);
                 if (index <= i) {
-                    Player.load(archive[index - 1]);
+                    Gamer.load(archive[index - 1]);
                     break;
                 }
             }
@@ -97,7 +97,7 @@ void start()
 int main()
 {
     start();
-    auto &[c, x, y] = Player.position;
+    auto &[c, x, y] = Gamer.position;
     Area current_map = creatMainCity();
     switch (c) {
         case 1 :
@@ -121,7 +121,7 @@ int main()
             movePlayerLocation(current_map);
         }
         else if (command == "bag") {
-            Player.openBag();
+            Gamer.openBag();
         }
         else if (command == "chat") {
             // if (npc != "马夫") {
@@ -132,7 +132,7 @@ int main()
             // }
         }
         else if (command == "quit") {
-            Player.save();
+            Gamer.save();
             fmt::print("感谢你的游玩。");
             return 0;
         }

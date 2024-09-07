@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "fmt/core.h"
 
-extern Player Player;
+extern Player Gamer;
 
 void Task::finish()
 {
@@ -20,7 +20,7 @@ void Task::showTask()
 
 void Task::save() const
 {
-    std::ofstream out_file("../files/" + Player.getName() + "/task.dat", std::ios::binary);
+    std::ofstream out_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
 }
 

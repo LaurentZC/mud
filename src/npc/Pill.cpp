@@ -9,7 +9,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 string bloodPill(const string &text) { return format(fg(fmt::color::red), "{}", text); }
 
@@ -57,23 +57,23 @@ void Pill::usePill() const
         case Size::SMALL :
             fmt::print("嗑药成功，回复25%{}!\n", temp ? "生命值" : "元气");
             if (temp)
-                Player.setHp(static_cast<int>(Player.getHp() + Player.getMaxHp() * 0.25));
+                Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.25));
             else
-                Player.setMp(static_cast<int>(Player.getMp() + Player.getMaxMp() * 0.25));
+                Gamer.setMp(static_cast<int>(Gamer.getMp() + Gamer.getMaxMp() * 0.25));
             break;
         case Size::MID :
             fmt::print("嗑药成功，回复35%{}!\n", temp ? "生命值" : "元气");
             if (temp)
-                Player.setHp(static_cast<int>(Player.getHp() + Player.getMaxHp() * 0.35));
+                Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.35));
             else
-                Player.setMp(static_cast<int>(Player.getMp() + Player.getMaxMp() * 0.35));
+                Gamer.setMp(static_cast<int>(Gamer.getMp() + Gamer.getMaxMp() * 0.35));
             break;
         case Size::BIG :
             fmt::print("嗑药成功，回复45%{}!\n", temp ? "生命值" : "元气");
             if (temp)
-                Player.setHp(static_cast<int>(Player.getHp() + Player.getMaxHp() * 0.45));
+                Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.45));
             else
-                Player.setMp(static_cast<int>(Player.getMp() + Player.getMaxMp() * 0.55));
+                Gamer.setMp(static_cast<int>(Gamer.getMp() + Gamer.getMaxMp() * 0.55));
             break;
     }
 }

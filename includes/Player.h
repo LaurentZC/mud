@@ -18,7 +18,7 @@ public:
     void showPlayer() const;
     void checkSkill() const;
     void checkTask() const;
-    void openBag() const;
+    void openBag();
     void usePoint();
 
     void acceptTask(const Task &task);
@@ -26,15 +26,15 @@ public:
     void showTask() const;
 
     void removeTask(const Task &task);
-    [[nodiscard]] int gainPill(Pill pill, int index) const;
+    [[nodiscard]] int gainPill(Pill pill, int index);
 
-    void buyArmor(const Armor &armor) const;
-    void buyWeapon(const Weapon &weapon) const;
-    void gainWeapon(int index) const;
-    void gainArmor(int index) const;
+    void buyArmor(const Armor &armor);
+    void buyWeapon(const Weapon &weapon);
+    void gainWeapon(int index);
+    void gainArmor(int index);
 
-    void sellArmor(const Armor &armor) const;
-    void sellWeapon(const Weapon &weapon) const;
+    void sellArmor(const Armor &armor);
+    void sellWeapon(const Weapon &weapon);
     void removeArmor(const Armor &armor); //卸下装备
     void removeWeapon(const Weapon &weapon);
     void equipWeapon(const Weapon &weapon); //装上装备
@@ -96,10 +96,10 @@ private:
     double evasion {}; // 闪避率
     int agility {1};   // 闪避点数
 
-    int money {};                   // 金钱
-    const std::unique_ptr<Bag> bag; // 背包
-    std::vector<Skill> skills;      // 技能
-    std::vector<Task> tasks;        // 任务
+    int money {};              // 金钱
+    Bag bag;                   // 背包
+    std::vector<Skill> skills; // 技能
+    std::vector<Task> tasks;   // 任务
 };
 
 // @formatter:off

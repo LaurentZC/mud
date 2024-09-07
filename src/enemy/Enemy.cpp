@@ -7,7 +7,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 Enemy::Enemy() = default;
 // @formatter:off
@@ -108,9 +108,9 @@ Enemy Enemy::creatBoss(const int index)
 {
     switch (index) {
         case 0 : return  {
-                Type::BOSS, "城主", Player.getLevel(), Player.getHp(), Player.getMaxHp(),
-                Player.getDamage(), Player.getCritical(), Player.getDefence(),
-                static_cast<int> (Player.getLvExp() * 0.5), 0,
+                Type::BOSS, "城主", Gamer.getLevel(), Gamer.getHp(), Gamer.getMaxHp(),
+                Gamer.getDamage(), Gamer.getCritical(), Gamer.getDefence(),
+                static_cast<int> (Gamer.getLvExp() * 0.5), 0,
                 -1, -1, -1
             };
         case 1 : return {

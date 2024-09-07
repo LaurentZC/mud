@@ -10,7 +10,7 @@
 
 using namespace std;
 
-extern Player Player;
+extern Player Gamer;
 
 void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
@@ -62,7 +62,7 @@ void Player::checkTask() const
     }
 }
 
-void Player::openBag() const { bag->display(); }
+void Player::openBag() { bag.display(); }
 
 void Player::usePoint()
 {
@@ -111,21 +111,21 @@ void Player::showTask() const
 
 void Player::removeTask(const Task &task) { tasks.erase(remove(tasks.begin(), tasks.end(), task), tasks.end()); }
 
-int Player::gainPill(const Pill pill, const int index) const
+int Player::gainPill(const Pill pill, const int index)
 {
-    const int num = bag->addPill(pill, index);
+    const int num = bag.addPill(pill, index);
     return num;
 }
 
-void Player::gainWeapon(const int index) const
+void Player::gainWeapon(const int index)
 {
-    bag->addWeapon(Weapons[index]);
+    bag.addWeapon(Weapons[index]);
     fmt::println("获得了{}", Weapons[index].getName());
 }
 
-void Player::gainArmor(const int index) const
+void Player::gainArmor(const int index)
 {
-    bag->addArmor(Armors[index]);
+    bag.addArmor(Armors[index]);
     fmt::println("获得了{}", Armors[index].getName());
 }
 
@@ -163,14 +163,13 @@ void Player::setMp(const int mp) { this->mp = mp; }
 int Player::getHealth() const { return health; }
 void Player::setHealth(const int health) { this->health = health; }
 
-void Player::buyArmor(const Armor &armor) const { bag->addArmor(armor); }
+void Player::buyArmor(const Armor &armor) { bag.addArmor(armor); }
 
+void Player::buyWeapon(const Weapon &weapon) { bag.addWeapon(weapon); }
 
-void Player::buyWeapon(const Weapon &weapon) const { bag->addWeapon(weapon); }
+void Player::sellArmor(const Armor &armor) { bag.removeArmor(armor); }
 
-void Player::sellArmor(const Armor &armor) const { bag->removeArmor(armor); }
-
-void Player::sellWeapon(const Weapon &weapon) const { bag->removeWeapon(weapon); }
+void Player::sellWeapon(const Weapon &weapon) { bag.removeWeapon(weapon); }
 
 void Player::removeArmor(const Armor &armor)
 {
@@ -283,7 +282,7 @@ void Player::save() const
             task.save();
         }
     }
-    bag->save();
+    bag.save();
     fmt::print("保存成功！\n");
 }
 
@@ -339,7 +338,7 @@ bool Player::load(const string &archive)
             skills.push_back(Skills[id]);
         }
         file_to_skill.close();
-        bag->load();
+        bag.load();
         fmt::print("存档读取成功！");
         return true;
     }
