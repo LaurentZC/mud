@@ -17,7 +17,6 @@
 using namespace std;
 
 extern Player Gamer;
-extern Area MainCity;
 
 bool isValidMove(int x, int y, Area &map, char dir);
 
@@ -40,7 +39,7 @@ void changeMap(Area &map)
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../files/" + Gamer.getName() + "/maps/WuWeiCheng.txt"; !exists(file_path)) {
+                if (Gamer.finished[0]) {
                     fmt::print("你：师傅，你知道现如今武威城的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n");
@@ -67,7 +66,7 @@ void changeMap(Area &map)
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
                     return;
                 }
-                if (const filesystem::path file_path = "../files/" + Gamer.getName() + "/maps/ShangHui.txt"; !exists(file_path)) {
+                if (Gamer.finished[1]) {
                     fmt::print("你：师傅，你知道现如今天下商会的状况吗？\n");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n");

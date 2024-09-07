@@ -23,9 +23,6 @@ void creat()
     cin >> name;
     Gamer.setName(name);
     Gamer.save();
-    const fs::path map_folder = "../files/maps";
-    const fs::path player_folder = "../files/" + Gamer.getName();
-    copy(map_folder, player_folder / map_folder.filename(), fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 
     printSlowly("江湖，风起云涌，无数人浪迹天涯，闯荡江湖，只为追求那心中的侠客梦。\n");
     printSlowly("殊不知，在整个江湖的背后，一直有一双大手在默默操控一切，他隐藏在江湖的阴暗面，是彻头彻尾的吸血鬼。\n");

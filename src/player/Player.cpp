@@ -254,6 +254,8 @@ void Player::save() const
     out_file.write(reinterpret_cast<const char *>(&position[0]), sizeof(position[0]));
     out_file.write(reinterpret_cast<const char *>(&position[1]), sizeof(position[1]));
     out_file.write(reinterpret_cast<const char *>(&position[2]), sizeof(position[2]));
+    out_file.write(reinterpret_cast<const char *>(&finished[0]), sizeof(finished[0]));
+    out_file.write(reinterpret_cast<const char *>(&finished[1]), sizeof(finished[1]));
     out_file.write(reinterpret_cast<const char *>(&level), sizeof(level));
     out_file.write(reinterpret_cast<const char *>(&experience), sizeof(experience));
     out_file.write(reinterpret_cast<const char *>(&level_up_exp), sizeof(level_up_exp));
@@ -289,34 +291,36 @@ void Player::save() const
 bool Player::load(const string &archive)
 {
     if (string folder_path = "../files/" + archive; filesystem::exists(folder_path) && filesystem::is_directory(folder_path)) {
-        ifstream file_to_player(folder_path + "/Player.dat", ios::binary);
+        ifstream read_file(folder_path + "/Player.dat", ios::binary);
         // 读取 name 长度和内容
         size_t name_length;
-        file_to_player.read(reinterpret_cast<char *>(&name_length), sizeof(name_length));
+        read_file.read(reinterpret_cast<char *>(&name_length), sizeof(name_length));
         name.resize(name_length);
-        file_to_player.read(&name[0], name_length);
+        read_file.read(&name[0], name_length);
 
         // 从 Player.dat 中读取其他属性
-        file_to_player.read(reinterpret_cast<char *>(&position[0]), sizeof(position[0]));
-        file_to_player.read(reinterpret_cast<char *>(&position[1]), sizeof(position[1]));
-        file_to_player.read(reinterpret_cast<char *>(&position[2]), sizeof(position[2]));
-        file_to_player.read(reinterpret_cast<char *>(&level), sizeof(level));
-        file_to_player.read(reinterpret_cast<char *>(&experience), sizeof(experience));
-        file_to_player.read(reinterpret_cast<char *>(&level_up_exp), sizeof(level_up_exp));
-        file_to_player.read(reinterpret_cast<char *>(&points), sizeof(points));
-        file_to_player.read(reinterpret_cast<char *>(&max_hp), sizeof(max_hp));
-        file_to_player.read(reinterpret_cast<char *>(&max_mp), sizeof(max_mp));
-        file_to_player.read(reinterpret_cast<char *>(&hp), sizeof(hp));
-        file_to_player.read(reinterpret_cast<char *>(&mp), sizeof(mp));
-        file_to_player.read(reinterpret_cast<char *>(&health), sizeof(health));
-        file_to_player.read(reinterpret_cast<char *>(&damage), sizeof(damage));
-        file_to_player.read(reinterpret_cast<char *>(&critical), sizeof(critical));
-        file_to_player.read(reinterpret_cast<char *>(&strength), sizeof(strength));
-        file_to_player.read(reinterpret_cast<char *>(&defence), sizeof(defence));
-        file_to_player.read(reinterpret_cast<char *>(&evasion), sizeof(evasion));
-        file_to_player.read(reinterpret_cast<char *>(&agility), sizeof(agility));
-        file_to_player.read(reinterpret_cast<char *>(&money), sizeof(money));
-        file_to_player.close();
+        read_file.read(reinterpret_cast<char *>(&position[0]), sizeof(position[0]));
+        read_file.read(reinterpret_cast<char *>(&position[1]), sizeof(position[1]));
+        read_file.read(reinterpret_cast<char *>(&position[2]), sizeof(position[2]));
+        read_file.read(reinterpret_cast<char *>(&finished[0]), sizeof(finished[0]));
+        read_file.read(reinterpret_cast<char *>(&finished[1]), sizeof(finished[1]));
+        read_file.read(reinterpret_cast<char *>(&level), sizeof(level));
+        read_file.read(reinterpret_cast<char *>(&experience), sizeof(experience));
+        read_file.read(reinterpret_cast<char *>(&level_up_exp), sizeof(level_up_exp));
+        read_file.read(reinterpret_cast<char *>(&points), sizeof(points));
+        read_file.read(reinterpret_cast<char *>(&max_hp), sizeof(max_hp));
+        read_file.read(reinterpret_cast<char *>(&max_mp), sizeof(max_mp));
+        read_file.read(reinterpret_cast<char *>(&hp), sizeof(hp));
+        read_file.read(reinterpret_cast<char *>(&mp), sizeof(mp));
+        read_file.read(reinterpret_cast<char *>(&health), sizeof(health));
+        read_file.read(reinterpret_cast<char *>(&damage), sizeof(damage));
+        read_file.read(reinterpret_cast<char *>(&critical), sizeof(critical));
+        read_file.read(reinterpret_cast<char *>(&strength), sizeof(strength));
+        read_file.read(reinterpret_cast<char *>(&defence), sizeof(defence));
+        read_file.read(reinterpret_cast<char *>(&evasion), sizeof(evasion));
+        read_file.read(reinterpret_cast<char *>(&agility), sizeof(agility));
+        read_file.read(reinterpret_cast<char *>(&money), sizeof(money));
+        read_file.close();
 
         ifstream file_to_task(folder_path + "/task.dat", ios::binary);
         while (true) {

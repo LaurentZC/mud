@@ -14,6 +14,7 @@ class Player
 {
 public:
     std::array<int, 3> position {0, 3, 2};
+    std::array<bool, 2> finished {false, false};
 
     void showPlayer() const;
     void checkSkill() const;
