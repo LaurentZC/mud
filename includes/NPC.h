@@ -13,11 +13,11 @@ public:
     NPC();
     NPC(std::string name, std::string description, std::vector<std::string> dialogue);
     virtual ~NPC();
-    virtual void talk() = 0;
+    virtual void talk(int) = 0;
 
 protected:
-    std::string name;                  // 名字
-    std::string description;           // 描述特征
+    std::string name;                   // 名字
+    std::string description;            // 描述特征
     std::vector<std::string> dialogues; // 对白
 };
 
@@ -26,7 +26,7 @@ class TaskGivingNPC final : public NPC
 public:
     TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &task_id);
 
-    void talk() override;
+    void talk(int) override;
 
 private:
     void giveTask() const;
@@ -41,35 +41,35 @@ private:
 class ShopKeeper final : public NPC
 {
 public:
+    ShopKeeper();
     ShopKeeper(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &weapons_id, const std::vector<int> &armors_id);
 
-    void talk() override;
-    [[nodiscard]] int getPillNum(const Pill &pill) const;
+    void talk(int index) override;
 
 private:
     void setPillNum(const Pill &pill, int pill_num);
-    void showGoods();
-    void buy();
+    void showGoods(int);
+    void enterStore(int);
+    void buy(int);
     void sell();
-    void enterStore();
     void buyPills();
     void buyWeapon();
     void buyArmor();
     void sellArmor();
     void sellWeapon();
+    [[nodiscard]] int getPillNum(const Pill &pill) const;
 
     std::vector<Weapon> weapons;
     std::vector<Armor> armors;
     // @formatter:off
     std::map<Pill, int> pills = {
-        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::BIG}, 0},
-        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::MID}, 0},
-        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::SMALL}, 0},
-        {Pill{Pill::Type::MANA_PILL, Pill::Size::BIG}, 0},
-        {Pill{Pill::Type::MANA_PILL, Pill::Size::MID}, 0},
-        {Pill{Pill::Type::MANA_PILL, Pill::Size::SMALL}, 0}
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::BIG}, 10},
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::MID}, 10},
+        {Pill{Pill::Type::BLOOD_PILL, Pill::Size::SMALL}, 10},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::BIG}, 10},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::MID}, 10},
+        {Pill{Pill::Type::MANA_PILL, Pill::Size::SMALL}, 10}
     };
-
 };
 
 inline const std::array<TaskGivingNPC, 5> TaskGivingNPCs = {

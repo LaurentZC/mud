@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "Area.h"
 #include "Enemy.h"
@@ -32,63 +33,51 @@ void changeMap(Area &map)
             fmt::print("无效的输入[1 / 2 / q]: ");
             continue;
         }
-        print(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n");
+        printSlowly(format(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n"));
         switch (input[0]) {
             case '1' :
                 if (Gamer.getLevel() < 30) {
-                    print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
                 if (Gamer.finished[0]) {
-                    fmt::print("你：师傅，你知道现如今武威城的状况吗？\n");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n");
-                    waitForAnyKey();
-                    fmt::print("你：是吗，那太好了。\n");
-                    print(fg(fmt::color::green), "马夫：哈哈哈，这都归功于公子啊。\n");
-                    waitForAnyKey();
+                    printSlowly("你：师傅，你知道现如今武威城的状况吗？\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n"));
+                    printSlowly("你：是吗，那太好了。\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：哈哈哈，这都归功于公子啊。\n"));
                     return;
                 }
                 map = creatWuWeiCheng();
                 x = Gates[map.getName()].first;
                 y = Gates[map.getName()].second;
                 waitForLoad(100);
-                print(fg(fmt::color::green), "马夫：这便是武威楼了，那陆洪实力高强，公子一定要小心啊。\n");
-                waitForAnyKey();
-                print(fg(fmt::color::green), "马夫：我这里有一份这楼里的地图，公子且收好，莫要丢了。\n");
-                waitForAnyKey();
-                fmt::print("你：多谢了。\n");
+                printSlowly(format(fg(fmt::color::green), "马夫：这便是武威楼了，那陆洪实力高强，公子一定要小心啊。\n"));
+                printSlowly(format(fg(fmt::color::green), "马夫：我这里有一份这楼里的地图，公子且收好，莫要丢了。\n"));
+                printSlowly("你：多谢了。\n");
                 printMap(map.getArea());
                 return;
 
             case '2' :
                 if (Gamer.getLevel() < 40) {
-                    print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
                 if (Gamer.finished[1]) {
-                    fmt::print("你：师傅，你知道现如今天下商会的状况吗？\n");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n");
-                    waitForAnyKey();
-                    fmt::print("你：是吗，那太好了。\n");
-                    print(fg(fmt::color::green), "马夫：公子有空可一定要去瞧瞧。\n");
-                    waitForAnyKey();
-                    fmt::print("你：一定。\n");
-                    waitForAnyKey();
+                    printSlowly("你：师傅，你知道现如今天下商会的状况吗？\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n"));
+                    printSlowly("你：是吗，那太好了。\n");
+                    printSlowly(format(fg(fmt::color::green), "马夫：公子有空可一定要去瞧瞧。\n"));
+                    printSlowly("你：一定。\n");
                     return;
                 }
                 map = creatShangHui();
                 x = Gates[map.getName()].first;
                 y = Gates[map.getName()].second;
                 waitForLoad(100);
-                print(fg(fmt::color::green), "马夫：这便是天下商会了，那段霖擅长偷袭，公子莫要落入他的陷阱。\n");
-                waitForAnyKey();
-                print(fg(fmt::color::green), "马夫：这商会向来隐私，没人透露过他的真实样貌。\n");
-                waitForAnyKey();
-                print(fg(fmt::color::green), "马夫：这次便只能靠公子自己摸索了。\n");
-                waitForAnyKey();
-                fmt::print("你：放心吧。\n");
+                printSlowly(format(fg(fmt::color::green), "马夫：这便是天下商会了，那段霖擅长偷袭，公子莫要落入他的陷阱。\n"));
+                printSlowly(format(fg(fmt::color::green), "马夫：这商会向来隐私，没人透露过他的真实样貌。\n"));
+                printSlowly(format(fg(fmt::color::green), "马夫：这次便只能靠公子自己摸索了。\n"));
+                printSlowly("你：放心吧。\n");
                 return;
 
             case 'q' :
@@ -107,7 +96,7 @@ void playWuWeiCheng(Area &map)
     auto &rooms = map.getArea();
     fmt::print("{}\n", rooms[x][y].getDescription());
     fmt::print("你想做些什么呢。");
-    fmt::print("\n移动:  move \t 打开背包: bag \t 离开: exit \t 保存: save \n");
+    fmt::print("\n移动:  move \t 打开背包: bag \t 离开: exit \t 保存: save \t 查看地图: map\n");
     string command;
     bool quit = false;
     while (!quit) {
@@ -145,15 +134,14 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Gamer.position)).fight();
+                    Fight(Enemy::creatElite(Gamer.position)).fight([](Player &gamer, Enemy &enemy) {
+                        enemy.decHp(-200);
+                        if (enemy.getHp() < enemy.getMaxHp() * 0.5) {
+                            enemy.setDamage(enemy.getDamage() + 10);
+                        }
+                    });
                     rooms[x][y].clear();
-
-                    filesystem::path base_path = "../files";
-                    filesystem::path player_path = Gamer.getName();
-                    filesystem::path maps_path = "maps/WuWeiCheng.txt";
-                    filesystem::path file_path = base_path / player_path / maps_path;
-                    filesystem::remove(file_path);
-
+                    Gamer.finished[0] = true;
                     fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：公子武功盖世！");
@@ -185,15 +173,11 @@ void playWuWeiCheng(Area &map)
 
                 case Room::Content::NPC : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    fmt::print("你：你们是被那陆洪囚禁的人吗？（边说边打开笼子）\n");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "囚犯：是的公子快救救我们把。\n");
-                    waitForAnyKey();
+                    printSlowly("你：你们是被那陆洪囚禁的人吗？（边说边打开笼子）\n");
+                    printSlowly(format(fg(fmt::color::green), "囚犯：是的公子快救救我们把。\n"));
                     fmt::print("叮！笼子被你一剑斩开了。\n");
-                    fmt::print("你：快点回家把。\n");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "囚犯：多谢公子。\n");
-                    waitForAnyKey();
+                    printSlowly("你：快点回家把。\n");
+                    printSlowly(format(fg(fmt::color::green), "囚犯：多谢公子。\n"));
                     quit = true;
                     break;
                 }
@@ -203,9 +187,12 @@ void playWuWeiCheng(Area &map)
         else if (command == "bag") {
             Gamer.openBag();
         }
-        else if (command == "quit") {
+        else if (command == "exit") {
             handleQuit(map, quit);
             return;
+        }
+        else if (command == "map") {
+            printMap(map.getArea());
         }
         else {
             fmt::print("无效的指令！\n");
@@ -229,16 +216,15 @@ void playShangHui(Area &map)
             movePlayerLocation(map);
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE : {
-                    fmt::print("你：没有找到段霖的藏身之处，暂且回去把。");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "马夫：老夫这就带公子离开。");
+                    printSlowly("你：没有找到段霖的藏身之处，暂且回去把。");
+                    printSlowly(format(fg(fmt::color::green), "马夫：老夫这就带公子离开。"), 10);
                     quit = true;
                     break;
                 }
 
                 case Room::Content::MONSTER : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    print(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！");
+                    printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！"), 10);
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
                     Fight(Enemy::creatEnemy(Gamer.position)).fight();
@@ -259,17 +245,19 @@ void playShangHui(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Gamer.position)).fight();
+                    if (!mask) {
+                        fmt::print("段霖在这里释放了强大的毒气，你无法抵抗。");
+                        this_thread::sleep_for(chrono::seconds(5));
+                        restart();
+                    }
+                    fmt::print("你：这里的毒气好强大，防毒面具抵挡效果也十分有限。");
+                    Fight(Enemy::creatElite(Gamer.position)).fight([](Player &gamer, Enemy &enemy) {
+                        gamer.setHp(static_cast<int>(gamer.getHp() * 0.3));
+                    });
                     rooms[x][y].clear();
-                    filesystem::path base_path = "../files";
-                    filesystem::path player_path = Gamer.getName();
-                    filesystem::path maps_path = "maps/ShangHui.txt";
-                    filesystem::path file_path = base_path / player_path / maps_path;
-                    filesystem::remove(file_path);
-                    fmt::print("你：这段霖也不过如此。");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "马夫：公子威武，天下无双！");
-                    waitForAnyKey();
+                    Gamer.finished[1] = true;
+                    printSlowly("你：这段霖也不过如此。");
+                    printSlowly(format(fg(fmt::color::green), "马夫：公子威武，天下无双！"));
                     break;
                 }
 
@@ -292,9 +280,8 @@ void playShangHui(Area &map)
 
                 case Room::Content::NPC : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    print(fg(fmt::color::green), "老翁：公子，这商会里面毒气无数，我这里恰好有一个防毒面具。\n");
-                    waitForAnyKey();
-                    print(fg(fmt::color::green), "老翁：只要800大洋，保证你买不了吃亏买不了上当。\n");
+                    printSlowly(format(fg(fmt::color::green), "老翁：公子，这商会里面毒气无数，我这里恰好有一个防毒面具。\n"));
+                    printSlowly(format(fg(fmt::color::green), "老翁：只要800大洋，保证你买不了吃亏买不了上当。\n"));
                     fmt::print("是否购买？[y / n]: ");
                     string choice;
                     while (true) {
@@ -305,18 +292,14 @@ void playShangHui(Area &map)
                             else {
                                 fmt::print("你还没有这么多钱。");
                             }
-                            fmt::print("你：这是800大洋，面具我就收下了。");
-                            waitForAnyKey();
-                            print(fg(fmt::color::green), "老翁：唉，公子你且收好。\n");
-                            waitForAnyKey();
+                            printSlowly("你：这是800大洋，面具我就收下了。");
+                            printSlowly(format(fg(fmt::color::green), "老翁：唉，公子你且收好。\n"));
                             mask = true;
                             break;
                         }
                         if (choice == "n" || choice == "N") {
-                            fmt::print("你：暂且不需要。");
-                            waitForAnyKey();
-                            print(fg(fmt::color::green), "老翁：那就祝公子一路顺风了。\n");
-                            waitForAnyKey();
+                            printSlowly("你：暂且不需要。");
+                            printSlowly(format(fg(fmt::color::green), "老翁：那就祝公子一路顺风了。\n"));
                             break;
                         }
                         fmt::print("无效的指令。请重新输入[y / n]: ");
@@ -348,7 +331,7 @@ void playShangHui(Area &map)
         else if (command == "bag") {
             Gamer.openBag();
         }
-        else if (command == "quit") {
+        else if (command == "exit") {
             handleQuit(map, quit);
             return;
         }
@@ -440,8 +423,8 @@ void printMap(std::vector<std::vector<Room> > grid)
     // 计算字符串的最大宽度
     for (size_t i = 0; i < grid.size(); ++i) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
-            if (i == Gamer.position[2] && j == Gamer.position[3])
-                grid[i][j].setName(fmt::format("[{}](*)", grid[i][j].getName()));
+            if (i == Gamer.position[1] && j == Gamer.position[2])
+                grid[i][j].setName(fmt::format("[{}*]", grid[i][j].getName()));
             else
                 grid[i][j].setName(fmt::format("[{}]", grid[i][j].getName()));
             max_width = std::max(max_width, grid[i][j].getName().length());
@@ -452,13 +435,13 @@ void printMap(std::vector<std::vector<Room> > grid)
     for (auto &row : grid) {
         for (auto &cell : row) {
             string fill(max_width - cell.getName().length(), ' ');
-            cell.getName().append(fill);
+            cell.setName(cell.getName().append(fill));
         }
     }
 
     max_width += max_width & 1 ? 1 : 0;
 
-    fmt::print("\n");
+    fmt::print("\n\n");
     for (const auto &row : grid) {
         string check;
         for (auto &cell : row) {

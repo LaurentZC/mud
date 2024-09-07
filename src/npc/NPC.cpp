@@ -45,9 +45,8 @@ TaskGivingNPC::TaskGivingNPC(std::string name, std::string description, std::vec
     }
 }
 
-void TaskGivingNPC::talk()
+void TaskGivingNPC::talk(int)
 {
-    system("cls");
     if (ifFinishTask() == true && if_give_reward == true) {
         fmt::print("感谢你帮助了我\n");
         giveReward();
@@ -92,40 +91,40 @@ void ShopKeeper::setPillNum(const Pill &pill, const int pill_num)
     it->second -= pill_num;
 }
 
-void ShopKeeper::showGoods()
+void ShopKeeper::showGoods(const int index)
 {
-    system("cls");
-    fmt::print("武器: \n");
-    for (auto &weapon : weapons) {
-        weapon.showAttributes();
+    if (index == 2) {
+        fmt::print("武器: \n");
+        for (auto &weapon : weapons) {
+            weapon.showAttributes();
+        }
+        fmt::println("护甲:");
+        for (auto &armor : armors) {
+            armor.showAttributes();
+        }
     }
-    fmt::println("护甲:");
-    for (auto &armor : armors) {
-        armor.showAttributes();
-    }
-    fmt::println("药品: ");
-    for (auto &[pill, count] : pills) {
-        fmt::print("{} : {}", pill.getPillName(), count);
+    if (index == 1) {
+        fmt::println("药品: ");
+        for (auto &[pill, count] : pills) {
+            fmt::print("{} : {}", pill.getPillName(), count);
+        }
     }
 }
 
 
-void ShopKeeper::enterStore()
+void ShopKeeper::enterStore(const int index)
 {
     while (true) {
-        system("cls");
-        fmt::print("你想买入[buy]还是卖出[sell],输入[out]退出:");
-        string choice;
-        cin >> choice;
-        if (choice == "out") { break; }
-        if (choice == "sell") {
+        if (index == 2) {
             Gamer.openBag();
             sell();
         }
-        else {
-            showGoods();
-            buy();
-        }
+        fmt::print("你想买点什么东西[buy]，输入[out]退出:");
+        string choice;
+        cin >> choice;
+        if (choice == "out") { break; }
+        showGoods(index);
+        buy(index);
         fmt::print("错误指令！\n");
     }
 }
@@ -141,11 +140,11 @@ void ShopKeeper::buyPills()
     string pill_type;
     cin >> pill_type;
     while (pill_type != "red" && pill_type != "blue") {
-        fmt::print("错误指令！\n");
+        fmt::print("错误指令！请重新输入: ");
         cin >> pill_type;
     }
 
-    fmt::print("你想要什么大小的药品，大[big]、中[mid]还是小[small]:");
+    fmt::print("你想要什么大小的药品，大[big]、中[mid]还是小[small]: ");
     string pill_size;
     cin >> pill_size;
     while (pill_size != "big" && pill_size != "mid" && pill_size != "small") {
@@ -277,26 +276,31 @@ void ShopKeeper::buyArmor()
 }
 
 
-void ShopKeeper::buy()
+void ShopKeeper::buy(const int index)
 {
-    fmt::print("你想买什么，武器[weapon]、护甲[armor]还是药品[pill]:");
-    string choice1;
-    cin >> choice1;
-    while (choice1 != "weapon" && choice1 != "armor" && choice1 != "pill") {
-        fmt::print("错误指令！\n");
-        cin >> choice1;
+    if (index == 2) {
+        fmt::print("你想买什么，武器[weapon]、护甲[armor]、退出[quit]: ");
+        string choice;
+        cin >> choice;
+        while (choice != "weapon" && choice != "armor" && choice != "quit") {
+            fmt::print("错误指令！\n");
+            cin >> choice;
+        }
+        if (choice == "weapon") {
+            buyWeapon();
+            return;
+        }
+        if (choice == "armor") {
+            buyArmor();
+            return;
+        }
+        if (choice == "quit") {
+            print(fg(fmt::color::green), "欢迎下次光临。");
+            return;
+        }
     }
-    if (choice1 == "pill") {
+    if (index == 1)
         buyPills();
-        return;
-    }
-    if (choice1 == "weapon") {
-        buyWeapon();
-        return;
-    }
-    if (choice1 == "armor") {
-        buyArmor();
-    }
 }
 
 void ShopKeeper::sellArmor()
@@ -375,6 +379,8 @@ void ShopKeeper::sell()
 }
 
 
+ShopKeeper::ShopKeeper() = default;
+
 ShopKeeper::ShopKeeper(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &weapons_id, const std::vector<int> &armors_id): NPC(std::move(name), std::move(description), std::move(dia))
 {
     for (const int id : armors_id) {
@@ -391,9 +397,8 @@ ShopKeeper::ShopKeeper(std::string name, std::string description, std::vector<st
     }
 }
 
-void ShopKeeper::talk()
+void ShopKeeper::talk(const int index)
 {
-    system("cls");
     fmt::print("{} : {}", name, dialogues[0]);
     fmt::print("要来看看我的店铺吗[yes]或[no]:");
     string choice;
@@ -404,7 +409,7 @@ void ShopKeeper::talk()
     }
     if (choice == "no")
         return;
-    enterStore();
+    enterStore(index);
 }
 
 int ShopKeeper::getPillNum(const Pill &pill) const
