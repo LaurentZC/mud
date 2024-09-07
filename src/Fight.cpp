@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <conio.h>
+#include <functional>
 #include <iostream>
 #include <random>
 #include <thread>
@@ -21,9 +22,20 @@ void Fight::gainTrophy() const
 {
     Gamer.gainExp(enemy.getExperience());
     Gamer.gainMoney(enemy.getMoney());
-    Gamer.gainArmor(enemy.getArmor());
-    Gamer.gainWeapon(enemy.getWeapon());
-    Gamer.gainSkill(enemy.getSkillId());
+    if (enemy.getArmor() != -1) {
+        Gamer.gainArmor(enemy.getArmor());
+        fmt::print("你获得了一件新的防具: {}\n", Armors[enemy.getArmor()].getName());
+    }
+    if (enemy.getWeapon() != -1) {
+        Gamer.gainWeapon(enemy.getWeapon());
+        fmt::print("你获得了一件新的武器: {}\n", Weapons[enemy.getWeapon()].getName());
+    }
+    if (enemy.getSkillId() != -1) {
+        Gamer.gainSkill(enemy.getSkillId());
+        fmt::print("你观察" + enemy.getName() + "陷入顿悟\n");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        fmt::print("你习得了一个新的技能: {}\n", Armors[enemy.getSkillId()].getName());
+    }
 }
 
 // 计算伤害
@@ -33,23 +45,13 @@ int calculateDamage(const int damage, const int defence)
     return static_cast<int>(reduction_rate * static_cast<double>(damage));
 }
 
-// 清空状态
+// 清状态
 void clearBuff(const std::vector<Skill>::iterator &skill)
 {
     Gamer.setDamage(Gamer.getDamage() - skill->getAddDamage());
     Gamer.setDefence(Gamer.getDefence() - skill->getAddDamage());
     Gamer.setCritical(Gamer.getCritical() - skill->getAddCritical());
 }
-
-// 随机返回 true / false
-bool achievePercent(const double probability)
-{
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::bernoulli_distribution d(probability);
-    return d(gen);
-}
-
 
 void Fight::attackEnemy()
 {
@@ -195,12 +197,12 @@ void defeat()
                       |||                       ||                                 ||
                        ||                                                          ||:
     )");
-    system("pause");
+    waitForAnyKey();
     system("cls");
 }
 
 // 赢了返回true
-void Fight::fight()
+void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
 {
     system("cls");
     int round = 1;
@@ -240,7 +242,7 @@ void Fight::fight()
 
         std::string choice;
         while (round & 1) {
-            fmt::print("[player]查看自身状态,[enemy]查看敌人属性,[attack]攻击,[skill]释放技能: ");
+            fmt::print("[player]查看自身状态, [enemy]查看敌人属性, [attack]攻击, [skill]释放技能: ");
             std::cin >> choice;
             if (choice == "player") {
                 Gamer.showPlayer();
@@ -263,14 +265,13 @@ void Fight::fight()
         if (enemy.getHp() <= 0) {
             fmt::println("{}被打败了！", enemy.getName());
             success();
-            for (const auto it = buff_skills.begin(); it != buff_skills.end();) {
+            for (auto it = buff_skills.begin(); it != buff_skills.end(); ++it) {
                 clearBuff(it);
             }
             gainTrophy();
             return;
         }
 
-        system("cls");
         showHp();
         if (round % 2 == 0) {
             fmt::print("敌方回合，请你选择防御[defence]或者尝试闪避[dodge]: ");
@@ -303,21 +304,9 @@ void Fight::fight()
         if (Gamer.getHp() <= 0) {
             fmt::println("你被打败了！");
             defeat();
-            // 问的大佬: 重启程序
-            TCHAR sz_file_name[MAX_PATH];
-            GetModuleFileName(nullptr, sz_file_name, MAX_PATH);
-            // 设置启动信息
-            STARTUPINFO si = {sizeof(si)};
-            PROCESS_INFORMATION pi;
-            // 启动新进程
-            if (CreateProcess(nullptr, sz_file_name, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
-                // 关闭句柄
-                CloseHandle(pi.hProcess);
-                CloseHandle(pi.hThread);
-                // 退出当前进程
-                exit(0);
-            }
+            restart();
         }
+        func(Gamer, enemy);
         for (auto &buff_skill : buff_skills) {
             buff_skill.setExistTime(buff_skill.getExistTime() - 1);
         }

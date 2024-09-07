@@ -12,4 +12,8 @@ void waitForAnyKey();
 
 void printTitle();
 
-void printSlowly(const std::string &text, int delay_milliseconds = 50);
+void printSlowly(const std::string &text, int delay_milliseconds = 30);
+
+bool achievePercent(double probability);
+
+void restart();

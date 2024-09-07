@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "Enemy.h"
 #include "Player.h"
 
@@ -7,7 +9,7 @@ class Fight
 {
 public:
     explicit Fight(Enemy enemy);
-    void fight();
+    void fight(const std::function<void(Player &, Enemy &)> &func = [](Player &, Enemy &) { });
 
 private:
     std::vector<Skill> buff_skills;
