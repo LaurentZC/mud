@@ -38,14 +38,14 @@ class ShopKeeper final : public NPC
 {
 public:
     void talk() override;
-    int getPillNum(const Pill &pill) const;
+    [[nodiscard]] int getPillNum(const Pill &pill) const;
 
 private:
     void showGoods();
     void buy();
     void sell();
     void enterStore();
-    void buyPills();
+    void buyPills() const;
     void buyWeapon();
     void buyArmor();
     void sellArmor();

@@ -7,9 +7,10 @@
 #include <vector>
 
 #include "fmt/core.h"
-#include "fmt/format-inl.h"
 
 using namespace std;
+
+extern Player Player;
 
 void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
@@ -91,7 +92,7 @@ void Player::usePoint()
             --points;
             break;
         }
-        fmt::print("输入错误，请重新输入:");
+        fmt::print("输入错误，请重新输入: ");
     }
 }
 
@@ -189,72 +190,35 @@ void Player::equipWeapon(const Weapon &weapon)
 
 int Player::getLevel() const { return level; }
 
-int Player::getDamage() const
-{
-    return damage;
-}
+int Player::getDamage() const { return damage; }
 
-void Player::setDamage(const int damage)
-{
-    this->damage = damage;
-}
+void Player::setDamage(const int damage) { this->damage = damage; }
 
-double Player::getCritical() const
-{
-    return critical;
-}
+double Player::getCritical() const { return critical; }
 
-void Player::setCritical(const double critical)
-{
-    this->critical = critical;
-}
+void Player::setCritical(const double critical) { this->critical = critical; }
 
-int Player::getStrength() const
-{
-    return strength;
-}
+int Player::getStrength() const { return strength; }
 
-void Player::setStrength(const int strength)
-{
-    this->strength = strength;
-}
+void Player::setStrength(const int strength) { this->strength = strength; }
 
-int Player::getDefence() const
-{
-    return defence;
-}
+int Player::getDefence() const { return defence; }
 
-void Player::setDefence(const int defence)
-{
-    this->defence = defence;
-}
+void Player::setDefence(const int defence) { this->defence = defence; }
 
-double Player::getEvasion() const
-{
-    return evasion;
-}
+double Player::getEvasion() const { return evasion; }
 
-void Player::setEvasion(const double evasion)
-{
-    this->evasion = evasion;
-}
+void Player::setEvasion(const double evasion) { this->evasion = evasion; }
 
-int Player::getAgility() const
-{
-    return agility;
-}
+int Player::getAgility() const { return agility; }
 
-void Player::setAgility(const int agility)
-{
-    this->agility = agility;
-}
+void Player::setAgility(const int agility) { this->agility = agility; }
 
-int Player::getMoney() const
-{
-    return money;
-}
+int Player::getMoney() const { return money; }
 
 void Player::gainMoney(const int money) { this->money += money; }
+
+void Player::addPoints(const int points) { this->points += points; }
 
 vector<Skill> &Player::getSkills() { return skills; }
 
@@ -306,9 +270,9 @@ void Player::save() const
     fmt::print("保存成功！\n");
 }
 
-bool Player::load(Player &player)
+bool Player::load(const string &archive)
 {
-    if (string folder_path = "../../files/" + name; filesystem::exists(folder_path) && filesystem::is_directory(folder_path)) {
+    if (string folder_path = "../../files/" + archive; filesystem::exists(folder_path) && filesystem::is_directory(folder_path)) {
         ifstream file_to_player(folder_path + "/Player.dat", ios::binary);
         // 读取 name 长度和内容
         size_t name_length;
@@ -345,7 +309,7 @@ bool Player::load(Player &player)
             if (!file_to_task) {
                 break;
             }
-            player.tasks.push_back(Tasks[id]);
+            tasks.push_back(Tasks[id]);
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
@@ -355,7 +319,7 @@ bool Player::load(Player &player)
             if (!file_to_skill) {
                 break;
             }
-            player.skills.push_back(Skills[id]);
+            skills.push_back(Skills[id]);
         }
         file_to_skill.close();
         bag->load();

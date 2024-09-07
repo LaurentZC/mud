@@ -38,7 +38,7 @@ public:
     void equipArmor(const Armor &armor);
 
     void save() const;
-    bool load(Player &player);
+    bool load(const std::string &archive);
 
     [[nodiscard]] std::string getName() const;
     void setName(const std::string &name);
@@ -69,6 +69,7 @@ public:
     void setAgility(int agility);
     [[nodiscard]] int getMoney() const;
     void gainMoney(int money);
+    void addPoints(int points);
     [[nodiscard]] std::vector<Skill> &getSkills();
 
 private:

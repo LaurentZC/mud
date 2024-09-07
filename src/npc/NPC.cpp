@@ -63,12 +63,8 @@ void ShopKeeper::showGoods()
         armor.showAttributes();
     }
     fmt::println("药品: ");
-    for (const auto &pillMap : pills) {
-        for (const auto &pair : pillMap) {
-            const Pill &pill = pair.first;
-            int count = pair.second;
-            fmt::print("{} : {}", pill.getPillName(), count);
-        }
+    for (auto &[pill, count] : pills) {
+        fmt::print("{} : {}", pill.getPillName(), count);
     }
 }
 
@@ -93,7 +89,7 @@ void ShopKeeper::enterStore()
     }
 }
 
-void ShopKeeper::buyPills()
+void ShopKeeper::buyPills() const
 {
     fmt::print("你想什么类型的药品，回血丹[red]还是定神丹[blue]:");
     std::string choice2;
@@ -177,12 +173,12 @@ void ShopKeeper::buyPills()
 
     // 处理购买逻辑
     if (choice2 == "red") {
-        const auto red_pill = {Pill::Type::BLOOD_PILL, size};
+        const Pill red_pill = {Pill::Type::BLOOD_PILL, size};
         if (getPillNum(red_pill) < quantity) {
             fmt::print("没有这么多瓶药，购买失败！");
             return;
         }
-        int result = Player.gainPill(red_pill, quantity);
+        const int result = Player.gainPill(red_pill, quantity);
         total_cost = result * price_per_unit;
         Player.gainMoney(-total_cost); // 减少玩家的钱
         if (result == quantity) {
@@ -193,7 +189,7 @@ void ShopKeeper::buyPills()
         }
     }
     else if (choice2 == "blue") {
-        const auto blue_pill = {Pill::Type::MANA_PILL, size};
+        const auto blue_pill = Pill {Pill::Type::MANA_PILL, size};
         if (getPillNum(blue_pill) < quantity) {
             fmt::print("没有这么多瓶药，购买失败！");
             return;

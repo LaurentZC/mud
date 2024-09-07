@@ -21,8 +21,9 @@ extern Area MainCity;
 
 bool isValidMove(int x, int y, Area &map, char dir);
 
-void changeMap(Area &map, int &x, int &y)
+void changeMap(Area &map)
 {
+    auto &[c, x, y] = Player.position;
     string input;
     print(fg(fmt::color::green), "马夫：公子要去那个地方？。\n");
     fmt::print("1. 武威城 \t 2. 天下商会 \t q. 暂不出行");
@@ -60,6 +61,7 @@ void changeMap(Area &map, int &x, int &y)
                 fmt::print("你：多谢了。\n");
                 printMap(map.getArea());
                 return;
+
             case '2' :
                 if (Player.getLevel() < 40) {
                     print(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n");
@@ -89,17 +91,20 @@ void changeMap(Area &map, int &x, int &y)
                 waitForAnyKey();
                 fmt::print("你：放心吧。\n");
                 return;
+
             case 'q' :
                 print(fg(fmt::color::green), "马夫：若公子有出行必要，尽管来找我便是。\n");
                 return;
+
             default :
                 fmt::print("无效的输入[1 / 2 / q]: ");
         }
     }
 }
 
-void playWuWeiCheng(Area &map, int &x, int &y)
+void playWuWeiCheng(Area &map)
 {
+    const auto &[c, x, y] = Player.position;
     auto &rooms = map.getArea();
     fmt::print("{}\n", rooms[x][y].getDescription());
     fmt::print("你想做些什么呢。");
@@ -109,7 +114,7 @@ void playWuWeiCheng(Area &map, int &x, int &y)
     while (!quit) {
         cin >> command;
         if (command == "move") {
-            movePlayerLocation(map, x, y);
+            movePlayerLocation(map);
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE :
                     fmt::print("你：那陆洪果然有两下子。我先暂且回去休整一下");
@@ -117,45 +122,69 @@ void playWuWeiCheng(Area &map, int &x, int &y)
                     print(fg(fmt::color::green), "马夫：老夫这就带公子离开。");
                     quit = true;
                     break;
-                case Room::Content::MONSTER :
+
+                case Room::Content::MONSTER : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     print(fg(fmt::color::yellow), "陆洪的手下: 小子，竟敢擅闯我们的地盘，拿命来！");
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatEnemy(1)).fight();
+                    Fight(Enemy::creatEnemy(Player.position)).fight();
                     rooms[x][y].clear();
                     break;
-                case Room::Content::ELITE :
+                }
+
+                case Room::Content::ELITE : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(1)).fight();
+                    Fight(Enemy::creatElite(Player.position)).fight();
                     rooms[x][y].clear();
                     break;
-                case Room::Content::BOSS :
+                }
+
+                case Room::Content::BOSS : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(1)).fight();
+                    Fight(Enemy::creatElite(Player.position)).fight();
                     rooms[x][y].clear();
-                    const filesystem::path file_path = "../../files/" + Player.getName() + "/maps/WuWeiCheng.txt";
+
+                    filesystem::path base_path = "../../files";
+                    filesystem::path player_path = Player.getName();
+                    filesystem::path maps_path = "maps/WuWeiCheng.txt";
+                    filesystem::path file_path = base_path / player_path / maps_path;
                     filesystem::remove(file_path);
-                    fmt::print("你：我已经击败了那陆洪，我们可以回去了。");
+
+                    fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：公子武功盖世！");
                     waitForAnyKey();
-                    print(fg(fmt::color::green), "马夫：以后百姓就不会被折磨了！");
-                    waitForAnyKey();
                     break;
-                case Room::Content::EMPTY :
+                }
+
+                case Room::Content::EMPTY : {
                     fmt::print("你想做些什么呢。");
                     fmt::print("\n移动:  move \t 打开背包: bag \t 离开: exit \t 保存: save \n");
-                    cin >> command;
-                case Room::Content::CHEST :
+                    break;
+                }
+
+                case Room::Content::CHEST : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                // 获得点什么
+                    if (x == 1 && y == 3) {
+                        fmt::print("这里有一颗丹药，你服用之后获得了三个属性点。");
+                        Player.addPoints(3);
+                    }
+                    else {
+                        fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。");
+                        Player.gainWeapon(7);
+                        Player.gainArmor(11);
+                        fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。");
+                    }
                     rooms[x][y].clear();
-                case Room::Content::NPC :
+                    break;
+                }
+
+                case Room::Content::NPC : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("你：你们是被那陆洪囚禁的人吗？（边说边打开笼子）\n");
                     waitForAnyKey();
@@ -166,7 +195,9 @@ void playWuWeiCheng(Area &map, int &x, int &y)
                     waitForAnyKey();
                     print(fg(fmt::color::green), "囚犯：多谢公子。\n");
                     waitForAnyKey();
-                    return;
+                    quit = true;
+                    break;
+                }
                 default : ;
             }
         }
@@ -174,7 +205,7 @@ void playWuWeiCheng(Area &map, int &x, int &y)
             Player.openBag();
         }
         else if (command == "quit") {
-            handleQuit(map, quit, x, y);
+            handleQuit(map, quit);
             return;
         }
         else {
@@ -183,8 +214,154 @@ void playWuWeiCheng(Area &map, int &x, int &y)
     }
 }
 
-void movePlayerLocation(Area &map, int &x, int &y)
+void playShangHui(Area &map)
 {
+    auto &[c, x, y] = Player.position;
+    auto &rooms = map.getArea();
+    fmt::print("{}\n", rooms[x][y].getDescription());
+    fmt::print("你想做些什么呢。");
+    fmt::print("\n移动:  move \t 打开背包: bag \t 离开: exit \t 保存: save \n");
+    string command;
+    bool quit = false;
+    bool mask = false;
+    while (!quit) {
+        cin >> command;
+        if (command == "move") {
+            movePlayerLocation(map);
+            switch (rooms[x][y].getContent()) {
+                case Room::Content::GATE : {
+                    fmt::print("你：没有找到段霖的藏身之处，暂且回去把。");
+                    waitForAnyKey();
+                    print(fg(fmt::color::green), "马夫：老夫这就带公子离开。");
+                    quit = true;
+                    break;
+                }
+
+                case Room::Content::MONSTER : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    print(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！");
+                    fmt::print("正在加载战斗场景，请稍后...");
+                    waitForLoad(1000);
+                    Fight(Enemy::creatEnemy(Player.position)).fight();
+                    rooms[x][y].clear();
+                    break;
+                }
+
+                case Room::Content::ELITE : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    fmt::print("正在加载战斗场景，请稍后...");
+                    waitForLoad(1000);
+                    Fight(Enemy::creatElite(Player.position)).fight();
+                    rooms[x][y].clear();
+                    break;
+                }
+
+                case Room::Content::BOSS : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    fmt::print("正在加载战斗场景，请稍后...");
+                    waitForLoad(1000);
+                    Fight(Enemy::creatElite(Player.position)).fight();
+                    rooms[x][y].clear();
+                    filesystem::path base_path = "../../files";
+                    filesystem::path player_path = Player.getName();
+                    filesystem::path maps_path = "maps/ShangHui.txt";
+                    filesystem::path file_path = base_path / player_path / maps_path;
+                    filesystem::remove(file_path);
+                    fmt::print("你：这段霖也不过如此。");
+                    waitForAnyKey();
+                    print(fg(fmt::color::green), "马夫：公子威武，天下无双！");
+                    waitForAnyKey();
+                    break;
+                }
+
+                case Room::Content::CHEST : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    // 两个箱子获得点什么
+                    if (x == 1 && y == 5) {
+                        fmt::print("这里有一颗丹药，你服用之后获得了五个属性点。");
+                        Player.addPoints(5);
+                    }
+                    else {
+                        fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。");
+                        Player.gainWeapon(9);
+                        Player.gainArmor(13);
+                        fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。");
+                    }
+                    rooms[x][y].clear();
+                    break;
+                }
+
+                case Room::Content::NPC : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    print(fg(fmt::color::green), "老翁：公子，这商会里面毒气无数，我这里恰好有一个防毒面具。\n");
+                    waitForAnyKey();
+                    print(fg(fmt::color::green), "老翁：只要800大洋，保证你买不了吃亏买不了上当。\n");
+                    fmt::print("是否购买？[y / n]: ");
+                    string choice;
+                    while (true) {
+                        cin >> choice;
+                        if (choice == "y" || choice == "Y") {
+                            if (Player.getMoney() >= 800)
+                                Player.gainMoney(-800);
+                            else {
+                                fmt::print("你还没有这么多钱。");
+                            }
+                            fmt::print("你：这是800大洋，面具我就收下了。");
+                            waitForAnyKey();
+                            print(fg(fmt::color::green), "老翁：唉，公子你且收好。\n");
+                            waitForAnyKey();
+                            mask = true;
+                            break;
+                        }
+                        if (choice == "n" || choice == "N") {
+                            fmt::print("你：暂且不需要。");
+                            waitForAnyKey();
+                            print(fg(fmt::color::green), "老翁：那就祝公子一路顺风了。\n");
+                            waitForAnyKey();
+                            break;
+                        }
+                        fmt::print("无效的指令。请重新输入[y / n]: ");
+                    }
+                    break;
+                }
+
+                case Room::Content::TRAP : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    Player.setHp(static_cast<int>(Player.getHp() * 0.5));
+                    break;
+                }
+
+                case Room::Content::POISON : {
+                    fmt::print("{}\n", rooms[x][y].getDescription());
+                    if (mask) {
+                        fmt::print("你：这毒气果然厉害，还好提前买了面具");
+                        waitForAnyKey();
+                    }
+                    else {
+                        Player.setHp(10);
+                        print(fg(fmt::color::red), "血量: {} / {}\n", Player.getHp(), Player.getMaxHp());
+                        fmt::print("你：糟糕，没想到这毒气这么厉害。");
+                    }
+                }
+                default : ;
+            }
+        }
+        else if (command == "bag") {
+            Player.openBag();
+        }
+        else if (command == "quit") {
+            handleQuit(map, quit);
+            return;
+        }
+        else {
+            fmt::print("无效的指令！\n");
+        }
+    }
+}
+
+void movePlayerLocation(Area &map)
+{
+    auto &[c, x, y] = Player.position;
     string command;
     fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit): ");
     while (true) {
@@ -217,19 +394,24 @@ void movePlayerLocation(Area &map, int &x, int &y)
     }
 }
 
-void handleQuit(Area &current_map, bool &quit, int &x, int &y)
+void handleQuit(Area &current_map, bool &quit)
 {
+    auto &[c, x, y] = Player.position;
     string input;
     while (true) {
         cin >> input;
         if (input == "y" || input == "Y") {
+            quit = true;
             current_map = creatMainCity();
+            c = 0;
             x = Gates[current_map.getName()].first;
             y = Gates[current_map.getName()].second;
             break;
         }
-        if (input == "n" || input == "N")
+        if (input == "n" || input == "N") {
+            quit = false;
             break;
+        }
         fmt::print("无效输入！请输入[y / n]。\n");
     }
 }

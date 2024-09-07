@@ -14,9 +14,9 @@ public:
     // @formatter:on
 
     void showEnemy() const; //展示怪物信息
-    [[nodiscard]] static Enemy creatEnemy(int index);
-    [[nodiscard]] static Enemy creatElite(int index);
-    [[nodiscard]] static Enemy creatBoss(int index);
+    static Enemy creatEnemy(const std::array<int, 3> &);
+    static Enemy creatElite(const std::array<int, 3> &);
+    static Enemy creatBoss(int index);
 
     [[nodiscard]] Type getType() const;
     void setType(Type type);

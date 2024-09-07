@@ -28,69 +28,75 @@ void Enemy::showEnemy() const
 }
 
 // @formatter:off
-Enemy Enemy::creatEnemy(const int index)
+Enemy Enemy::creatEnemy(const array<int, 3> &pos)
 {
-    switch (index) {
-        case 1 : return {Type::SMALL, "烈风剑士", 3, 120, 120,
-                15, 0.3, 12, 60, 80,
+    if (auto &[c, x, y] = pos; c == 1) {
+        if (y == 1 && (x == 2 || x == 4))
+            return {Type::SMALL, "铁壁守卫", 30, 500, 500,
+                30, 0.2, 20, 500, 100,
                 -1, -1, -1
             };
-
-        case 2 : return {Type::SMALL, "地煞狂徒", 8, 200, 200,
-                20, 0.3, 18, 120, 100,
-                -1, -1, -1
-            };
-
-        case 3 : return {Type::SMALL, "铁壁守卫", 13, 300, 300,
-                30, 0.4, 25, 200, 110,
-                -1, -1, -1
-            };
-
-        case 4 : return {Type::SMALL, "黑影刺客", 17, 400, 400,
-                40, 0.4, 35, 260, 120,
-                -1, -1, -1
-            };
-
-        case 5 : return {Type::SMALL, "雷霆战将", 22, 550, 550,
-                60, 0.5, 50, 300, 130,
-                -1, -1, -1
-            };
-
-        default : return {};
     }
+    else {
+        if (x == 3 && y == 4)
+            return {Type::SMALL, "烈风剑士", 40, 1000, 1000,
+                100, 0.2, 30, 1000, 250,
+                -1, -1, -1
+            };
+
+        if (x == 5 && y == 4)
+            return {Type::SMALL, "地煞狂徒", 40, 1000, 1000,
+                80, 0.3, 30, 1000,250,
+                -1, -1, -1
+            };
+
+        if (x == 5 && y == 5)
+            return {Type::SMALL, "黑影刺客", 40, 1000, 1000,
+                70, 0.4, 30, 1000, 250,
+                -1, -1, -1
+            };
+    }
+    return {};
 }
 
-Enemy Enemy::creatElite(const int index)
+Enemy Enemy::creatElite(const array<int, 3> &pos)
 {
-    switch (index) {
-        case 1 : return {
-                Type::ELITE, "风刃卫", 10, 500, 500,
-                50, 0.3, 15, 400, 40,
-                -1, -1, 3
-            };
+    const auto &[c, x, y] = pos;
+    if (c == 1 && x == 2 && y == 2)
+        return {Type::ELITE, "青龙卫",
+            35, 1000, 1000, 40, 0.3,
+            50, 2000, 300,
+            -1, -1, 3
+        };
 
-        case 2 : return {Type::ELITE, "雷霆卫", 15, 700, 700,
-                80, 0.3, 20, 800, 50,
-                -1, -1, 5
-            };
+    if (c == 1 && x == 5 && y == 2)
+        return {Type::ELITE, "白虎卫",
+            35, 1000, 1000, 60, 0.3,
+            20, 2000, 300,
+            -1, -1, 5
+        };
 
-        case 3 : return {Type::ELITE, "影刃卫", 20, 900, 900,
-                110, 0.4, 30, 1200, 60,
-                -1, -1, 7
-            };
+    if (c == 2 && x == 1 && y == 2)
+        return {Type::ELITE, "影刃卫",
+            45, 2000, 2000, 110, 0.4,
+            30, 3000, 500,
+            -1, -1, 7
+        };
 
-        case 4 : return {Type::ELITE, "天霸卫", 25, 1200, 1200,
-                120, 0.4, 40, 1500, 70,
-                -1, -1, 8
-            };
+    if (c == 2 && x == 2 && y == 3)
+        return {Type::ELITE, "天霸卫",
+            45, 2000, 2000, 120, 0.4,
+            40, 3000, 500,
+            -1, -1, 8
+        };
 
-        case 5 : return {Type::ELITE, "怒焰卫", 30, 1800, 1800,
-                150, 0.5, 45, 1800, 80,
-                -1, -1, 9
-            };
-
-        default : return {};
-    }
+    if (c == 2 && x == 1 && y == 4)
+        return {Type::ELITE, "怒焰卫",
+            45, 1800, 1800, 120, 0.5,
+            45, 3000, 500,
+            -1, -1, 9
+        };
+    return {};
 }
 
 Enemy Enemy::creatBoss(const int index)
@@ -103,23 +109,23 @@ Enemy Enemy::creatBoss(const int index)
                 -1, -1, -1
             };
         case 1 : return {
-                Type::BOSS, "陆洪", 32, 3000, 3000,
+                Type::BOSS, "陆洪", 40, 3000, 3000,
                 60, 0.7, 80,
                 5000, 500,
-                9, 13, 13
+                8, 12, 13
             };
 
         case 2 : return {
-                Type::BOSS, "段霖", 48, 5000, 5000,
-                150, 0.3, 120,
+                Type::BOSS, "段霖", 50, 5000, 5000,
+                150, 0.5, 120,
                 8000, 800,
                 10, 14, 14
             };
 
         default : return {};
-        // @formatter:on
     }
 }
+// @formatter:on
 
 Enemy::Type Enemy::getType() const { return type; }
 void Enemy::setType(const Type type) { this->type = type; }
@@ -159,4 +165,3 @@ void Enemy::setCritical(const double critical) { this->critical = critical; }
 
 int Enemy::getSkillId() const { return skill_id; }
 void Enemy::setSkillId(const int skill_id) { this->skill_id = skill_id; }
-

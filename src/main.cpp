@@ -1,7 +1,7 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 
 #include "Area.h"
 #include "CreatMap.h"
@@ -20,10 +20,28 @@ bool load()
     namespace fs = filesystem;
     const fs::path path = "../files";
     int i = 0;
+    vector<string> archive;
     for (const auto &entry : fs::directory_iterator(path)) {
         if (entry.is_directory() && entry.path().filename() != "maps") {
             ++i;
             fmt::print("{}. {}", i, entry.path().filename().string());
+            archive.push_back(entry.path().filename().string());
+        }
+        fmt::print("你想读取那个存档？");
+        string choice;
+        int index = 0;
+        while (true) {
+            cin >> choice;
+            if (!choice.empty() && all_of(choice.begin(), choice.end(), ::isdigit)) {
+                index = stoi(choice);
+                if (index <= i) {
+                    Player.load(archive[index - 1]);
+                    break;
+                }
+            }
+            else {
+                fmt::print("无效的指令，请输入编号: ");
+            }
         }
     }
     if (i == 0) {
@@ -40,11 +58,11 @@ int main()
     switch (c) {
         case 1 :
             current_map = creatWuWeiCheng();
-            playWuWeiCheng(current_map, x, y);
+            playWuWeiCheng(current_map);
             break;
         case 2 :
             current_map = creatShangHui();
-            playShangHui(current_map, x, y);
+            playShangHui(current_map);
             break;
         default : ;
     }
@@ -56,7 +74,7 @@ int main()
         cin >> command;
 
         if (command == "move") {
-            movePlayerLocation(current_map, x, y);
+            movePlayerLocation(current_map);
         }
         else if (command == "bag") {
             Player.openBag();
@@ -68,9 +86,6 @@ int main()
             // else {
             // changeMap(current_map, x, y);
             // }
-        }
-        else if (command == "watch") {
-            // 看一看
         }
         else if (command == "quit") {
             Player.save();

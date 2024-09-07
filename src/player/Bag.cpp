@@ -191,14 +191,18 @@ void Bag::usePill()
 int Bag::addPill(const Pill pill, const int num)
 {
     auto &amount = pills[pill];
+    int temp = amount;
     if (amount + num > 10) {
         fmt::println("你尝试把最后的丹药放进去，可惜努力了半天只能装下10颗");
         amount = 10;
-        return 0;
+            temp = amount - temp;
     }
-    amount += num;
+    else {
+        amount += num;
+        temp = num;
+    }
     fmt::print("添加了{}个{}。\n", num, pill.getPillName());
-    return num;
+    return temp;
 }
 
 void Bag::save() const

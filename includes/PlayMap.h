@@ -2,14 +2,14 @@
 
 #include "Area.h"
 
-void movePlayerLocation(Area &map, int &x, int &y);
+void movePlayerLocation(Area &map);
 
-void handleQuit(Area &current_map, bool &quit, int &x, int &y);
+void changeMap(Area &map);
 
-void changeMap(Area &map, int &x, int &y);
+void handleQuit(Area &current_map, bool &quit);
 
 void printMap(std::vector<std::vector<Room> > grid);
 
-void playWuWeiCheng(Area &map, int &x, int &y);
+void playWuWeiCheng(Area &map);
 
-void playShangHui(Area &map, int &x, int &y);
+void playShangHui(Area &map);
