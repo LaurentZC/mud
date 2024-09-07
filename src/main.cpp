@@ -54,26 +54,29 @@ bool load()
             fmt::print("{}. {}\n", i, entry.path().filename().string());
             archive.push_back(entry.path().filename().string());
         }
-        fmt::print("你想读取那个存档[编号]: ");
-        string choice;
-        int index = 0;
-        while (true) {
-            cin >> choice;
-            if (!choice.empty() && all_of(choice.begin(), choice.end(), ::isdigit)) {
-                index = stoi(choice);
-                if (index <= i) {
-                    Gamer.load(archive[index - 1]);
-                    break;
-                }
-            }
-            else {
-                fmt::print("无效的指令，请输入编号: ");
-            }
-        }
     }
     if (i == 0) {
-        fmt::print("你还没有存档！\n");
         return false;
+    }
+    fmt::print("你想读取那个存档[编号 / quit]: ");
+    string choice;
+    int index = 0;
+    while (true) {
+        cin >> choice;
+        if (choice == "exit") {
+            return false;
+        }
+        if (!choice.empty() && all_of(choice.begin(), choice.end(), ::isdigit)) {
+            index = stoi(choice);
+            if (index <= i) {
+                Gamer.load(archive[index - 1]);
+                break;
+            }
+            fmt::print("你没有这么多存档哦。请重新输入: ");
+        }
+        else {
+            fmt::print("无效的指令，请输入编号: ");
+        }
     }
     return true;
 }
@@ -83,25 +86,25 @@ void start()
     printTitle();
     fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
     string choice;
-    cin >> choice;
-    while (choice != "new" && choice != "quit" && choice != "load") {
-        fmt::print("无效指令！");
+    while (true) {
         cin >> choice;
-    }
-    if (choice == "new")
-        creat();
-    else if (choice == "load") {
-        if (load()) {
-            fmt::print("欢迎回到游戏。\n");
+        if (choice == "new") {
+            creat();
+            return;
         }
-        else {
+        if (choice == "load") {
+            if (load()) {
+                fmt::print("欢迎回到游戏。\n");
+                return;
+            }
             system("cls");
             printTitle();
+            fmt::print("\n你还没有存档！\n");
             fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
         }
+        else
+            fmt::print("无效指令，请重新输入: ");
     }
-    else
-        exit(0);
 }
 
 int main()
@@ -129,6 +132,7 @@ int main()
 
         if (command == "move") {
             movePlayerLocation(current_map);
+            printMap(current_map.getArea());
         }
         else if (command == "bag") {
             Gamer.openBag();
@@ -148,7 +152,7 @@ int main()
             }
             else if (x == 3 && y == 5) {
                 printSlowly("你：城主我来找你修炼了。\n");
-                printSlowly(format(fg(fmt::color::green), "城主: 好，且来城外让我看看你的水平。\n"), 10);
+                printSlowly(format(fg(fmt::color::green), "城主: 好，且来城外让我看看你的水平。\n"));
                 fmt::print("是否开启对战？[y / n]: ");
                 while (true) {
                     cin >> command;
@@ -158,7 +162,7 @@ int main()
                         Fight(Enemy::creatBoss(0)).fight([](const Player &gamer, const Enemy &enemy) {
                             if (gamer.getHp() <= 10 || enemy.getHp() <= 10) { }
                         });
-                        printSlowly(format(fg(fmt::color::green), "城主：小子不错嘛。"), 10);
+                        printSlowly(format(fg(fmt::color::green), "城主：小子不错嘛。"));
                         break;
                     }
                     if (command == "n" || command == "N") {
@@ -180,7 +184,7 @@ int main()
         }
         else if (command == "quit") {
             Gamer.save();
-            fmt::print("感谢你的游玩。");
+            fmt::print("感谢你的游玩。\n");
             waitForAnyKey();
             return 0;
         }

@@ -63,7 +63,7 @@ void TaskGivingNPC::talk(int)
     //如果有任务要给
     if (if_give_task == true) {
         fmt::print("{} : ", name);
-        printSlowly(dialogues[task_index + 1], 50);
+        printSlowly(dialogues[task_index + 1], 30);
         fmt::print("\n");
         std::string choice;
         std::cin >> choice;
@@ -80,7 +80,7 @@ void TaskGivingNPC::talk(int)
     }
     //所有任务都完成
     fmt::print("{} : ", name);
-    printSlowly(dialogues[0], 50);
+    printSlowly(dialogues[0], 30);
     fmt::print("\n");
 }
 

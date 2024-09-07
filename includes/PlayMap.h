@@ -8,7 +8,7 @@ void changeMap(Area &map);
 
 void handleQuit(Area &current_map, bool &quit);
 
-void printMap(std::vector<std::vector<Room> > grid);
+void printMap(const std::vector<std::vector<Room> > &grid);
 
 void playWuWeiCheng(Area &map);
 

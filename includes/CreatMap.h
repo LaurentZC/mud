@@ -10,9 +10,9 @@
 // 城门位置
 // @formatter:off
 inline std::unordered_map<std::string, std::pair<int, int> > Gates = {
-    {area("main_city"), {3, 1}},
-    {area("wu_wei_cheng"), {3, 1}},
-    {area("shang_hui"), {3, 5}}
+    {area("main_city"), {5, 3}},
+    {area("wu_wei_cheng"), {4, 3}},
+    {area("shang_hui"), {4, 3}}
 };
 // @formatter:on
 

@@ -13,7 +13,6 @@
 #include "Player.h"
 #include "fmt/color.h"
 #include "fmt/core.h"
-#include "fmt/ranges.h"
 
 using namespace std;
 
@@ -217,14 +216,14 @@ void playShangHui(Area &map)
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE : {
                     printSlowly("你：没有找到段霖的藏身之处，暂且回去把。");
-                    printSlowly(format(fg(fmt::color::green), "马夫：老夫这就带公子离开。"), 10);
+                    printSlowly(format(fg(fmt::color::green), "马夫：老夫这就带公子离开。"));
                     quit = true;
                     break;
                 }
 
                 case Room::Content::MONSTER : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！"), 10);
+                    printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！"));
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
                     Fight(Enemy::creatEnemy(Gamer.position)).fight();
@@ -355,16 +354,16 @@ void movePlayerLocation(Area &map)
         if (isValidMove(x, y, map, command[0])) {
             switch (command[0]) {
                 case 'w' :
-                    ++y;
-                    break;
-                case 's' :
-                    --y;
-                    break;
-                case 'a' :
                     --x;
                     break;
-                case 'd' :
+                case 's' :
                     ++x;
+                    break;
+                case 'a' :
+                    --y;
+                    break;
+                case 'd' :
+                    ++y;
                     break;
                 case 'q' :
                     return;
@@ -417,45 +416,39 @@ bool isValidMove(const int x, const int y, Area &map, const char dir)
     }
 }
 
-void printMap(std::vector<std::vector<Room> > grid)
+void printMap(const std::vector<std::vector<Room> > &grid)
 {
     size_t max_width = 0;
+
     // 计算字符串的最大宽度
-    for (size_t i = 0; i < grid.size(); ++i) {
-        for (size_t j = 0; j < grid[i].size(); ++j) {
-            if (i == Gamer.position[1] && j == Gamer.position[2])
-                grid[i][j].setName(fmt::format("[{}*]", grid[i][j].getName()));
-            else
-                grid[i][j].setName(fmt::format("[{}]", grid[i][j].getName()));
-            max_width = std::max(max_width, grid[i][j].getName().length());
+    for (const auto &row : grid) {
+        for (const auto &cell : row) {
+            std::string formatted_name = fmt::format("[{}]", cell.getName());
+            if (&cell == &grid[Gamer.position[1]][Gamer.position[2]]) {
+                formatted_name = fmt::format("[{}*]", cell.getName());
+            }
+            max_width = std::max(max_width, formatted_name.length());
         }
     }
 
-    // 补充对齐
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            string fill(max_width - cell.getName().length(), ' ');
-            cell.setName(cell.getName().append(fill));
-        }
-    }
-
-    max_width += max_width & 1 ? 1 : 0;
-
+    // 在每个单元格添加必要的填充以对齐
     fmt::print("\n\n");
     for (const auto &row : grid) {
-        string check;
-        for (auto &cell : row) {
-            check += cell.getName();
-        }
-        if (check.find_first_not_of(" \n[]") != string::npos) {
-            for (const auto &cell : row) {
-                if (format("{}", fmt::join(cell.getName(), "")).find_first_not_of(" \n[]") != string::npos)
-                    print(fg(fmt::color::blue), "{:<{}}{}{:<{}}", "", max_width >> 1, cell.getName(), "", max_width >> 1);
-                else
-                    print(fg(fmt::color::blue), "{}", "", max_width);
+        for (const auto &cell : row) {
+            std::string formatted_name = fmt::format("[{}]", cell.getName());
+            if (&cell == &grid[Gamer.position[1]][Gamer.position[2]]) {
+                formatted_name = fmt::format("[{}*]", cell.getName());
             }
-            fmt::print("\n");
+
+            // 输出单元格内容和填充，确保对齐
+            if (formatted_name.find_first_not_of(" \n[]") != std::string::npos) {
+                print(fg(fmt::color::blue), "{:<{}}", formatted_name, max_width);
+            }
+            else {
+                fmt::print("{:<{}}", "", max_width);
+            }
         }
+        fmt::print("\n");
     }
     fmt::print("\n");
 }

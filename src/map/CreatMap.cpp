@@ -33,7 +33,6 @@ void changeColor(string &text, const vector<TextColor> &colors)
     }
 }
 
-// 主城 顺时针90度，写反了
 //  X        X       城主府      X         X
 //  X       居民区     空       居民区       X
 //  X       铁匠铺     空       任务地点     X
@@ -72,7 +71,6 @@ Area creatMainCity()
     return main_city;
 }
 
-// 武威城，顺时针90，写反了
 //   X      X     npc   X      X
 // 武器仓库  X     陆洪   X    丹药仓库
 // 青龙堂   小怪    空   小怪   白虎堂

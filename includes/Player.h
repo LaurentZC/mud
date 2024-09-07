@@ -13,7 +13,7 @@ class Bag;
 class Player
 {
 public:
-    std::array<int, 3> position {0, 3, 2};
+    std::array<int, 3> position {0, 4, 3};
     std::array<bool, 2> finished {false, false};
 
     void showPlayer() const;
