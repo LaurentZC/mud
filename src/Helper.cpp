@@ -92,9 +92,6 @@ void printTitle()
 
 void printSlowly(const std::string &text, const int delay_milliseconds)
 {
-    SetConsoleOutputCP(CP_UTF8);
-    std::wcout.imbue(std::locale(""));
-
     for (const auto &c : text) {
         std::cout << c << std::flush;
         std::this_thread::sleep_for(std::chrono::milliseconds(delay_milliseconds)); // 延迟

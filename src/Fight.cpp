@@ -130,6 +130,8 @@ void listenForKey(const char key_to_detect)
 
 bool ifSucceedDodge()
 {
+    KeyPressed = false;
+    EndTread = false;
     if (achievePercent(Gamer.getEvasion())) { return true; }
     constexpr char target_key = 'k'; // 目标按键
     constexpr int time_limit = 100;  // 时间限制，单位毫秒
@@ -146,6 +148,9 @@ bool ifSucceedDodge()
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         if (KeyPressed) {
+            EndTread = true;
+            press.join();
+            fmt::print("失败: 按键太早.\n");
             return false;
         }
         // @formatter:off
@@ -154,11 +159,10 @@ bool ifSucceedDodge()
             // @formatter:on
             EndTread = true;
             press.join();
-            EndTread = false;
             break;
         }
     }
-
+    EndTread = false;
     fmt::println("开始！");
     // 启动进度条线程
     std::thread load_thread(waitForLoad, time_limit);

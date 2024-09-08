@@ -88,6 +88,7 @@ void load()
 
 void start()
 {
+    system("chcp 65001");
     printTitle();
     fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
     string choice;
@@ -151,17 +152,14 @@ int main()
         default : ;
     }
 
-    printMap(current_map.getArea());
     while (true) {
+        printMap(current_map.getArea());
         fmt::print("\n移动:  move \t 查看自身属性: self \t 打开背包: bag \t 和npc对话: chat \t 保存: save \t 退出: quit \n");
+        printSlowly(current_map.getArea()[x][y].getDescription() + "\n");
+        fmt::print("指令: ");
         string command;
         cin >> command;
-
-        if (command == "move") {
-            movePlayerLocation(current_map);
-            printMap(current_map.getArea());
-            fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
-        }
+        if (command == "move") { movePlayerLocation(current_map); }
         else if (command == "self") {
             Gamer.showPlayer();
             Gamer.showTask();
