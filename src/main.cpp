@@ -16,6 +16,14 @@ using namespace std;
 
 Player Gamer;
 
+class NoArchive final : public exception
+{
+public:
+    [[nodiscard]] const char *what() const noexcept override { return "你还没有存档"; }
+};
+
+class AbandonLoad final : public exception { };
+
 void creat()
 {
     namespace fs = filesystem;
@@ -39,7 +47,7 @@ void creat()
     printSlowly("一路走来已经有些累了，在赶路的过程中还受了点伤，听说这里药房的店主人很好，你准备先去那里看看。\n");
 }
 
-bool load()
+void load()
 {
     system("cls");
     namespace fs = filesystem;
@@ -56,15 +64,15 @@ bool load()
         }
     }
     if (i == 0) {
-        return false;
+        throw NoArchive();
     }
-    fmt::print("你想读取那个存档[编号 / quit]: ");
+    fmt::print("你想读取那个存档[编号 / exit]: ");
     string choice;
     int index = 0;
     while (true) {
         cin >> choice;
         if (choice == "exit") {
-            return false;
+            throw AbandonLoad();
         }
         if (!choice.empty() && all_of(choice.begin(), choice.end(), ::isdigit)) {
             index = stoi(choice);
@@ -78,7 +86,6 @@ bool load()
             fmt::print("无效的指令，请输入编号: ");
         }
     }
-    return true;
 }
 
 void start()
@@ -93,17 +100,27 @@ void start()
             return;
         }
         if (choice == "load") {
-            if (load()) {
+            try {
+                load();
+                system("cls");
                 fmt::print("欢迎回到游戏。\n");
                 return;
             }
-            system("cls");
-            printTitle();
-            fmt::print("\n你还没有存档！\n");
-            fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
+            catch (const NoArchive &e) {
+                system("cls");
+                printTitle();
+                fmt::print("\n{}\n", e.what());
+                fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
+            } catch (const AbandonLoad &) {
+                system("cls");
+                printTitle();
+                fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
+            }
         }
-        else
-            fmt::print("无效指令，请重新输入: ");
+        else if (choice == "quit") {
+            exit(0);
+        }
+        fmt::print("无效指令，请重新输入: ");
     }
 }
 
@@ -126,61 +143,65 @@ int main()
 
     printMap(current_map.getArea());
     while (true) {
-        fmt::print("\n移动:  move \t 打开背包: bag \t 和npc对话: chat \t 退出: quit \n");
+        fmt::print("\n移动:  move \t 打开背包: bag \t 和npc对话: chat \t 保存: save \t 退出: quit \n");
         string command;
         cin >> command;
 
         if (command == "move") {
             movePlayerLocation(current_map);
             printMap(current_map.getArea());
+            fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
         }
         else if (command == "bag") {
             Gamer.openBag();
         }
         else if (command == "chat") {
-            if (x == 3 && y == 1) {
+            if (x == 5 && y == 3) {
                 changeMap(current_map);
             }
-            else if (x == 2 && y == 2) {
+            else if (x == 4 && y == 2) {
                 ShopKeeper().talk(0);
             }
-            else if (x == 2 && y == 3) {
+            else if (x == 3 && y == 2) {
                 ShopKeeper().talk(1);
             }
-            else if (x == 4 && y == 1) {
+            else if (x == 4 && y == 4) {
                 ShopKeeper().talk(2);
             }
-            else if (x == 3 && y == 5) {
+            else if (x == 1 && y == 3) {
                 printSlowly("你：城主我来找你修炼了。\n");
                 printSlowly(format(fg(fmt::color::green), "城主: 好，且来城外让我看看你的水平。\n"));
                 fmt::print("是否开启对战？[y / n]: ");
                 while (true) {
                     cin >> command;
                     if (command == "y" || command == "Y") {
-                        fmt::print("正在加载...");
+                        fmt::print("正在加载...\n");
                         waitForLoad(1000);
                         Fight(Enemy::creatBoss(0)).fight([](const Player &gamer, const Enemy &enemy) {
                             if (gamer.getHp() <= 10 || enemy.getHp() <= 10) { }
                         });
-                        printSlowly(format(fg(fmt::color::green), "城主：小子不错嘛。"));
+                        printSlowly(format(fg(fmt::color::green), "城主：小子不错嘛。\n"));
                         break;
                     }
                     if (command == "n" || command == "N") {
-                        printSlowly("你：我有一些问题想不通还请城主指点。");
+                        printSlowly("你：我有一些问题想不通还请城主指点。\n");
                         fmt::print("城主正在指点你修炼...\n");
                         waitForLoad(2000);
-                        printSlowly("你：多谢城主。");
+                        printSlowly("你：多谢城主。\n");
                         break;
                     }
                     fmt::print("无效指令，请输入[y / n]: ");
                 }
             }
             else if (current_map.getArea()[x][y].getContent() == Room::Content::NPC) {
-                fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
+                fmt::print("他看起来不太想和你说话。\n");
             }
             else {
-                fmt::print("这里没有npc");
+                fmt::print("这里没有npc。\n");
             }
+        }
+        else if (command == "save") {
+            Gamer.save();
         }
         else if (command == "quit") {
             Gamer.save();

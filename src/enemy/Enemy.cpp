@@ -19,44 +19,47 @@ experience(experience), money(money), weapon(weapon), armor(armor), skill_id(ski
 
 void Enemy::showEnemy() const
 {
-    cout << endl << "当前怪物属性:" << '\t';
-    cout << "名称:" << name << '\t' << endl;
-    cout << "生命值:" << hp << "/" << max_hp << '\t';
-    cout << "等级:" << level << endl;
-    cout << "攻击:" << damage << '\t';
-    cout << "防御:" << defence << endl;
+    fmt::print("\n\n");
+    fmt::print("名称: {}\n", name);
+    fmt::print("生命值: {} / {}\t", hp, max_hp);
+    fmt::print("等级: {}\n", level);
+    fmt::print("攻击: {}\t", damage);
+    fmt::print("防御: {}\n", defence);
 }
 
 // @formatter:off
 Enemy Enemy::creatEnemy(const array<int, 3> &pos)
 {
+    auto color = [](const string &text) {
+        return format(fg(fmt::color::yellow), text);
+    };
     if (auto &[c, x, y] = pos; c == 1) {
         if (y == 1 && (x == 2 || x == 4))
-            return {Type::SMALL, "铁壁守卫", 30, 500, 500,
+            return {Type::SMALL, color("铁壁守卫"), 30, 500, 500,
                 30, 0.2, 20, 500, 100,
                 -1, -1, -1
             };
         if (y == 2 && (x == 2 || x == 4))
-            return {Type::SMALL, "伏地魔", 30, 500, 500,
+            return {Type::SMALL, color("伏地魔"), 30, 500, 500,
                 20, 0.2, 35, 500, 100,
                 -1, -1, -1
             };
     }
     else if (c == 2) {
         if (x == 3 && y == 4)
-            return {Type::SMALL, "烈风剑士", 40, 1000, 1000,
+            return {Type::SMALL, color("烈风剑士"), 40, 1000, 1000,
                 100, 0.2, 30, 1000, 250,
                 -1, -1, -1
             };
 
         if (x == 5 && y == 4)
-            return {Type::SMALL, "地煞狂徒", 40, 1000, 1000,
+            return {Type::SMALL, color("地煞狂徒"), 40, 1000, 1000,
                 80, 0.3, 30, 1000,250,
                 -1, -1, -1
             };
 
         if (x == 5 && y == 5)
-            return {Type::SMALL, "黑影刺客", 40, 1000, 1000,
+            return {Type::SMALL, color("黑影刺客"), 40, 1000, 1000,
                 70, 0.4, 30, 1000, 250,
                 -1, -1, -1
             };
@@ -66,37 +69,40 @@ Enemy Enemy::creatEnemy(const array<int, 3> &pos)
 
 Enemy Enemy::creatElite(const array<int, 3> &pos)
 {
+    auto color = [](const string &text) {
+        return format(fg(fmt::color::orange), text);
+    };
     const auto &[c, x, y] = pos;
     if (c == 1 && x == 2 && y == 2)
-        return {Type::ELITE, "青龙卫",
+        return {Type::ELITE, color("青龙卫"),
             35, 1000, 1000, 40, 0.3,
             50, 2000, 300,
             -1, -1, 3
         };
 
     if (c == 1 && x == 5 && y == 2)
-        return {Type::ELITE, "白虎卫",
+        return {Type::ELITE, color("白虎卫"),
             35, 1000, 1000, 60, 0.3,
             20, 2000, 300,
             -1, -1, 5
         };
 
     if (c == 2 && x == 1 && y == 2)
-        return {Type::ELITE, "影刃卫",
+        return {Type::ELITE, color("影刃卫"),
             45, 2000, 2000, 110, 0.4,
             30, 3000, 500,
             -1, -1, 7
         };
 
     if (c == 2 && x == 2 && y == 3)
-        return {Type::ELITE, "天霸卫",
+        return {Type::ELITE, color("天霸卫"),
             45, 2000, 2000, 120, 0.4,
             40, 3000, 500,
             -1, -1, 8
         };
 
     if (c == 2 && x == 1 && y == 4)
-        return {Type::ELITE, "怒焰卫",
+        return {Type::ELITE, color("怒焰卫"),
             45, 1800, 1800, 120, 0.5,
             45, 3000, 500,
             -1, -1, 9
@@ -106,22 +112,25 @@ Enemy Enemy::creatElite(const array<int, 3> &pos)
 
 Enemy Enemy::creatBoss(const int index)
 {
+    auto color = [](const string &text) {
+        return format(fg(fmt::color::gold), text);
+    };
     switch (index) {
         case 0 : return  {
-                Type::BOSS, "城主", Gamer.getLevel(), Gamer.getHp(), Gamer.getMaxHp(),
+                Type::BOSS, color("城主"), Gamer.getLevel(), Gamer.getHp(), Gamer.getMaxHp(),
                 Gamer.getDamage(), Gamer.getCritical(), Gamer.getDefence(),
                 static_cast<int> (Gamer.getLvExp() * 0.5), 0,
                 -1, -1, -1
             };
         case 1 : return {
-                Type::BOSS, "陆洪", 40, 3000, 3000,
+                Type::BOSS, color("陆洪"), 40, 3000, 3000,
                 60, 0.7, 80,
                 5000, 500,
                 8, 12, 13
             };
 
         case 2 : return {
-                Type::BOSS, "段霖", 50, 5000, 5000,
+                Type::BOSS, color("段霖"), 50, 5000, 5000,
                 150, 0.5, 120,
                 8000, 800,
                 10, 14, 14

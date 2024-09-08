@@ -1,5 +1,6 @@
 #include "Fight.h"
 
+#include <algorithm>
 #include <chrono>
 #include <conio.h>
 #include <functional>
@@ -55,46 +56,59 @@ void clearBuff(const std::vector<Skill>::iterator &skill)
 
 void Fight::attackEnemy()
 {
+    int damage = 0;
     if (achievePercent(Gamer.getCritical())) {
-        enemy.decHp(calculateDamage(Gamer.getDamage() * 2, enemy.getDefence()));
+        damage = calculateDamage(Gamer.getDamage() * 2, enemy.getDefence());
+        enemy.decHp(damage);
+        fmt::print("你对{}造成了{}点暴击伤害。\n", enemy.getName(), damage);
         return;
     }
-    enemy.decHp(calculateDamage(Gamer.getDamage(), enemy.getDefence()));
+    damage = calculateDamage(Gamer.getDamage(), enemy.getDefence());
+    enemy.decHp(damage);
+    fmt::print("你对{}造成了{}点伤害。\n", enemy.getName(), damage);
 }
 
 void Fight::attackPlayer(const int defence) const
 {
+    int damage = 0;
     if (achievePercent(enemy.getCritical())) {
-        Gamer.setHp(Gamer.getHp() - calculateDamage(Gamer.getDamage() * 2, defence));
+        damage = calculateDamage(Gamer.getDamage() * 2, defence);
+        Gamer.setHp(Gamer.getHp() - damage);
+        fmt::print("{}对你造成了{}点暴击伤害。\n", enemy.getName(), damage);
         return;
     }
-    Gamer.setHp(Gamer.getHp() - calculateDamage(enemy.getDamage(), defence));
+    damage = calculateDamage(enemy.getDamage(), defence);
+    Gamer.setHp(Gamer.getHp() - damage);
+    fmt::print("{}对你造成了{}点伤害。\n", enemy.getName(), damage);
 }
 
-void Fight::useSkill() const
+bool Fight::useSkill() const
 {
-    Gamer.checkSkill();
+    if (!Gamer.checkSkill()) {
+        fmt::println("你没有习得任何技能！");
+        return false;
+    }
+    std::string input;
     int pos;
     fmt::print("你想用哪个技能[请输入其编号，0是退出]: ");
     while (true) {
-        std::cin >> pos;
-        if (pos == 0)
-            break;
-        if (0 < pos && pos < Gamer.getSkills().size()) {
-            break;
+        std::cin >> input;
+        if (!input.empty() && std::all_of(input.begin(), input.end(), ::isdigit)) {
+            pos = std::stoi(input);
+            if (pos < Gamer.getSkills().size()) { break; }
         }
         fmt::print("请输入对的编号: ");
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     const auto skill = Gamer.getSkills()[pos];
     const auto check = Skills[skill.getId()].use();
     if (!check.has_value()) {
         fmt::print("元气不足，无法释放。\n");
+        return false;
     }
     if (check.value() != 0) {
         fmt::print("你对{}造成了{}点伤害。\n", enemy.getName(), check.value());
     }
+    return true;
 }
 
 // 弹反
@@ -105,7 +119,7 @@ bool ifSucceedDodge()
     }
     fmt::println("准备！！！");
     constexpr char target_key = 'k';   // 目标按键
-    constexpr double time_limit = 0.3; // 时间限制，单位为秒
+    constexpr double time_limit = 0.1; // 时间限制，单位为秒
     double elapsed_time = 0;
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -125,7 +139,7 @@ bool ifSucceedDodge()
         elapsed_time += 0.1;                                         // 计算经过的时间
     }
 
-    fmt::print("在 {} 秒内按下 '{}' 键！\n", time_limit, target_key);
+    fmt::print("进度条结束后，在 {} 秒内按下 '{}' 键！\n", time_limit, target_key);
 
     waitForLoad(100);
     for (size_t i = 0; i < 3; ++i) {
@@ -219,48 +233,44 @@ void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
         }
 
         std::string description;
-        auto slowPrintDescription = [&description] {
-            for (const auto &ch : description) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(50));
-                fmt::print("{}", ch);
+
+        auto showDescription = [&description] {
+            SetConsoleOutputCP(CP_UTF8);
+            std::wcout.imbue(std::locale(""));
+
+            for (const auto &c : description) {
+                std::cout << c << std::flush;
+                std::this_thread::sleep_for(std::chrono::milliseconds(10)); // 延迟
             }
         };
 
-        description = "Round: ";
-        slowPrintDescription();
+        description = "\nRound: ";
+        fmt::print(description);
         fmt::println("{}", round);
 
-        auto showHp = [&description, &slowPrintDescription, this] {
-            description = "玩家血量: ";
-            slowPrintDescription();
+        auto showHp = [&description, &showDescription, this] {
+            description = Gamer.getName() + "血量: ";
+            showDescription();
             print(fg(fmt::color::red), "{} / {}\n", Gamer.getHp(), Gamer.getMaxHp());
 
-            description = "敌人血量: ";
-            slowPrintDescription();
+            description = enemy.getName() + "血量: ";
+            showDescription();
             print(fg(fmt::color::red), "{} / {}\n", enemy.getHp(), enemy.getMaxHp());
         };
 
+        showHp();
         std::string choice;
         while (round & 1) {
             fmt::print("[player]查看自身状态, [enemy]查看敌人属性, [attack]攻击, [skill]释放技能: ");
             std::cin >> choice;
-            if (choice == "player") {
-                Gamer.showPlayer();
-            }
-            else if (choice == "enemy") {
-                enemy.showEnemy();
-            }
-            else if (choice == "skill") {
-                useSkill();
-                ++round;
-            }
+            if (choice == "player") { Gamer.showPlayer(); }
+            else if (choice == "enemy") { enemy.showEnemy(); }
+            else if (choice == "skill") { if (useSkill()) { ++round; } }
             else if (choice == "attack") {
                 attackEnemy();
                 ++round;
             }
-            else {
-                fmt::print("无效指令!\n");
-            }
+            else { fmt::print("无效指令!\n"); }
         }
         if (enemy.getHp() <= 0) {
             fmt::println("{}被打败了！", enemy.getName());
@@ -275,6 +285,7 @@ void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
         showHp();
         if (round % 2 == 0) {
             fmt::print("敌方回合，请你选择防御[defence]或者尝试闪避[dodge]: ");
+            std::cin >> choice;
             while (choice != "defence" && choice != "dodge") {
                 fmt::print("请输入[defence]或[dodge]: ");
                 std::cin >> choice;
@@ -283,21 +294,16 @@ void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
                 }
             }
             if (choice == "defence") {
-                const int damage = calculateDamage(enemy.getDamage(), Gamer.getDefence());
-                fmt::print("你受到了{}点伤害", damage);
                 attackPlayer(Gamer.getDefence());
                 ++round;
             }
             else {
-                if (ifSucceedDodge()) {
+                if (ifSucceedDodge())
                     fmt::println("闪避成功！");
-                    ++round;
-                }
-                else {
+                else
                     attackPlayer(0);
-                    Gamer.setHp(Gamer.getHp() - enemy.getDamage());
-                    fmt::println("你受到{}点伤害，还剩{}点血量", enemy.getDamage(), Gamer.getHp());
-                }
+
+                ++round;
             }
         }
 

@@ -16,7 +16,7 @@ void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
 void Player::showPlayer() const
 {
-    fmt::print("\n\n当前人物属性:\n");
+    fmt::print("\n\n");
     fmt::print("姓名: {} \t 等级: {}\n", name, level);
     fmt::print("经验: {} / {}\n", experience, level_up_exp);
 
@@ -25,18 +25,17 @@ void Player::showPlayer() const
 
     fmt::print("攻击力: {} \t 暴击率: {}\n", damage, critical);
 
-    fmt::print("防御力: {} \t 闪避率: {}\n", defence);
+    fmt::print("防御力: {} \t 闪避率: {}\n", defence, evasion);
 
     fmt::print("健康点数: {} \t 攻击点数: {} \t 敏捷点数: {}\n", health, strength, agility);
 
     fmt::print("金钱: {}\n", money);
 }
 
-void Player::checkSkill() const
+bool Player::checkSkill() const
 {
     if (skills.begin() == skills.end()) {
-        fmt::println("你没有习得任何技能！");
-        return;
+        return false;
     }
     fmt::println("你习得的技能有: ");
     int i = 0;
@@ -49,6 +48,7 @@ void Player::checkSkill() const
     if (i % 5 != 0) {
         fmt::print("\n"); // 最后一行换行
     }
+    return true;
 }
 
 void Player::checkTask() const

@@ -17,7 +17,7 @@ public:
     std::array<bool, 2> finished {false, false};
 
     void showPlayer() const;
-    void checkSkill() const;
+    bool checkSkill() const;
     void checkTask() const;
     void openBag();
     void usePoint();

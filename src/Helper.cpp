@@ -45,6 +45,11 @@ void waitForAnyKey()
     fmt::print("Press any key to continue...");
     const auto input_handle = GetStdHandle(STD_INPUT_HANDLE);
     INPUT_RECORD input_record;
+    // 清空控制台输入缓冲区
+    DWORD dw_read;
+    while (PeekConsoleInput(input_handle, &input_record, 1, &dw_read) && dw_read > 0) {
+        ReadConsoleInput(input_handle, &input_record, 1, &dw_read);
+    }
     DWORD events_read;
 
     while (true) {

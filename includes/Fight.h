@@ -17,6 +17,6 @@ private:
 
     void attackEnemy();
     void attackPlayer(int) const;
-    void useSkill() const;
+    [[nodiscard]] bool useSkill() const;
     void gainTrophy() const;
 };
