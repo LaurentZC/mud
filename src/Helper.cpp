@@ -121,11 +121,14 @@ void restart()
     STARTUPINFO si = {sizeof(si)};
     PROCESS_INFORMATION pi;
     // 启动新进程
-    if (CreateProcess(nullptr, sz_file_name, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+    // @formatter:off
+    if (CreateProcess(nullptr, sz_file_name, nullptr, nullptr,
+        FALSE, 0, nullptr, nullptr, &si, &pi)) {
         // 关闭句柄
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         // 退出当前进程
         exit(0);
     }
+    // @formatter:on
 }

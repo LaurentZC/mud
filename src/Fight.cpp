@@ -1,6 +1,7 @@
 #include "Fight.h"
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <conio.h>
 #include <functional>
@@ -112,49 +113,67 @@ bool Fight::useSkill() const
 }
 
 // 弹反
+std::atomic<bool> KeyPressed(false);
+std::atomic<bool> EndTread(false);
+
+void listenForKey(const char key_to_detect)
+{
+    while (!KeyPressed && !EndTread) {
+        if (_kbhit()) {
+            if (const char ch = static_cast<char>(_getch()); ch == key_to_detect) {
+                KeyPressed = true;
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+}
+
 bool ifSucceedDodge()
 {
-    if (achievePercent(Gamer.getEvasion())) {
-        return true;
-    }
-    fmt::println("准备！！！");
-    constexpr char target_key = 'k';   // 目标按键
-    constexpr double time_limit = 0.1; // 时间限制，单位为秒
-    double elapsed_time = 0;
+    if (achievePercent(Gamer.getEvasion())) { return true; }
+    constexpr char target_key = 'k'; // 目标按键
+    constexpr int time_limit = 100;  // 时间限制，单位毫秒
+
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(2, 5);
+    std::uniform_int_distribution dis(1, 3);
+    const std::chrono::seconds sec(dis(gen));
 
-    // 生成随机数，准备时间
-    const int random_seconds = dis(gen);
-    while (elapsed_time < random_seconds) {
-        if (_kbhit()) {
-            // 检测是否有按键输入, 获取按下的按键
-            if (const char ch = static_cast<char>(_getch()); ch == target_key) {
-                fmt::println("太早了，失败！");
-                return false;
-            }
+    fmt::print("开始后，在 {} 毫秒内按下 '{}' 键！\n", time_limit, target_key);
+
+    std::thread press(listenForKey, target_key);
+    const auto start = std::chrono::steady_clock::now();
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        if (KeyPressed) {
+            return false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 暂停100毫秒
-        elapsed_time += 0.1;                                         // 计算经过的时间
+        // @formatter:off
+        if (auto elapsed = std::chrono::steady_clock::now() - start;
+            std::chrono::duration_cast<std::chrono::seconds>(elapsed) > sec) {
+            // @formatter:on
+            EndTread = true;
+            press.join();
+            EndTread = false;
+            break;
+        }
     }
 
-    fmt::print("进度条结束后，在 {} 秒内按下 '{}' 键！\n", time_limit, target_key);
+    fmt::println("开始！");
+    // 启动进度条线程
+    std::thread load_thread(waitForLoad, time_limit);
+    // 启动按键监听线程
+    std::thread key_listener(listenForKey, target_key);
+    // 等待线程结束
+    load_thread.join();
+    EndTread = true;
+    key_listener.join();
 
-    waitForLoad(100);
-    for (size_t i = 0; i < 3; ++i) {
-        if (_kbhit()) {
-            // 检测是否有按键输入
-            // 获取按下的按键
-            if (const char ch = static_cast<char>(_getch()); ch == target_key) {
-                fmt::print("闪身!!!");
-                return true; // 退出程序
-            }
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 暂停100毫秒
+    if (KeyPressed) {
+        fmt::println("闪身！");
+        return true;
     }
-
-    fmt::print("时间到！你没有按下目标键。\n");
+    fmt::println("超时: 失败");
     return false;
 }
 
