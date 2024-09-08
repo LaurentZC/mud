@@ -376,8 +376,8 @@ void movePlayerLocation(Area &map)
 {
     auto &[c, x, y] = Gamer.position;
     string command;
-    fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit): ");
     while (true) {
+        fmt::print("你想往哪里走呢？[w / a / s / d] (q for quit): ");
         cin >> command;
         if (command.length() != 1 || strchr("wasdq", command[0]) == nullptr) {
             fmt::print("无效的指令！[w / a / s / d / q]: ");
@@ -387,16 +387,16 @@ void movePlayerLocation(Area &map)
             switch (command[0]) {
                 case 'w' :
                     --x;
-                    break;
+                    continue;;
                 case 's' :
                     ++x;
-                    break;
+                    continue;
                 case 'a' :
                     --y;
-                    break;
+                    continue;
                 case 'd' :
                     ++y;
-                    break;
+                    continue;
                 case 'q' :
                     return;
                 default : ;

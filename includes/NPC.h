@@ -24,17 +24,15 @@ protected:
 class TaskGivingNPC final : public NPC
 {
 public:
-    TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &task_id);
+    TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, std::vector<int> task_id);
     void talk() override;
+    static void save();
+    static void load();
 
 private:
-    void giveTask() const;
     void giveReward() const;
-    [[nodiscard]] bool ifFinishTask() const;
-    std::vector<Task> tasks;
-    int task_index {};
-    bool if_give_reward {true}; // 是否给予奖励
-    bool if_give_task {true};   // 是否给予任务
+    std::vector<int> task_id;
+    bool if_give_task {true}; // 是否给予任务
 };
 
 class ShopKeeper final : public NPC
@@ -97,7 +95,7 @@ inline std::array<TaskGivingNPC, 4> TaskGivingNPCs = {
                 "如你所见，那可恶的陆洪派人来砸了我的药店，我什么都没做，只是不想帮助他们做能使人功力大涨的邪药\n城中百姓苦陆洪已久，你若能杀了他，为民除害，我便将我最厉害的秘法传给你\n",
                 "陆洪死后，又来了个段霖，那人也是无恶不作，占据一方城池，仗着自己武功高强，拦截拦路的商队，我这里已经好久没有货了，你若能帮我巡回一些，我愿意支付相应的报酬\n",
                 "多年过去，你已经成为武林高手，去吧，杀掉那段霖，有你这样的人在，哪怕再来10个段霖，我们也不害怕了\n"
-            }, {4,5,6,7,8}},
+            }, {4, 5, 6, 7, 8}},
         {"城主", "一位威严而智慧的领导者，年约四十，身材魁梧，面容刚毅。艾尔文的头发微微泛白，显示出他在治理城镇过程中积累的丰富经验。他的眼神深邃而坚定，透出对城镇未来的无限关怀。",
             {
                 "欢迎来到云霄城\n",
@@ -105,7 +103,7 @@ inline std::array<TaskGivingNPC, 4> TaskGivingNPCs = {
                 "上次的任务你完成的很出色，我们正筹备进攻武威城，可除了陆洪自己，他还有个令人闻风丧胆的白虎卫，有他在，我们就难以进攻，可否请你再去杀掉白虎卫。\n",
                 "白虎卫已死，时机已然成熟，英雄，请随我们一同前往武威城，杀掉陆洪，为民除害！\n",
                 "我本以为，陆洪死后，这满城百姓能过上安稳日子，可谁料又来了个段霖。\n此人乃飞云商会的会长，却四处抢劫，无恶不作，百姓们渴望安定，无法再战，你若能拿下他，满城百姓都将感恩戴德\n"
-            },{0,1,2,3}}
+            },{0, 1, 2, 3}}
     }
 };
 

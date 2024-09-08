@@ -1,5 +1,6 @@
 #include "Task.h"
 
+#include <NPC.h>
 #include <fstream>
 
 #include "Player.h"
@@ -9,16 +10,22 @@ extern Player Gamer;
 
 void Task::finish()
 {
-    fmt::print("任务{}已完成\n", this->name);
-    if_finished = true;
+    if (if_finished) { return; }
+    if (if_received) {
+        fmt::print("任务{}已完成\n", this->name);
+        if_finished = true;
+    }
 }
 
 void Task::finish(const bool if_finished) { this->if_finished = if_finished; }
 
 void Task::showTask()
 {
-    print(fg(fmt::color::pink), "{}: {}\n", name, description);
-    fmt::print("完成后可获得:{} 金钱 ,{} 经验\n", money, experience);
+    auto task_color = fmt::color::pink;
+    if (if_finished)
+        task_color = fmt::color::green_yellow;
+    print(fg(task_color), "{}: {}\n", name, description);
+    print(fg(task_color), "完成后可获得:{} 金钱 ,{} 经验\n", money, experience);
 }
 
 void Task::receive() { this->if_received = true; }
@@ -29,8 +36,8 @@ void Task::save() const
 {
     std::ofstream out_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
-    out_file.write(reinterpret_cast<const char *>(&if_received), sizeof(if_received));
     out_file.write(reinterpret_cast<const char *>(&if_finished), sizeof(if_finished));
+    TaskGivingNPC::save();
 }
 
 int Task::getSkillId() const { return skill_id; }

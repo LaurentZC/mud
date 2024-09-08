@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <windows.h>
 
 #include "Area.h"
 #include "CreatMap.h"
@@ -88,7 +89,7 @@ void load()
 
 void start()
 {
-    system("chcp 65001");
+    SetConsoleOutputCP(CP_UTF8);
     printTitle();
     fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
     string choice;

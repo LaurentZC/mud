@@ -1,6 +1,7 @@
 #include "NPC.h"
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -15,19 +16,16 @@ extern Player Gamer;
 
 using namespace std;
 
-void TaskGivingNPC::giveTask() const { Gamer.acceptTask(tasks[task_index]); }
-
-bool TaskGivingNPC::ifFinishTask() const { return tasks[task_index].ifTaskFinished(); }
-
 void TaskGivingNPC::giveReward() const
 {
-    fmt::print("这是我的谢礼\n");
-    fmt::println("获得了{}经验", tasks[task_index].getExperience());
-    Gamer.gainExp(tasks[task_index].getExperience());
-    fmt::println("获得了{}元钱", tasks[task_index].getExperience());
-    Gamer.gainMoney(tasks[task_index].getMoney());
-    fmt::print("习得{}技能", Tasks[tasks[task_index].getSkillId()].getName());
-    Gamer.gainSkill(tasks[task_index].getSkillId());
+    fmt::print("这是我的谢礼: \n");
+    fmt::print("获得了{}经验\t", Tasks[task_id[0]].getExperience());
+    Gamer.gainExp(Tasks[task_id[0]].getExperience());
+    fmt::print("获得了{}元钱\n", Tasks[task_id[0]].getExperience());
+    Gamer.gainMoney(Tasks[task_id[0]].getMoney());
+    if (Tasks[task_id[0]].getSkillId() != -1)
+        print(fg(fmt::color::yellow), "习得{}技能", Skills[Tasks[task_id[0]].getSkillId()].getName());
+    Gamer.gainSkill(Tasks[task_id[0]].getSkillId());
 }
 
 NPC::NPC() = default;
@@ -36,40 +34,29 @@ NPC::NPC(std::string name, std::string description, std::vector<std::string> dia
 
 NPC::~NPC() = default;
 
-TaskGivingNPC::TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, const std::vector<int> &task_id): NPC(std::move(name), std::move(description), std::move(dia))
-{
-    for (const int id : task_id) {
-        if (id == -1) { break; }
-        tasks.push_back(Tasks[id]);
-    }
-}
+TaskGivingNPC::TaskGivingNPC(std::string name, std::string description, std::vector<std::string> dia, std::vector<int> task_id): NPC(std::move(name), std::move(description), std::move(dia)), task_id(std::move(task_id)) { }
 
 void TaskGivingNPC::talk()
 {
-    for (task_index = 0; task_index < tasks.size(); ++task_index) {
-        if (!tasks[task_index].ifTaskFinished()) { break; }
+    if (task_id.empty()) {
+        print(fg(fmt::color::green), "{}: 我以为没有事情要你帮助了。", name);
+        return;
     }
-    if (ifFinishTask() == true && if_give_reward == true) {
+    if (Tasks[task_id[0]].ifTaskFinished()) {
         fmt::print("感谢你帮助了我\n");
         giveReward();
-        Gamer.removeTask(tasks[task_index]);
-        //最后一个任务做完，就不能再给奖励和发任务了
-        if (task_index == tasks.size() - 1) {
-            if_give_reward = false;
-            if_give_task = false;
-        }
-        task_index++;
+        Gamer.removeTask(Tasks[task_id[0]]);
         if_give_task = true;
         return;
     }
-    if (tasks[task_index].ifReceived()) {
+    if (Tasks[task_id[0]].ifReceived()) {
         fmt::print("你当前应该有别的事情要做。");
         return;
     }
     //如果有任务要给
 
     print(fg(fmt::color::green), "{}: ", name);
-    printSlowly(format(fg(fmt::color::green), dialogues[task_index + 1]));
+    printSlowly(format(fg(fmt::color::green), dialogues[1]));
     fmt::print("\n");
     std::string choice;
     fmt::print("是否接受请求[yes / no]: ");
@@ -79,8 +66,10 @@ void TaskGivingNPC::talk()
         std::cin >> choice;
     }
     if (choice == "yes") {
-        giveTask();
-        tasks[task_index].receive();
+        Gamer.acceptTask(Tasks[task_id[0]]);
+        Tasks[task_id[0]].receive();
+        task_id.erase(task_id.begin());
+        dialogues.erase(dialogues.begin() + 1);
         fmt::print("你已经接受了这份任务，快点查看一下[self]。");
         return;
     }
@@ -91,6 +80,29 @@ void TaskGivingNPC::talk()
     fmt::print("\n");
 }
 
+void TaskGivingNPC::save()
+{
+    const string path = "../files/" + Gamer.getName() + "/npc.bat";
+    ofstream file(path, ios::binary);
+    for (auto &npc : TaskGivingNPCs) {
+        size_t count = npc.task_id.size();
+        file.write(reinterpret_cast<char *>(&count), sizeof(count));
+    }
+}
+
+void TaskGivingNPC::load()
+{
+    const string path = "../files/" + Gamer.getName() + "/npc.bat";
+    ifstream file(path, ios::binary);
+    for (auto &npc : TaskGivingNPCs) {
+        size_t count;
+        file.read(reinterpret_cast<char *>(&count), sizeof(count));
+        while (npc.task_id.size() > count) {
+            npc.task_id.erase(npc.task_id.begin());
+            npc.dialogues.erase(npc.dialogues.begin() + 1);
+        }
+    }
+}
 
 void ShopKeeper::setPillNum(const Pill &pill, const int pill_num)
 {

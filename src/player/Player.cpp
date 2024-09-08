@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include <NPC.h>
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -113,7 +114,11 @@ void Player::usePoint()
     }
 }
 
-void Player::gainSkill(const int index) { skills.push_back(Skills[index]); }
+void Player::gainSkill(const int index)
+{
+    if (index == -1) return;
+    skills.push_back(Skills[index]);
+}
 
 void Player::removeTask(const Task &task) { tasks.erase(remove(tasks.begin(), tasks.end(), task), tasks.end()); }
 
@@ -125,12 +130,14 @@ int Player::gainPill(const Pill pill, const int index)
 
 void Player::gainWeapon(const int index)
 {
+    if (index == -1) return;
     bag.addWeapon(Weapons[index]);
     fmt::println("获得了{}", Weapons[index].getName());
 }
 
 void Player::gainArmor(const int index)
 {
+    if (index == -1) return;
     bag.addArmor(Armors[index]);
     fmt::println("获得了{}", Armors[index].getName());
 }
@@ -295,6 +302,7 @@ void Player::save() const
         }
     }
     bag.save();
+    TaskGivingNPC::save();
     fmt::print("保存成功！\n");
 }
 
@@ -336,15 +344,12 @@ bool Player::load(const string &archive)
         while (true) {
             int id;
             bool finished;
-            bool if_received;
             file_to_task.read(reinterpret_cast<char *>(&id), sizeof(id));
-            file_to_task.read(reinterpret_cast<char *>(&if_received), sizeof(&if_received));
             file_to_task.read(reinterpret_cast<char *>(&finished), sizeof(finished));
 
             if (!file_to_task) { break; }
             tasks.push_back(Tasks[id]);
             tasks.back().finish(finished);
-            tasks.back().receive(if_received);
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
@@ -356,6 +361,7 @@ bool Player::load(const string &archive)
         }
         file_to_skill.close();
         bag.load();
+        TaskGivingNPC::load();
         fmt::print("存档读取成功！");
         return true;
     }
