@@ -30,8 +30,6 @@ void Task::showTask()
 
 void Task::receive() { this->if_received = true; }
 
-void Task::receive(const bool if_receive) { this->if_received = if_receive; }
-
 void Task::save() const
 {
     std::ofstream out_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
@@ -39,6 +37,8 @@ void Task::save() const
     out_file.write(reinterpret_cast<const char *>(&if_finished), sizeof(if_finished));
     TaskGivingNPC::save();
 }
+
+int Task::getId() const { return id; }
 
 int Task::getSkillId() const { return skill_id; }
 

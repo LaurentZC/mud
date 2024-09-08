@@ -46,6 +46,8 @@ void TaskGivingNPC::talk()
         fmt::print("感谢你帮助了我\n");
         giveReward();
         Gamer.removeTask(Tasks[task_id[0]]);
+        task_id.erase(task_id.begin());
+        dialogues.erase(dialogues.begin() + 1);
         if_give_task = true;
         return;
     }
@@ -68,8 +70,6 @@ void TaskGivingNPC::talk()
     if (choice == "yes") {
         Gamer.acceptTask(Tasks[task_id[0]]);
         Tasks[task_id[0]].receive();
-        task_id.erase(task_id.begin());
-        dialogues.erase(dialogues.begin() + 1);
         fmt::print("你已经接受了这份任务，快点查看一下[self]。");
         return;
     }
@@ -103,6 +103,8 @@ void TaskGivingNPC::load()
         }
     }
 }
+
+int TaskGivingNPC::getTaskId() const { return task_id[0]; }
 
 void ShopKeeper::setPillNum(const Pill &pill, const int pill_num)
 {

@@ -28,6 +28,7 @@ public:
     void talk() override;
     static void save();
     static void load();
+    [[nodiscard]] int getTaskId() const;;
 
 private:
     void giveReward() const;

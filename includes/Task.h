@@ -13,8 +13,8 @@ public:
     void finish(bool if_finished);
     void showTask();
     void receive();
-    void receive(bool if_receive);
     void save() const;
+    [[nodiscard]] int getId() const;
     [[nodiscard]] int getSkillId() const;
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] std::string getDescription() const;

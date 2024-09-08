@@ -116,7 +116,8 @@ void Player::usePoint()
 
 void Player::gainSkill(const int index)
 {
-    if (index == -1) return;
+    if (index == -1)
+        return;
     skills.push_back(Skills[index]);
 }
 
@@ -130,14 +131,16 @@ int Player::gainPill(const Pill pill, const int index)
 
 void Player::gainWeapon(const int index)
 {
-    if (index == -1) return;
+    if (index == -1)
+        return;
     bag.addWeapon(Weapons[index]);
     fmt::println("获得了{}", Weapons[index].getName());
 }
 
 void Player::gainArmor(const int index)
 {
-    if (index == -1) return;
+    if (index == -1)
+        return;
     bag.addArmor(Armors[index]);
     fmt::println("获得了{}", Armors[index].getName());
 }
@@ -362,6 +365,9 @@ bool Player::load(const string &archive)
         file_to_skill.close();
         bag.load();
         TaskGivingNPC::load();
+        for (auto &task : tasks) {
+            task.receive();
+        }
         fmt::print("存档读取成功！");
         return true;
     }
