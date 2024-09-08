@@ -71,7 +71,7 @@ private:
     };
 };
 
-inline const std::array<TaskGivingNPC, 4> TaskGivingNPCs = {
+inline std::array<TaskGivingNPC, 4> TaskGivingNPCs = {
     {
         {"李白", "一位潇洒的剑客，身穿白色长袍，手持一把长剑，眼神中透着智慧与坚定。",
             {

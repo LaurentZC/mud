@@ -37,7 +37,7 @@ void changeMap(Area &map)
         }
         switch (input[0]) {
             case '1' :
-                if (Gamer.getLevel() < 30) {
+                if (Gamer.getLevel() < 10) {
                     printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
@@ -60,7 +60,7 @@ void changeMap(Area &map)
                 return;
 
             case '2' :
-                if (Gamer.getLevel() < 40) {
+                if (Gamer.getLevel() < 30) {
                     printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
@@ -129,7 +129,16 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Gamer.position)).fight();
+                    const Enemy elite = Enemy::creatElite(Gamer.position);
+                    Fight(elite).fight();
+                    if (elite.getName() == format(fg(fmt::color::orange), "青龙卫")) {
+                        Tasks[0].finish();
+                        Tasks[11].finish();
+                    }
+                    else {
+                        Tasks[1].finish();
+                        Tasks[9].finish();
+                    }
                     rooms[x][y].clear();
                     break;
                 }
@@ -138,7 +147,7 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Gamer.position)).fight([](Player &gamer, Enemy &enemy) {
+                    Fight(Enemy::creatBoss(1)).fight([](Player &gamer, Enemy &enemy) {
                         enemy.decHp(-200);
                         if (enemy.getHp() < enemy.getMaxHp() * 0.5) {
                             enemy.setDamage(enemy.getDamage() + 10);
@@ -146,6 +155,9 @@ void playWuWeiCheng(Area &map)
                     });
                     rooms[x][y].clear();
                     Gamer.finished[0] = true;
+                    Tasks[2].finish();
+                    Tasks[6].finish();
+                    Tasks[10].finish();
                     fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。");
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：公子武功盖世！");
@@ -162,14 +174,18 @@ void playWuWeiCheng(Area &map)
                 case Room::Content::CHEST : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     if (x == 1 && y == 3) {
-                        fmt::print("这里有一颗丹药，你服用之后获得了三个属性点。");
+                        fmt::print("这里有一颗丹药，你服用之后获得了三个属性点。\n");
                         Gamer.addPoints(3);
+                        fmt::print("你找到一颗定神丹，老张好像一直在找他.\n");
+                        Tasks[5].finish();
                     }
                     else {
-                        fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。");
+                        fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。\n");
                         Gamer.gainWeapon(7);
                         Gamer.gainArmor(11);
-                        fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。");
+                        fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。\n");
+                        fmt::print("你找到一批货物，看样子是老张丢的那些。\n");
+                        Tasks[5].finish();
                     }
                     rooms[x][y].clear();
                     break;
@@ -190,7 +206,7 @@ void playWuWeiCheng(Area &map)
         }
         else if (command == "self") {
             Gamer.showPlayer();
-            Gamer.showTask();
+            Gamer.checkTask();
         }
         else if (command == "bag") { Gamer.openBag(); }
         else if (command == "exit") {
@@ -238,7 +254,17 @@ void playShangHui(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatElite(Gamer.position)).fight();
+                    const Enemy elite = Enemy::creatElite(Gamer.position);
+                    Fight(elite).fight();
+                    if (elite.getName() == format(fg(fmt::color::orange), "影刃卫")) {
+                        Tasks[13].finish();
+                    }
+                    else if (elite.getName() == format(fg(fmt::color::orange), "天霸卫")) {
+                        Tasks[14].finish();
+                    }
+                    else {
+                        Tasks[15].finish();
+                    }
                     rooms[x][y].clear();
                     break;
                 }
@@ -253,11 +279,14 @@ void playShangHui(Area &map)
                         restart();
                     }
                     fmt::print("你：这里的毒气好强大，防毒面具抵挡效果也十分有限。");
-                    Fight(Enemy::creatElite(Gamer.position)).fight([](Player &gamer, Enemy &enemy) {
+                    Fight(Enemy::creatBoss(2)).fight([](Player &gamer, Enemy &enemy) {
                         gamer.setHp(static_cast<int>(gamer.getHp() * 0.3));
                     });
                     rooms[x][y].clear();
                     Gamer.finished[1] = true;
+                    Tasks[3].finish();
+                    Tasks[8].finish();
+                    Tasks[16].finish();
                     printSlowly("你：这段霖也不过如此。");
                     printSlowly(format(fg(fmt::color::green), "马夫：公子威武，天下无双！"));
                     break;

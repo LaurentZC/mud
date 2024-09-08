@@ -35,13 +35,13 @@ Enemy Enemy::creatEnemy(const array<int, 3> &pos)
     };
     if (auto &[c, x, y] = pos; c == 1) {
         if (y == 1 && (x == 2 || x == 4))
-            return {Type::SMALL, color("铁壁守卫"), 30, 500, 500,
-                30, 0.2, 20, 500, 100,
+            return {Type::SMALL, color("铁壁守卫"), 15, 250, 250,
+                15, 0.2, 10, 500, 100,
                 -1, -1, -1
             };
         if (y == 2 && (x == 2 || x == 4))
-            return {Type::SMALL, color("伏地魔"), 30, 500, 500,
-                20, 0.2, 35, 500, 100,
+            return {Type::SMALL, color("伏地魔"), 15, 300, 300,
+                15, 0.2, 15, 500, 100,
                 -1, -1, -1
             };
     }
@@ -75,14 +75,14 @@ Enemy Enemy::creatElite(const array<int, 3> &pos)
     const auto &[c, x, y] = pos;
     if (c == 1 && x == 2 && y == 2)
         return {Type::ELITE, color("青龙卫"),
-            35, 1000, 1000, 40, 0.3,
+            20, 1000, 1000, 40, 0.3,
             50, 2000, 300,
             -1, -1, 3
         };
 
     if (c == 1 && x == 5 && y == 2)
         return {Type::ELITE, color("白虎卫"),
-            35, 1000, 1000, 60, 0.3,
+            20, 1000, 1000, 60, 0.3,
             20, 2000, 300,
             -1, -1, 5
         };
@@ -123,7 +123,7 @@ Enemy Enemy::creatBoss(const int index)
                 -1, -1, -1
             };
         case 1 : return {
-                Type::BOSS, color("陆洪"), 40, 3000, 3000,
+                Type::BOSS, color("陆洪"), 30, 3000, 3000,
                 60, 0.7, 80,
                 5000, 500,
                 8, 12, 13

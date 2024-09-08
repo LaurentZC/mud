@@ -29,9 +29,9 @@ void Player::showPlayer() const
 
     fmt::print("健康点数: {} \t 攻击点数: {} \t 敏捷点数: {}\n", health, strength, agility);
 
-    fmt::print("金钱: {}\n", money);
+    print(fg(fmt::color::gold), "金钱: {}\n", money);
 
-    fmt::print("可用属性点: {}\n", points);
+    print(fg(fmt::color::gold), "可用属性点: {}\n\n", points);
 }
 
 bool Player::checkSkill() const
@@ -55,7 +55,7 @@ bool Player::checkSkill() const
 
 void Player::checkTask() const
 {
-    if (skills.begin() == skills.end()) {
+    if (tasks.begin() == tasks.end()) {
         fmt::print("你当前没有任务。");
         return;
     }
@@ -114,17 +114,6 @@ void Player::usePoint()
 }
 
 void Player::gainSkill(const int index) { skills.push_back(Skills[index]); }
-
-void Player::showTask() const
-{
-    if (tasks.begin() == tasks.end()) {
-        fmt::print("你现在没有任务");
-        return;
-    }
-    for (const auto &task : tasks) {
-        fmt::print("{}: {}\n任务奖励: {}钱，{}经验\n", task.getName(), task.getDescription(), task.getMoney(), task.getExperience());
-    }
-}
 
 void Player::removeTask(const Task &task) { tasks.erase(remove(tasks.begin(), tasks.end(), task), tasks.end()); }
 
@@ -251,6 +240,10 @@ void Player::addPoints(const int points) { this->points += points; }
 
 vector<Skill> &Player::getSkills() { return skills; }
 
+std::vector<Weapon> &Player::getWeapons() { return bag.getWeapons(); }
+
+std::vector<Armor> &Player::getArmors() { return bag.getArmors(); }
+
 void Player::save() const
 {
     // 玩家创建一个新的文件夹
@@ -265,7 +258,7 @@ void Player::save() const
     // 保存 name 长度和内容
     const size_t name_length = name.size();
     out_file.write(reinterpret_cast<const char *>(&name_length), sizeof(name_length));
-    out_file.write(name.c_str(), name_length);
+    out_file.write(name.c_str(), static_cast<long long>(name_length));
 
     // 将玩家信息写入 Player.dat
     out_file.write(reinterpret_cast<const char *>(&position[0]), sizeof(position[0]));
@@ -313,7 +306,7 @@ bool Player::load(const string &archive)
         size_t name_length;
         read_file.read(reinterpret_cast<char *>(&name_length), sizeof(name_length));
         name.resize(name_length);
-        read_file.read(&name[0], name_length);
+        read_file.read(&name[0], static_cast<long long>(name_length));
 
         // 从 Player.dat 中读取其他属性
         read_file.read(reinterpret_cast<char *>(&position[0]), sizeof(position[0]));
@@ -343,13 +336,15 @@ bool Player::load(const string &archive)
         while (true) {
             int id;
             bool finished;
-
+            bool if_received;
             file_to_task.read(reinterpret_cast<char *>(&id), sizeof(id));
+            file_to_task.read(reinterpret_cast<char *>(&if_received), sizeof(&if_received));
             file_to_task.read(reinterpret_cast<char *>(&finished), sizeof(finished));
 
             if (!file_to_task) { break; }
             tasks.push_back(Tasks[id]);
-            tasks.back().finish(true);
+            tasks.back().finish(finished);
+            tasks.back().receive(if_received);
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);

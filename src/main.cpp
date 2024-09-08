@@ -123,7 +123,7 @@ void start()
     }
 }
 
-TaskGivingNPC taskAccept()
+TaskGivingNPC &taskAccept()
 {
     const auto &[c, x, y] = Gamer.position;
     if (x == 2 && y == 2)
@@ -152,17 +152,20 @@ int main()
         default : ;
     }
 
+    fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
     while (true) {
         printMap(current_map.getArea());
         fmt::print("\n移动:  move \t 查看自身属性: self \t 打开背包: bag \t 和npc对话: chat \t 保存: save \t 退出: quit \n");
-        printSlowly(current_map.getArea()[x][y].getDescription() + "\n");
         fmt::print("指令: ");
         string command;
         cin >> command;
-        if (command == "move") { movePlayerLocation(current_map); }
+        if (command == "move") {
+            movePlayerLocation(current_map);
+            fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
+        }
         else if (command == "self") {
             Gamer.showPlayer();
-            Gamer.showTask();
+            Gamer.checkTask();
         }
         else if (command == "bag") { Gamer.openBag(); }
         else if (command == "chat") {
@@ -200,6 +203,7 @@ int main()
             }
             else if (x == 4 && y == 4) {
                 // 商店
+                Tasks[12].finish();
                 ShopKeepers[1].talk();
             }
             else if (x == 1 && y == 3) {
@@ -218,6 +222,7 @@ int main()
                         break;
                     }
                     if (command == "talk") {
+                        Tasks[4].finish();
                         taskAccept().talk();
                         break;
                     }

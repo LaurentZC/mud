@@ -17,6 +17,8 @@ public:
     void removeWeapon(const Weapon &weapon); // 删除武器
     void usePill();                          // 使用
     int addPill(Pill pill, int num);         // 添加
+    [[nodiscard]] std::vector<Weapon> &getWeapons();
+    [[nodiscard]] std::vector<Armor> &getArmors();
 
     void save() const;
     void load();

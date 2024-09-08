@@ -25,7 +25,6 @@ public:
 
     void acceptTask(const Task &task);
     void gainSkill(int index);
-    void showTask() const;
 
     void removeTask(const Task &task);
     [[nodiscard]] int gainPill(Pill pill, int index);
@@ -76,6 +75,8 @@ public:
     void gainMoney(int money);
     void addPoints(int points);
     [[nodiscard]] std::vector<Skill> &getSkills();
+    [[nodiscard]] std::vector<Weapon> &getWeapons();
+    [[nodiscard]] std::vector<Armor> &getArmors();
 
 private:
     std::string name;

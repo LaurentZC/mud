@@ -205,6 +205,10 @@ int Bag::addPill(const Pill pill, const int num)
     return temp;
 }
 
+std::vector<Weapon> & Bag::getWeapons() { return weapons; }
+
+std::vector<Armor> & Bag::getArmors() { return armors; }
+
 void Bag::save() const
 {
     const string path = "../files/" + Gamer.getName() + "/Bag";

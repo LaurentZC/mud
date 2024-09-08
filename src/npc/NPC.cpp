@@ -62,27 +62,31 @@ void TaskGivingNPC::talk()
         if_give_task = true;
         return;
     }
-    //如果有任务要给
-    if (if_give_task == true) {
-        fmt::print("{} : ", name);
-        printSlowly(format(fg(fmt::color::green), dialogues[task_index + 1]));
-        fmt::print("\n");
-        std::string choice;
-        std::cin >> choice;
-        fmt::print("是否接受请求[yes / no]: ");
-        while (choice != "yes" && choice != "no") {
-            fmt::print("错误指令，请重新输入[yes / no]: ");
-            std::cin >> choice;
-        }
-        if (choice == "yes") {
-            giveTask();
-            if_give_task = false; // 上一个任务没完成时不能接受新任务
-            fmt::print("你已经接受了这份任务，快点查看一下[self]。");
-            return;
-        }
+    if (tasks[task_index].ifReceived()) {
+        fmt::print("你当前应该有别的事情要做。");
+        return;
     }
+    //如果有任务要给
+
+    print(fg(fmt::color::green), "{}: ", name);
+    printSlowly(format(fg(fmt::color::green), dialogues[task_index + 1]));
+    fmt::print("\n");
+    std::string choice;
+    fmt::print("是否接受请求[yes / no]: ");
+    std::cin >> choice;
+    while (choice != "yes" && choice != "no") {
+        fmt::print("错误指令，请重新输入[yes / no]: ");
+        std::cin >> choice;
+    }
+    if (choice == "yes") {
+        giveTask();
+        tasks[task_index].receive();
+        fmt::print("你已经接受了这份任务，快点查看一下[self]。");
+        return;
+    }
+
     // 所有任务都完成
-    fmt::print("{} : ", name);
+    print(fg(fmt::color::green), "{}: ", name);
     printSlowly(format(fg(fmt::color::green), dialogues[0]));
     fmt::print("\n");
 }
