@@ -217,28 +217,23 @@ int main()
                         printSlowly(format(fg(fmt::color::green), "城主：小子不错嘛。\n"));
                         break;
                     }
-                    if (command == "talk") { taskAccept().talk(); }
+                    if (command == "talk") {
+                        taskAccept().talk();
+                        break;
+                    }
                     fmt::print("无效指令，请重新输入[fight / talk]: ");
                 }
             }
-            else if (current_map.getArea()[x][y].getContent() == Room::Content::NPC) {
-                taskAccept().talk();
-            }
-            else {
-                fmt::print("这里没有npc。\n");
-            }
+            else if (current_map.getArea()[x][y].getContent() == Room::Content::NPC) { taskAccept().talk(); }
+            else { fmt::print("这里没有npc。\n"); }
         }
-        else if (command == "save") {
-            Gamer.save();
-        }
+        else if (command == "save") { Gamer.save(); }
         else if (command == "quit") {
             Gamer.save();
             fmt::print("感谢你的游玩。\n");
             waitForAnyKey();
             return 0;
         }
-        else {
-            fmt::print("无效的指令！\n");
-        }
+        else { fmt::print("无效的指令！\n"); }
     }
 }
