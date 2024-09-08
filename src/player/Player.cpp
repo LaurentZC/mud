@@ -352,7 +352,9 @@ bool Player::load(const string &archive)
 
             if (!file_to_task) { break; }
             tasks.push_back(Tasks[id]);
-            tasks.back().finish(finished);
+            Tasks[id].receive();
+            if (finished)
+                Tasks[id].finish(true);
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
@@ -365,9 +367,6 @@ bool Player::load(const string &archive)
         file_to_skill.close();
         bag.load();
         TaskGivingNPC::load();
-        for (auto &task : tasks) {
-            task.receive();
-        }
         fmt::print("存档读取成功！");
         return true;
     }
