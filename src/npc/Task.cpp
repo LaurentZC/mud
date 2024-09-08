@@ -13,6 +13,8 @@ void Task::finish()
     if_finished = true;
 }
 
+void Task::finish(const bool if_finished) { this->if_finished = if_finished; }
+
 void Task::showTask()
 {
     fmt::print("{} : {} \n 完成后可获得:{} 金钱 ,{} 经验", name, description, money, experience);
@@ -22,6 +24,7 @@ void Task::save() const
 {
     std::ofstream out_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
     out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+    out_file.write(reinterpret_cast<const char *>(&if_finished), sizeof(if_finished));
 }
 
 int Task::getSkillId() const { return skill_id; }

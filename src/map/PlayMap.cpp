@@ -17,6 +17,9 @@
 using namespace std;
 
 extern Player Gamer;
+extern Area MainCity;
+extern Area WuWeiCheng;
+extern Area ShangHui;
 
 bool isValidMove(int x, int y, Area &map, char dir);
 
@@ -25,20 +28,20 @@ void changeMap(Area &map)
     auto &[c, x, y] = Gamer.position;
     string input;
     print(fg(fmt::color::green), "马夫：公子要去那个地方？。\n");
-    fmt::print("1. 武威城 \t 2. 天下商会 \t q. 暂不出行");
+    fmt::print("1. 武威城 \t 2. 飞云商会 \t q. 暂不出行");
     while (true) {
         cin >> input;
         if (input.length() != 1) {
             fmt::print("无效的输入[1 / 2 / q]: ");
             continue;
         }
-        printSlowly(format(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n"));
         switch (input[0]) {
             case '1' :
                 if (Gamer.getLevel() < 30) {
                     printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
+                printSlowly(format(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n"));
                 if (Gamer.finished[0]) {
                     printSlowly("你：师傅，你知道现如今武威城的状况吗？\n");
                     printSlowly(format(fg(fmt::color::green), "马夫：现如今啊，哪里一片祥和，百姓安居乐业。\n"));
@@ -46,7 +49,7 @@ void changeMap(Area &map)
                     printSlowly(format(fg(fmt::color::green), "马夫：哈哈哈，这都归功于公子啊。\n"));
                     return;
                 }
-                map = creatWuWeiCheng();
+                map = WuWeiCheng;
                 x = Gates[map.getName()].first;
                 y = Gates[map.getName()].second;
                 waitForLoad(100);
@@ -61,19 +64,20 @@ void changeMap(Area &map)
                     printSlowly(format(fg(fmt::color::green), "马夫：公子你的实力还不足以前往哪里。\n"));
                     return;
                 }
+                printSlowly(format(fg(fmt::color::green), "马夫：公子且上车坐好吧。\n"));
                 if (Gamer.finished[1]) {
-                    printSlowly("你：师傅，你知道现如今天下商会的状况吗？\n");
+                    printSlowly("你：师傅，你知道现如今飞云商会的状况吗？\n");
                     printSlowly(format(fg(fmt::color::green), "马夫：哦，知道知道。这商会啊，事业是蒸蒸日上啊哈哈。\n"));
                     printSlowly("你：是吗，那太好了。\n");
                     printSlowly(format(fg(fmt::color::green), "马夫：公子有空可一定要去瞧瞧。\n"));
                     printSlowly("你：一定。\n");
                     return;
                 }
-                map = creatShangHui();
+                map = ShangHui;
                 x = Gates[map.getName()].first;
                 y = Gates[map.getName()].second;
                 waitForLoad(100);
-                printSlowly(format(fg(fmt::color::green), "马夫：这便是天下商会了，那段霖擅长偷袭，公子莫要落入他的陷阱。\n"));
+                printSlowly(format(fg(fmt::color::green), "马夫：这便是飞云商会了，那段霖擅长偷袭，公子莫要落入他的陷阱。\n"));
                 printSlowly(format(fg(fmt::color::green), "马夫：这商会向来隐私，没人透露过他的真实样貌。\n"));
                 printSlowly(format(fg(fmt::color::green), "马夫：这次便只能靠公子自己摸索了。\n"));
                 printSlowly("你：放心吧。\n");
@@ -95,13 +99,14 @@ void playWuWeiCheng(Area &map)
     auto &rooms = map.getArea();
     fmt::print("{}\n", rooms[x][y].getDescription());
     fmt::print("你想做些什么呢。");
-    fmt::print("\n移动:  move \t 打开背包: bag \t 离开: exit \t 保存: save \t 查看地图: map\n");
+    fmt::print("\n移动:  move \t 查看自身属性: self \t 打开背包: bag \t 离开: exit \t 保存: save \t 查看地图: map\n");
     string command;
     bool quit = false;
     while (!quit) {
         cin >> command;
         if (command == "move") {
             movePlayerLocation(map);
+            printMap(map.getArea());
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE :
                     fmt::print("你：那陆洪果然有两下子。我先暂且回去休整一下");
@@ -183,19 +188,17 @@ void playWuWeiCheng(Area &map)
                 default : ;
             }
         }
-        else if (command == "bag") {
-            Gamer.openBag();
+        else if (command == "self") {
+            Gamer.showPlayer();
+            Gamer.showTask();
         }
+        else if (command == "bag") { Gamer.openBag(); }
         else if (command == "exit") {
             handleQuit(map, quit);
             return;
         }
-        else if (command == "map") {
-            printMap(map.getArea());
-        }
-        else {
-            fmt::print("无效的指令！\n");
-        }
+        else if (command == "map") { printMap(map.getArea()); }
+        else { fmt::print("无效的指令！\n"); }
     }
 }
 
@@ -223,7 +226,7 @@ void playShangHui(Area &map)
 
                 case Room::Content::MONSTER : {
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来天下商会闹事，你怕是不想活了！"));
+                    printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来飞云商会闹事，你怕是不想活了！"));
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
                     Fight(Enemy::creatEnemy(Gamer.position)).fight();
@@ -402,13 +405,13 @@ bool isValidMove(const int x, const int y, Area &map, const char dir)
     const auto &rooms = map.getArea();
     switch (dir) {
         case 'w' :
-            return y + 1 <= MAP_MAX_SIZE && rooms[x][y + 1].canPass();
-        case 's' :
-            return y - 1 >= 1 && rooms[x][y - 1].canPass();
-        case 'a' :
             return x - 1 >= 1 && rooms[x - 1][y].canPass();
-        case 'r' :
+        case 's' :
             return x + 1 <= MAP_MAX_SIZE && rooms[x + 1][y].canPass();
+        case 'a' :
+            return y - 1 >= 1 && rooms[x][y - 1].canPass();
+        case 'd' :
+            return y + 1 <= MAP_MAX_SIZE && rooms[x][y + 1].canPass();
         case 'q' :
             return true;
         default :

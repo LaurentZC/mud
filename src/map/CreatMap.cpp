@@ -140,7 +140,7 @@ Area creatShangHui()
     // @formatter:off
     static const vector COLORS = {
         // 房间
-        TextColor {{"天下商会"}, fmt::color::magenta},
+        TextColor {{"飞云商会"}, fmt::color::magenta},
         // npc
         TextColor {{"老翁"}, fmt::color::green},
         // 小怪

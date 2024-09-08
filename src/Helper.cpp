@@ -1,7 +1,6 @@
 #include "Helper.h"
 
 #include <chrono>
-#include <codecvt>
 #include <fstream>
 #include <iostream>
 #include <locale>

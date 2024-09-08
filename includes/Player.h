@@ -17,9 +17,10 @@ public:
     std::array<bool, 2> finished {false, false};
 
     void showPlayer() const;
-    bool checkSkill() const;
+    [[nodiscard]] bool checkSkill() const;
     void checkTask() const;
     void openBag();
+    void showBag();
     void usePoint();
 
     void acceptTask(const Task &task);

@@ -30,6 +30,8 @@ void Player::showPlayer() const
     fmt::print("健康点数: {} \t 攻击点数: {} \t 敏捷点数: {}\n", health, strength, agility);
 
     fmt::print("金钱: {}\n", money);
+
+    fmt::print("可用属性点: {}\n", points);
 }
 
 bool Player::checkSkill() const
@@ -62,7 +64,22 @@ void Player::checkTask() const
     }
 }
 
-void Player::openBag() { bag.display(); }
+void Player::openBag()
+{
+    fmt::print("你想要做什么[check]查看背包，[equip]更改装备,[pill]服用药品:");
+    string choice;
+    cin >> choice;
+    while (choice != "pill" && choice != "equip" && choice != "check") {
+        fmt::print("无效指令！");
+        cin >> choice;
+    }
+    if (choice == "pill") { bag.usePill(); }
+    else if (choice == "equip") { bag.useEquipment(); }
+    else
+        if (choice == "check") { bag.display(); }
+}
+
+void Player::showBag() { bag.display(); }
 
 void Player::usePoint()
 {
@@ -144,7 +161,7 @@ void Player::gainExp(const int exp)
     level = static_cast<int>(index);
     points = level - temp_level;
     fmt::print("{} \t {} \t", name, level);
-    print(fg(fmt::color::green), "{} / {}\n", experience - *it, level_up_exp);
+    print(fg(fmt::color::green), "{} / {}\n", experience - *(it - 1), level_up_exp);
     if (points > 0) {
         level_up_exp = ExpNeeded[level] - ExpNeeded[level - 1];
         fmt::print("恭喜，你升到了{}级！\n", level);
@@ -325,20 +342,21 @@ bool Player::load(const string &archive)
         ifstream file_to_task(folder_path + "/task.dat", ios::binary);
         while (true) {
             int id;
+            bool finished;
+
             file_to_task.read(reinterpret_cast<char *>(&id), sizeof(id));
-            if (!file_to_task) {
-                break;
-            }
+            file_to_task.read(reinterpret_cast<char *>(&finished), sizeof(finished));
+
+            if (!file_to_task) { break; }
             tasks.push_back(Tasks[id]);
+            tasks.back().finish(true);
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
         while (true) {
             int id;
             file_to_skill.read(reinterpret_cast<char *>(&id), sizeof(id));
-            if (!file_to_skill) {
-                break;
-            }
+            if (!file_to_skill) { break; }
             skills.push_back(Skills[id]);
         }
         file_to_skill.close();

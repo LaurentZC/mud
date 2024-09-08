@@ -68,12 +68,15 @@ double Weapon::getCritical() const { return critical; }
 
 void Weapon::showAttributes() const
 {
+    if (name.empty()) {
+        return;
+    }
     fmt::println("名字: {}", name);
     fmt::println("{}", description);
     fmt::println("价格: {}", money);
     fmt::println("伤害: {}", damage);
     fmt::println("暴击率: {}", critical);
-    fmt::println("最小力量要求: {}", min_strength_to_equip);
+    fmt::println("最小力量要求: {}\n", min_strength_to_equip);
 }
 
 void Weapon::save() const
@@ -132,12 +135,15 @@ Armor &Armor::operator=(Armor &&) noexcept = default;
 
 void Armor::showAttributes() const
 {
+    if (name.empty()) {
+        return;
+    }
     fmt::println("名字: {}", name);
     fmt::println("{}", description);
     fmt::println("价格: {}", money);
     fmt::println("增加的最大生命值: {}", add_max_hp);
     fmt::println("增加的最大法力值: {}", add_max_mp);
-    fmt::println("最小敏捷要求: {}", min_agility_to_equip);
+    fmt::println("最小敏捷要求: {}\n", min_agility_to_equip);
 }
 
 int Armor::getMinAgility() const { return min_agility_to_equip; }
