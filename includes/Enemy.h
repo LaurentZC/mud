@@ -42,8 +42,6 @@ public:
     void setArmor(int armor);
     [[nodiscard]] double getCritical() const;
     void setCritical(double critical);
-    [[nodiscard]] double getEvasion() const;
-    void setEvasion(double evasion);
     [[nodiscard]] int getSkillId() const;
     void setSkillId(int skill_id);
 

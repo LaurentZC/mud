@@ -34,31 +34,31 @@ Enemy Enemy::creatEnemy(const array<int, 3> &pos)
         return format(fg(fmt::color::yellow), text);
     };
     if (auto &[c, x, y] = pos; c == 1) {
-        if (y == 1 && (x == 2 || x == 4))
+        if (x == 4 && (y == 2 || y == 4))
             return {Type::SMALL, color("铁壁守卫"), 15, 250, 250,
                 15, 0.2, 10, 500, 100,
                 -1, -1, -1
             };
-        if (y == 2 && (x == 2 || x == 4))
+        if (x == 3 && (y == 2 || y == 4))
             return {Type::SMALL, color("伏地魔"), 15, 300, 300,
                 15, 0.2, 15, 500, 100,
                 -1, -1, -1
             };
     }
     else if (c == 2) {
-        if (x == 3 && y == 4)
+        if (x == 3 && y == 3)
             return {Type::SMALL, color("烈风剑士"), 40, 1000, 1000,
                 100, 0.2, 30, 1000, 250,
                 -1, -1, -1
             };
 
-        if (x == 5 && y == 4)
+        if (x == 4 && y == 5)
             return {Type::SMALL, color("地煞狂徒"), 40, 1000, 1000,
                 80, 0.3, 30, 1000,250,
                 -1, -1, -1
             };
 
-        if (x == 5 && y == 5)
+        if (x == 3 && y == 5)
             return {Type::SMALL, color("黑影刺客"), 40, 1000, 1000,
                 70, 0.4, 30, 1000, 250,
                 -1, -1, -1
@@ -84,28 +84,28 @@ Enemy Enemy::creatElite(const array<int, 3> &pos)
         return {Type::ELITE, color("白虎卫"),
             20, 1000, 1000, 60, 0.3,
             20, 2000, 300,
-            -1, -1, 5
+            -1, -1, 6
         };
 
     if (c == 2 && x == 1 && y == 2)
         return {Type::ELITE, color("影刃卫"),
             45, 2000, 2000, 110, 0.4,
             30, 3000, 500,
-            -1, -1, 7
+            -1, -1, 8
         };
 
     if (c == 2 && x == 2 && y == 3)
         return {Type::ELITE, color("天霸卫"),
             45, 2000, 2000, 120, 0.4,
             40, 3000, 500,
-            -1, -1, 8
+            -1, -1, 9
         };
 
     if (c == 2 && x == 1 && y == 4)
         return {Type::ELITE, color("怒焰卫"),
             45, 1800, 1800, 120, 0.5,
             45, 3000, 500,
-            -1, -1, 9
+            -1, -1, 12
         };
     return {};
 }
@@ -116,26 +116,27 @@ Enemy Enemy::creatBoss(const int index)
         return format(fg(fmt::color::gold), text);
     };
     switch (index) {
-        case 0 : return  {
-                Type::BOSS, color("城主"), Gamer.getLevel(), Gamer.getHp(), Gamer.getMaxHp(),
-                Gamer.getDamage(), Gamer.getCritical(), Gamer.getDefence(),
-                static_cast<int> (Gamer.getLvExp() * 0.5), 0,
-                -1, -1, -1
-            };
+        case 0 :
+
+            return  {
+            Type::BOSS, color("城主"), Gamer.getLevel(), static_cast<int>(Gamer.getMaxHp() * 0.8), static_cast<int>(Gamer.getMaxHp() * 0.8),
+            Gamer.getDamage(), Gamer.getCritical(), Gamer.getDefence(),
+            static_cast<int> (Gamer.getLvExp() * 0.8), 0,
+            -1, -1, -1
+        };
         case 1 : return {
-                Type::BOSS, color("陆洪"), 30, 3000, 3000,
-                60, 0.7, 80,
-                5000, 500,
-                8, 12, 13
-            };
+            Type::BOSS, color("陆洪"), 30, 3000, 3000,
+            60, 0.7, 80,
+            5000, 500,
+            8, 12, 13
+        };
 
         case 2 : return {
-                Type::BOSS, color("段霖"), 50, 5000, 5000,
-                150, 0.5, 120,
-                8000, 800,
-                10, 14, 14
-            };
-
+            Type::BOSS, color("段霖"), 50, 5000, 5000,
+            150, 0.5, 120,
+            8000, 800,
+            10, 14, 14
+        };
         default : return {};
     }
 }

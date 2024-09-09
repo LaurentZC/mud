@@ -53,7 +53,7 @@ Area creatMainCity()
         // 房间
         TextColor {{"城门", "医馆", "杂货商店", "铁匠铺", "居民区", "城主府"}, fmt::color::magenta},
         // npc
-        TextColor {{"马夫", "医生", "铁匠师傅", "市民", "城主"}, fmt::color::green}
+        TextColor {{"马夫", "医生", "铁匠师傅", "老李", "小翠", "李白", "城主"}, fmt::color::green}
     };
     // @formatter:on
 
@@ -120,7 +120,7 @@ Area creatWuWeiCheng()
             content_handled = Room::Content::MONSTER;
         else if (content == "elite")
             content_handled = Room::Content::ELITE;
-        else if (content == "boss")
+        else
             content_handled = Room::Content::BOSS;
         rooms[x][y].setup(name, description, content_handled);
     }

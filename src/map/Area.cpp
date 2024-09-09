@@ -1,6 +1,9 @@
 #include "Area.h"
+
 #include <string>
 #include <vector>
+
+#include "Helper.h"
 #include "fmt/color.h"
 
 using namespace std;
@@ -38,8 +41,17 @@ void Room::setup(string name, string description, const Content content)
     this->content = content;
 }
 
-Area::Area(string name) : name(std::move(name)), area(MAP_MAX_SIZE + 1, vector<Room>(MAP_MAX_SIZE + 1)) { }
+Area::Area(string name) : name(std::move(name)), areas(MAP_MAX_SIZE + 1, vector<Room>(MAP_MAX_SIZE + 1)) { }
 
 string Area::getName() const { return name; }
 
-vector<vector<Room> > &Area::getArea() { return area; }
+string Area::getName(int) const
+{
+    if (name == area("main_city"))
+        return area("云霄城");
+    if (name == area("wu_wei_cheng"))
+        return area("武威城");
+    return area("飞云商会");
+}
+
+vector<vector<Room> > &Area::getArea() { return areas; }

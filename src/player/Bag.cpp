@@ -248,7 +248,7 @@ void Bag::load()
     ifstream weapon_file(path1 + "/weapon.dat", ios::binary);
     int weapon_size;
     weapon_file.read(reinterpret_cast<char *>(&weapon_size), sizeof(weapon_size));
-
+    weapons.clear();
     for (size_t i = 0; i < weapon_size; ++i) {
         int id;
         weapon_file.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -259,7 +259,7 @@ void Bag::load()
     ifstream armor_file(path1 + "/armor.dat", ios::binary);
     int armor_size;
     armor_file.read(reinterpret_cast<char *>(&armor_size), sizeof(armor_size));
-
+    armors.clear();
     for (size_t i = 0; i < armor_size; ++i) {
         int id;
         armor_file.read(reinterpret_cast<char *>(&id), sizeof(id));

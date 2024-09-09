@@ -103,7 +103,7 @@ private:
 
     int money {200};                                  // 金钱
     Bag bag;                                          // 背包
-    std::vector<Skill> skills {Skills[0], Skills[1]}; // 技能
+    std::vector<Skill> skills {Skills[0]}; // 技能
     std::vector<Task> tasks;                          // 任务
 };
 

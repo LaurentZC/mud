@@ -113,14 +113,22 @@ void ShopKeeper::showGoods()
 {
     if (weapons.size() != 1 && armors.size() != 1) {
         fmt::print("武器: \n");
+        int i = 0;
         for (auto &weapon : weapons) {
+            if(i != 0)
+                fmt::print("{}.",i);
             weapon.showAttributes();
             this_thread::sleep_for(chrono::milliseconds(50));
+            ++i;
         }
+        i = 0;
         fmt::println("护甲:");
         for (auto &armor : armors) {
+            if(i != 0)
+                fmt::print("{}.",i);
             armor.showAttributes();
             this_thread::sleep_for(chrono::milliseconds(50));
+            ++i;
         }
         return;
     }
@@ -132,6 +140,7 @@ void ShopKeeper::showGoods()
         ++i;
     }
 }
+
 
 void ShopKeeper::enterStore()
 {
@@ -153,7 +162,6 @@ void ShopKeeper::enterStore()
         fmt::print("错误指令，请重新输入: ");
     }
 }
-
 void ShopKeeper::buyPills()
 {
     fmt::print("你想什么类型的药品，");
@@ -243,24 +251,21 @@ void ShopKeeper::buyWeapon()
         fmt::print("没有武器可买");
         return;
     }
-    fmt::print("你想购买哪件武器？请输入武器名称: ");
-    string weapon_name;
-    cin >> weapon_name;
-    weapon_name = format(fg(fmt::color::cyan), weapon_name);
-    auto it = weapons.begin();
+    int pos;
+    fmt::print("你想买哪件(请输入其编号, 0是退出):");
     while (true) {
-        // 查找玩家选择的武器
-        it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
-            return weapon.getName() == weapon_name;
-        });
-
-        if (it == weapons.end()) {
-            fmt::print("未找到该武器，请检查名称后重新输入: ");
-            continue;
+        cin >> pos;
+        if (pos == 0)
+            return;
+        if (0 < pos && pos < weapons.size()) {
+            break;
         }
-        break;
+        fmt::print("请输入对的编号\n");
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    const Weapon &selected_weapon = *it;
+
+    const Weapon &selected_weapon = weapons[pos];
     int weapon_price = selected_weapon.getMoney();
 
     // 检查玩家是否有足够的钱
@@ -273,7 +278,7 @@ void ShopKeeper::buyWeapon()
     Gamer.gainMoney(weapon_price);    // 减少玩家的钱
     Gamer.buyWeapon(selected_weapon); //添加装备至背包
     fmt::print("你成功购买了{}，花费{}元。\n", selected_weapon.getName(), weapon_price);
-    weapons.erase(it); //买完了商店里就没有了
+    weapons.erase(weapons.begin() + pos); //买完了商店里就没有了
 }
 
 void ShopKeeper::buyArmor()
@@ -282,25 +287,22 @@ void ShopKeeper::buyArmor()
         fmt::print("没有护甲可买");
         return;
     }
-    fmt::print("你想购买哪件护甲？请输入护甲名称: ");
+    int pos;
 
-    auto it = armors.begin();
+    fmt::print("你想买哪件(请输入其编号, 0是退出):");
     while (true) {
-        string armor_name;
-        cin >> armor_name;
-        armor_name = format(fg(fmt::color::light_green), armor_name);
-        // 查找玩家选择的护甲
-        it = find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
-            return armor.getName() == armor_name;
-        });
-
-        if (it == armors.end()) {
-            fmt::print("未找到该护甲，请检查名称后重新输入: ");
-            continue;
+        cin >> pos;
+        if (pos == 0)
+            return;
+        if (0 < pos && pos < weapons.size()) {
+            break;
         }
-        break;
+        fmt::print("请输入对的编号\n");
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    const Armor &selected_armor = *it;
+
+    const Armor &selected_armor = armors[pos];
     int armor_price = selected_armor.getMoney();
 
     // 检查玩家是否有足够的钱
@@ -312,7 +314,7 @@ void ShopKeeper::buyArmor()
     Gamer.gainMoney(-armor_price); // 减少玩家的钱
     Gamer.buyArmor(selected_armor);
     fmt::print("你成功购买了{}，花费{}元。\n", selected_armor.getName(), armor_price);
-    armors.erase(it);
+    armors.erase(armors.begin() + pos);
 }
 
 
@@ -344,24 +346,29 @@ void ShopKeeper::buy()
 
 void ShopKeeper::sellArmor()
 {
-    fmt::print("你想购卖哪件护甲？请输入护甲名称: ");
-    string armor_name;
-    cin >> armor_name;
-    // 查找玩家选择的护甲
-    const auto it = find_if(armors.begin(), armors.end(), [&](const Armor &armor) {
-        return armor.getName() == format(fg(fmt::color::light_green), "{}", armor_name);
-    });
-
-    if (it == armors.end()) {
-        fmt::print("未找到该护甲，请检查名称。\n");
+    if (Gamer.getArmors().empty()) {
+        fmt::print("无装备可卖\n");
         return;
     }
-
-    if (it == armors.begin()) {
-        fmt::print("不能卖掉装备中的护甲。\n");
-        return;
+    int pos;
+    fmt::print("你想卖哪件(请输入其编号, 0是退出):");
+    while (true) {
+        cin >> pos;
+        if (pos == 0)
+            return;
+        if(pos == 1) {
+            fmt::print("你不能卖掉装备中的护甲,请重新选择:");
+            break;
+        }
+        if (0 < pos && pos < Gamer.getArmors().size()) {
+            break;
+        }
+        fmt::print("请输入对的编号\n");
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    const Armor &selected_armor = *it;
+
+    const Armor &selected_armor = Gamer.getArmors()[pos];
     int armor_price = selected_armor.getMoney();
 
     Gamer.gainMoney(static_cast<int>(armor_price * 0.7));
@@ -372,26 +379,29 @@ void ShopKeeper::sellArmor()
 
 void ShopKeeper::sellWeapon()
 {
-    fmt::print("你想购买哪件武器？请输入武器名称:\n");
-    string weapon_name;
-    cin >> weapon_name;
-
-    // 查找玩家选择的武器
-    const auto it = find_if(weapons.begin(), weapons.end(), [&](const Weapon &weapon) {
-        return weapon.getName() == format(fg(fmt::color::cyan), "{}", weapon_name);
-    });
-
-    if (it == weapons.end()) {
-        fmt::print("未找到该武器，请检查名称。\n");
+    if (Gamer.getWeapons().empty()) {
+        fmt::print("无装备可卖\n");
         return;
     }
-
-    if (it == weapons.begin()) {
-        fmt::print("不能卖掉装备中的武器。\n");
-        return;
+    int pos;
+    fmt::print("你想买哪件(请输入其编号, 0是退出):");
+    while (true) {
+        cin >> pos;
+        if (pos == 0)
+            return;
+        if(pos == 1) {
+            fmt::print("你不能卖掉装备中的武器,请重新选择:");
+            break;
+        }
+        if (0 < pos && pos < Gamer.getWeapons().size()) {
+            break;
+        }
+        fmt::print("请输入对的编号\n");
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
-    const Weapon &selected_weapon = *it;
+    const Weapon &selected_weapon = Gamer.getWeapons()[pos-1];
     int weapon_price = selected_weapon.getMoney();
 
     Gamer.gainMoney(Gamer.getMoney() + static_cast<int>(weapon_price * 0.7));
@@ -399,7 +409,6 @@ void ShopKeeper::sellWeapon()
     fmt::print("卖掉了{}，得到了{}钱\n", selected_weapon.getName(), weapon_price);
     weapons.push_back(selected_weapon);
 }
-
 void ShopKeeper::sell()
 {
     fmt::print("你想卖什么，武器[weapon]、护甲[armor]");

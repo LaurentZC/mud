@@ -4,6 +4,8 @@
 
 void movePlayerLocation(Area &map);
 
+void movePlayerLocation(Area &map, bool);
+
 void changeMap(Area &map);
 
 void handleQuit(Area &current_map, bool &quit);

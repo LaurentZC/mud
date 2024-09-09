@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <io.h>
 #include <iostream>
 #include <vector>
 
@@ -17,9 +18,8 @@ void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
 void Player::showPlayer() const
 {
-    fmt::print("\n\n");
     fmt::print("姓名: {} \t 等级: {}\n", name, level);
-    fmt::print("经验: {} / {}\n", experience, level_up_exp);
+    fmt::print("经验: {} / {}\n", experience - ExpNeeded[level-1], level_up_exp);
 
     print(fg(fmt::color::red), "血量: {} / {}\n", hp, max_hp);
     print(fg(fmt::color::blue), "元气: {} / {}\n", mp, max_mp);
@@ -55,7 +55,7 @@ bool Player::checkSkill() const
 void Player::checkTask() const
 {
     if (tasks.begin() == tasks.end()) {
-        fmt::print("你当前没有任务。");
+        fmt::print("你当前没有任务。\n");
         return;
     }
     for (auto task : tasks) {
@@ -65,7 +65,8 @@ void Player::checkTask() const
 
 void Player::openBag()
 {
-    fmt::print("你想要做什么[check]查看背包，[equip]更改装备,[pill]服用药品:");
+    system("cls");
+    fmt::print("你想要做什么[check]查看背包，[equip]更改装备, [pill]服用药品, [out]退出:");
     string choice;
     cin >> choice;
     while (choice != "pill" && choice != "equip" && choice != "check") {
@@ -74,40 +75,42 @@ void Player::openBag()
     }
     if (choice == "pill") { bag.usePill(); }
     else if (choice == "equip") { bag.useEquipment(); }
-    else
-        if (choice == "check") { bag.display(); }
+    else if (choice == "check") { bag.display(); }
 }
 
 void Player::showBag() { bag.display(); }
 
 void Player::usePoint()
 {
-    fmt::print("请选择你想要加点的选项: \n");
-    while (true) {
-        fmt::print("健康点数[health] \t 攻击点数 [strength] \t 敏捷点数[agility]\n");
+    while (points > 0) {
+        system("cls");
+        showPlayer();
+        fmt::print("请选择你想要加点的选项: \n");
+        fmt::print("健康点数[health] \t 攻击点数 [strength] \t 敏捷点数[agility]\t 退出[out]\n");
         string choice;
         cin >> choice;
         if (choice == "health") {
-            hp += 10;
-            mp += 10;
+            hp += 100;
+            mp += 100;
             ++health;
             --points;
-            break;
+            continue;
         }
         if (choice == "strength") {
-            damage += 5;
-            defence += 5;
+            damage += 20;
+            defence += 20;
             ++strength;
             --points;
-            break;
+            continue;
         }
         if (choice == "agility") {
-            critical += 0.01;
-            evasion += 0.01;
+            critical += 0.05;
+            evasion += 0.05;
             ++agility;
             --points;
-            break;
+            continue;
         }
+        if (choice == "out") { break; }
         fmt::print("输入错误，请重新输入: ");
     }
 }
@@ -173,9 +176,31 @@ void Player::setMaxHp(const int max_hp) { this->max_hp = max_hp; }
 int Player::getMaxMp() const { return max_mp; }
 void Player::setMaxMp(const int max_mp) { this->max_mp = max_mp; }
 int Player::getHp() const { return hp; }
-void Player::setHp(const int hp) { this->hp = hp; }
+
+void Player::setHp(const int hp)
+{
+    if (hp > max_hp) {
+        this->hp = max_hp;
+        return;
+    }
+    this->hp = hp;
+}
+
 int Player::getMp() const { return mp; }
-void Player::setMp(const int mp) { this->mp = mp; }
+
+void Player::setMp(const int mp)
+{
+    if (mp > max_mp) {
+        this->mp = max_mp;
+        return;
+    }
+    if (mp <= 0) {
+        this->mp = 0;
+        return;
+    }
+    this->mp = mp;
+}
+
 int Player::getHealth() const { return health; }
 void Player::setHealth(const int health) { this->health = health; }
 
@@ -365,9 +390,10 @@ bool Player::load(const string &archive)
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
-        int size;
-        file_to_skill.read(reinterpret_cast<char *>(&size), sizeof(size));
-        for (size_t i = 0; i < size; ++i) {
+        int skill_size;
+        file_to_skill.read(reinterpret_cast<char *>(&skill_size), sizeof(skill_size));
+        skills.clear();
+        for (size_t i = 0; i < skill_size; ++i) {
             int id;
             file_to_skill.read(reinterpret_cast<char *>(&id), sizeof(id));
             skills.push_back(Skills[id]);

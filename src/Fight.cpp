@@ -44,7 +44,7 @@ void Fight::gainTrophy() const
 int calculateDamage(const int damage, const int defence)
 {
     const double reduction_rate = static_cast<double>(defence) / (100.0 + static_cast<double>(defence));
-    return static_cast<int>(reduction_rate * static_cast<double>(damage));
+    return static_cast<int>((1 - reduction_rate) * static_cast<double>(damage));
 }
 
 // 清状态
@@ -100,7 +100,7 @@ bool Fight::useSkill()
                 fmt::print("放弃使用技能。\n");
                 return false;
             }
-            if (pos < Gamer.getSkills().size()) { break; }
+            if (pos <= Gamer.getSkills().size()) { break; }
         }
         fmt::print("请输入对的编号: ");
     }
@@ -139,14 +139,14 @@ bool ifSucceedDodge()
     EndTread = false;
     if (achievePercent(Gamer.getEvasion())) { return true; }
     constexpr char target_key = 'k'; // 目标按键
-    constexpr int time_limit = 100;  // 时间限制，单位毫秒
+    constexpr int time_limit = 90;  // 时间限制，单位毫秒
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution dis(1, 3);
     const std::chrono::seconds sec(dis(gen));
 
-    fmt::print("开始后，在 {} 毫秒内按下 '{}' 键！\n", time_limit, target_key);
+    fmt::print("出现进度条后，在结束前按下 '{}' 键！\n", target_key);
 
     std::thread press(listenForKey, target_key);
     const auto start = std::chrono::steady_clock::now();

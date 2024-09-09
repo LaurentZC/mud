@@ -16,11 +16,12 @@ public:
 
     // getter
     [[nodiscard]] std::string getName() const;
+    std::string getName(int) const;
     [[nodiscard]] std::vector<std::vector<Room> > &getArea();
 
 private:
     std::string name {};
-    std::vector<std::vector<Room> > area;
+    std::vector<std::vector<Room> > areas;
 };
 
 class Room
