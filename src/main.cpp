@@ -118,10 +118,11 @@ void start()
         }
         else if (choice == "quit") { exit(0); }
         else if (choice == "debug") {
-            Gamer.setName("测试");
+            Gamer.setName("test");
             Gamer.gainExp(20000);
             Gamer.setDamage(100000);
             Gamer.gainMoney(100000);
+            Gamer.save();
             system("cls");
             return;
         }
