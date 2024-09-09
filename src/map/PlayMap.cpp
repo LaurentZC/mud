@@ -124,6 +124,7 @@ void playWuWeiCheng(Area &map)
         cin >> command;
         if (command == "move") {
             movePlayerLocation(map);
+
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE :
                     movePlayerLocation(map);
@@ -190,26 +191,6 @@ void playWuWeiCheng(Area &map)
                 case Room::Content::EMPTY : {
                     movePlayerLocation(map);
                     fmt::print("{}\n", rooms[x][y].getDescription());
-                    if (x == 2 && y == 3) {
-                        fmt::print("正在加载战斗场景，请稍后...");
-                        waitForLoad(1000);
-                        Fight {Enemy::creatBoss(1)}.fight([](Player &gamer, Enemy &enemy) {
-                            enemy.decHp(-50);
-                            if (enemy.getHp() < enemy.getMaxHp() * 0.5) {
-                                enemy.setDamage(enemy.getDamage() + 1);
-                            }
-                        });
-                        rooms[x][y].clear();
-                        Gamer.finished[0] = true;
-                        Tasks[2].finish();
-                        Tasks[6].finish();
-                        Tasks[10].finish();
-                        fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。");
-                        waitForAnyKey();
-                        print(fg(fmt::color::green), "马夫：公子武功盖世！");
-                        waitForAnyKey();
-                        printMap(rooms);
-                    }
                     break;
                 }
 
@@ -249,10 +230,20 @@ void playWuWeiCheng(Area &map)
             }
         }
         else if (command == "self") {
+            system("cls");
             Gamer.showPlayer();
             Gamer.checkTask();
+            waitForAnyKey();
+            system("cls");
+            printMap(rooms);
         }
-        else if (command == "bag") { Gamer.openBag(); }
+        else if (command == "bag") {
+            system("cls");
+            Gamer.openBag();
+            waitForAnyKey();
+            system("cls");
+            printMap(rooms);
+        }
         else if (command == "exit") {
             handleQuit(map, quit);
             return;

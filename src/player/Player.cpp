@@ -69,7 +69,7 @@ void Player::openBag()
     fmt::print("你想要做什么[check]查看背包，[equip]更改装备, [pill]服用药品, [out]退出:");
     string choice;
     cin >> choice;
-    while (choice != "pill" && choice != "equip" && choice != "check") {
+    while (choice != "pill" && choice != "equip" && choice != "check" && choice != "out") {
         fmt::print("无效指令！");
         cin >> choice;
     }
