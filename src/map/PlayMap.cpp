@@ -122,6 +122,7 @@ void playWuWeiCheng(Area &map)
     bool quit = false;
     while (!quit) {
         printMap(rooms);
+        fmt::print("{}\n", rooms[x][y].getDescription());
         fmt::print("你想做些什么呢。");
         fmt::print("\n移动:  move \t 查看自身属性: self \t 打开背包: bag \t 离开: exit\n");
         fmt::print("指令: ");
@@ -217,9 +218,9 @@ void moveWuWeiCheng(Area &map, bool &quit)
         Tasks[2].finish();
         Tasks[6].finish();
         Tasks[10].finish();
-        fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。");
+        fmt::print("你：我已经击败了那陆洪，我们待会儿可以回去了。\n");
         waitForAnyKey();
-        print(fg(fmt::color::green), "马夫：公子武功盖世！");
+        print(fg(fmt::color::green), "马夫：公子武功盖世！\n");
         waitForAnyKey();
         return;
     }
@@ -246,6 +247,7 @@ void moveWuWeiCheng(Area &map, bool &quit)
             Tasks[5].finish();
         }
         rooms[x][y].clear();
+        waitForAnyKey();
         return;
     }
 
@@ -370,6 +372,7 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
             fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。");
         }
         rooms[x][y].clear();
+        waitForAnyKey();
         return;
     }
 

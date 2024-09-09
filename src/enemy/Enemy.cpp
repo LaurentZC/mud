@@ -73,35 +73,35 @@ Enemy Enemy::creatElite(const array<int, 3> &pos)
         return format(fg(fmt::color::orange), text);
     };
     const auto &[c, x, y] = pos;
-    if (c == 1 && x == 2 && y == 2)
+    if (c == 1 && x == 3 && y == 1)
         return {Type::ELITE, color("青龙卫"),
             20, 1000, 1000, 40, 0.3,
             50, 2000, 300,
             -1, -1, 3
         };
 
-    if (c == 1 && x == 5 && y == 2)
+    if (c == 1 && x == 3 && y == 5)
         return {Type::ELITE, color("白虎卫"),
             20, 1000, 1000, 60, 0.3,
             20, 2000, 300,
             -1, -1, 6
         };
 
-    if (c == 2 && x == 1 && y == 2)
+    if (c == 2 && x == 1 && y == 1)
         return {Type::ELITE, color("影刃卫"),
             45, 2000, 2000, 110, 0.4,
             30, 3000, 500,
             -1, -1, 8
         };
 
-    if (c == 2 && x == 2 && y == 3)
+    if (c == 2 && x == 3 && y == 1)
         return {Type::ELITE, color("天霸卫"),
             45, 2000, 2000, 120, 0.4,
             40, 3000, 500,
             -1, -1, 9
         };
 
-    if (c == 2 && x == 1 && y == 4)
+    if (c == 2 && x == 2 && y == 2)
         return {Type::ELITE, color("怒焰卫"),
             45, 1800, 1800, 120, 0.5,
             45, 3000, 500,

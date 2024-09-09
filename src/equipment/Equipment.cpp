@@ -2,7 +2,6 @@
 
 #include <Player.h>
 #include <fstream>
-#include <iostream>
 #include <utility>
 
 #include "fmt/core.h"
@@ -16,9 +15,31 @@ Equipment::Equipment() = default;
 
 Equipment::Equipment(const int id, std::string name, std::string description, const int money) : id(id), name(std::move(name)), description(std::move(description)), money(money) { }
 
-Equipment::Equipment(Equipment &&) noexcept = default;
+Equipment::Equipment(const Equipment &other) = default;
 
-Equipment &Equipment::operator=(Equipment &&) noexcept = default;
+Equipment::Equipment(Equipment &&other) noexcept: id(other.id), name(std::move(other.name)), description(std::move(other.description)), money(other.money) { }
+
+Equipment &Equipment::operator=(const Equipment &other)
+{
+    if (this == &other)
+        return *this;
+    id = other.id;
+    name = other.name;
+    description = other.description;
+    money = other.money;
+    return *this;
+}
+
+Equipment &Equipment::operator=(Equipment &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    id = other.id;
+    name = std::move(other.name);
+    description = std::move(other.description);
+    money = other.money;
+    return *this;
+}
 
 Equipment::~Equipment() = default;
 
@@ -38,30 +59,31 @@ Weapon::Weapon(const int id, std::string name, std::string description, const in
               damage(damage), critical(critical), min_strength_to_equip(min_strength_to_equip) { }
 // @formatter:on
 
-Weapon::Weapon(const Weapon &other)
-{
-    this->name = other.name;
-    this->description = other.description;
-    this->money = other.money;
-    this->damage = other.damage;
-    this->critical = other.critical;
-    this->min_strength_to_equip = other.min_strength_to_equip;
-}
+Weapon::Weapon(const Weapon &other) = default;
+
+Weapon::Weapon(Weapon &&other) noexcept: Equipment(std::move(other)), damage(other.damage), critical(other.critical), min_strength_to_equip(other.min_strength_to_equip) { }
 
 Weapon &Weapon::operator=(const Weapon &other)
 {
-    this->name = other.name;
-    this->description = other.description;
-    this->money = other.money;
-    this->damage = other.damage;
-    this->critical = other.critical;
-    this->min_strength_to_equip = other.min_strength_to_equip;
+    if (this == &other)
+        return *this;
+    Equipment::operator =(other);
+    damage = other.damage;
+    critical = other.critical;
+    min_strength_to_equip = other.min_strength_to_equip;
     return *this;
 }
 
-Weapon::Weapon(Weapon &&) noexcept = default;
-
-Weapon &Weapon::operator=(Weapon &&) noexcept = default;
+Weapon &Weapon::operator=(Weapon &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Equipment::operator =(std::move(other));
+    damage = other.damage;
+    critical = other.critical;
+    min_strength_to_equip = other.min_strength_to_equip;
+    return *this;
+}
 
 int Weapon::getMinStrength() const { return min_strength_to_equip; }
 int Weapon::getDamage() const { return damage; }
@@ -69,32 +91,13 @@ double Weapon::getCritical() const { return critical; }
 
 void Weapon::showAttributes() const
 {
-    if (name.empty()) {
-        return;
-    }
+    if (name.empty()) { return; }
     fmt::println("名字: {}", name);
     fmt::println("{}", description);
     fmt::println("价格: {}", money);
     fmt::println("伤害: {}", damage);
     fmt::println("暴击率: {}", critical);
     fmt::println("最小力量要求: {}\n", min_strength_to_equip);
-}
-
-void Weapon::save() const
-{
-    ofstream out_file("../files/" + Gamer.getName() + "/Bag/weapon.dat", ios::binary);
-    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
-}
-
-vector<int> Weapon::load()
-{
-    ifstream in_file("../files/" + Gamer.getName() + "/Bag/weapon.dat", ios::binary);
-    vector<int> ids;
-    int id;
-    while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {
-        ids.emplace_back(id);
-    }
-    return ids;
 }
 
 // Armor
@@ -107,38 +110,38 @@ Armor::Armor(const int id, std::string name, std::string description, const int 
             add_max_hp(add_max_hp), add_max_mp(add_max_mp), evasion(evasion), defence(defence), min_agility_to_equip(min_agility_to_equip) { }
 // @formatter:on
 
-Armor::Armor(const Armor &other)
-{
-    this->name = other.name;
-    this->description = other.description;
-    this->money = other.money;
-    this->add_max_hp = add_max_hp;
-    this->add_max_mp = add_max_mp;
-    this->defence = defence;
-    this->evasion = evasion;
-}
+Armor::Armor(const Armor &other) = default;
+Armor::Armor(Armor &&other) noexcept: Equipment(std::move(other)), add_max_hp(other.add_max_hp), add_max_mp(other.add_max_mp), evasion(other.evasion), defence(other.defence), min_agility_to_equip(other.min_agility_to_equip) { }
 
 Armor &Armor::operator=(const Armor &other)
 {
-    this->name = other.name;
-    this->description = other.description;
-    this->money = other.money;
-    this->add_max_hp = add_max_hp;
-    this->add_max_mp = add_max_mp;
-    this->defence = defence;
-    this->evasion = evasion;
+    if (this == &other)
+        return *this;
+    Equipment::operator =(other);
+    add_max_hp = other.add_max_hp;
+    add_max_mp = other.add_max_mp;
+    evasion = other.evasion;
+    defence = other.defence;
+    min_agility_to_equip = other.min_agility_to_equip;
     return *this;
 }
 
-Armor::Armor(Armor &&) noexcept = default;
-
-Armor &Armor::operator=(Armor &&) noexcept = default;
+Armor &Armor::operator=(Armor &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Equipment::operator =(std::move(other));
+    add_max_hp = other.add_max_hp;
+    add_max_mp = other.add_max_mp;
+    evasion = other.evasion;
+    defence = other.defence;
+    min_agility_to_equip = other.min_agility_to_equip;
+    return *this;
+}
 
 void Armor::showAttributes() const
 {
-    if (name.empty()) {
-        return;
-    }
+    if (name.empty()) { return; }
     fmt::println("名字: {}", name);
     fmt::println("{}", description);
     fmt::println("价格: {}", money);
@@ -152,20 +155,3 @@ int Armor::getAddMaxHp() const { return add_max_hp; }
 int Armor::getAddMaxMp() const { return add_max_mp; }
 double Armor::getEvasion() const { return evasion; }
 int Armor::getDefence() const { return defence; }
-
-void Armor::save() const
-{
-    ofstream out_file("../files/" + Gamer.getName() + "/Bag/armor.dat", ios::binary);
-    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
-}
-
-vector<int> Armor::load()
-{
-    ifstream in_file("../files/" + Gamer.getName() + "/Bag/armor.dat", ios::binary);
-    vector<int> ids;
-    int id;
-    while (in_file.read(reinterpret_cast<char *>(&id), sizeof(id))) {
-        ids.emplace_back(id);
-    }
-    return ids;
-}

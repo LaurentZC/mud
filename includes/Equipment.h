@@ -2,7 +2,6 @@
 
 #include <array>
 #include <string>
-#include <vector>
 
 #include "fmt/color.h"
 
@@ -12,15 +11,17 @@ class Equipment
 public:
     Equipment();
     Equipment(int id, std::string name, std::string description, int money);
-    Equipment(Equipment &&) noexcept;
-    Equipment &operator=(Equipment &&) noexcept;
+    Equipment(const Equipment &other);
+    Equipment(Equipment &&other) noexcept;
+    Equipment &operator=(const Equipment &other);
+    Equipment &operator=(Equipment &&other) noexcept;
+
     virtual ~Equipment();
 
     virtual void showAttributes() const = 0;
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] int getMoney() const;
 
-    virtual void save() const = 0;
     [[nodiscard]] int getId() const;
 
 protected:
@@ -37,13 +38,11 @@ public:
     Weapon();
     Weapon(int id, std::string name, std::string description, int money, int damage, double critical, int min_strength_to_equip);
     Weapon(const Weapon &other);
+    Weapon(Weapon &&other) noexcept;
     Weapon &operator=(const Weapon &other);
-    Weapon(Weapon &&) noexcept;
-    Weapon &operator=(Weapon &&) noexcept;
+    Weapon &operator=(Weapon &&other) noexcept;
 
     void showAttributes() const override;
-    void save() const override;
-    static std::vector<int> load();
     [[nodiscard]] int getMinStrength() const;
     [[nodiscard]] int getDamage() const;
     [[nodiscard]] double getCritical() const;
@@ -60,14 +59,16 @@ class Armor final : public Equipment
 public:
     Armor();
     Armor(int id, std::string name, std::string description, int money, int add_max_hp, int add_max_mp, double evasion, int defence, int min_agility_to_equip);
+
     Armor(const Armor &other);
-    Armor &operator=(const Armor &other);
-    Armor(Armor &&) noexcept;
-    Armor &operator=(Armor &&) noexcept;
+
+    Armor(Armor &&other) noexcept;
+
+    Armor & operator=(const Armor &other);
+
+    Armor & operator=(Armor &&other) noexcept;
 
     void showAttributes() const override;
-    void save() const override;
-    static std::vector<int> load();
     [[nodiscard]] int getMinAgility() const;
     [[nodiscard]] int getAddMaxHp() const;
     [[nodiscard]] int getAddMaxMp() const;
