@@ -399,22 +399,22 @@ void ShopKeeper::sellArmor()
         fmt::print("无装备可卖\n");
         return;
     }
+    string input;
     int pos;
     fmt::print("你想卖哪件(请输入其编号, 0是退出):");
     while (true) {
-        cin >> pos;
+        cin >> input;
+        if (!input.empty() && all_of(input.begin(), input.end(), ::isdigit)) {
+            fmt::print("请输入对的编号: ");
+            continue;
+        }
+        pos = stoi(input);
         if (pos == 0)
             return;
-        if (pos == 1) {
-            fmt::print("你不能卖掉装备中的护甲,请重新选择:");
-            break;
-        }
         if (0 < pos && pos < Gamer.getArmors().size()) {
             break;
         }
-        fmt::print("请输入对的编号\n");
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        fmt::print("请输入对的编号: ");
     }
 
     const Armor &selected_armor = Gamer.getArmors()[pos];
@@ -432,22 +432,22 @@ void ShopKeeper::sellWeapon()
         fmt::print("无装备可卖\n");
         return;
     }
+    string input;
     int pos;
     fmt::print("你想买哪件(请输入其编号, 0是退出):");
     while (true) {
-        cin >> pos;
+        cin >> input;
+        if (!input.empty() && all_of(input.begin(), input.end(), ::isdigit)) {
+            fmt::print("请输入对的编号: ");
+            continue;
+        }
+        pos = stoi(input);
         if (pos == 0)
             return;
-        if (pos == 1) {
-            fmt::print("你不能卖掉装备中的武器,请重新选择:");
-            break;
-        }
         if (0 < pos && pos < Gamer.getWeapons().size()) {
             break;
         }
         fmt::print("请输入对的编号\n");
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
     const Weapon &selected_weapon = Gamer.getWeapons()[pos - 1];

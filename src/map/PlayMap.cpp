@@ -23,7 +23,6 @@ extern Area MainCity;
 extern Area WuWeiCheng;
 extern Area ShangHui;
 
-
 void ending()
 {
     printSlowly(format(fg(fmt::color::light_sky_blue), "江湖，风起云涌，无数人浪迹天涯，闯荡江湖，只为追求那心中的侠客梦。\n"));
@@ -37,6 +36,7 @@ void ending()
 bool isValidMove(int x, int y, Area &map, char dir);
 
 void moveWuWeiCheng(Area &map, bool &quit);
+
 void moveShangHui(Area &map, bool &quit, bool &mask);
 
 void changeMap(Area &map)
