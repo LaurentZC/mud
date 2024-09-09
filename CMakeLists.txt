@@ -33,7 +33,7 @@ target_include_directories(mud PUBLIC ${CMAKE_SOURCE_DIR}/includes)
 add_subdirectory(fmt)
 
 # 链接 fmt 库
-target_link_libraries(mud PUBLIC fmt::fmt)
+target_link_libraries(mud PUBLIC fmt::fmt -static)
 
 # 设置 ccache 加速编译
 find_program(CCACHE_PROGRAM ccache)

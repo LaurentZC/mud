@@ -79,7 +79,7 @@ void TaskGivingNPC::talk()
 
 void TaskGivingNPC::save()
 {
-    const string path = "../files/" + Gamer.getName() + "/npc.bat";
+    const string path = "../files/" + Gamer.getName() + "/npc.dat";
     ofstream file(path, ios::binary);
     for (auto &npc : TaskGivingNPCs) {
         size_t count = npc.task_id.size();
@@ -89,7 +89,7 @@ void TaskGivingNPC::save()
 
 void TaskGivingNPC::load()
 {
-    const string path = "../files/" + Gamer.getName() + "/npc.bat";
+    const string path = "../files/" + Gamer.getName() + "/npc.dat";
     ifstream file(path, ios::binary);
     for (auto &npc : TaskGivingNPCs) {
         size_t count;
