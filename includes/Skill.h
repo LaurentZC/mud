@@ -17,7 +17,7 @@ public:
       add_hp(add_hp), add_defence(add_defence), add_critical(add_critical), add_damage(add_damage), exist_time(exist_time) { }
     // @formatter:on
 
-    void display();
+    void display() const;
     [[nodiscard]] std::optional<int> use() const;
 
     [[nodiscard]] int getId() const;
@@ -32,7 +32,7 @@ public:
     [[nodiscard]] int getExistTime() const;
     void setExistTime(int exist_time);
 
-    void save() const;
+    void save(std::ofstream & file) const;
 
 private:
     int id {};               // id

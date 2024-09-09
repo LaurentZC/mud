@@ -24,17 +24,17 @@ public:
     void load();
 
 private:
-    std::vector<Weapon> weapons; // 背包中的武器
-    std::vector<Armor> armors;   // 背包中的防具
+    std::vector<Weapon> weapons {Weapons[0]}; // 背包中的武器
+    std::vector<Armor> armors {Armors[0]};    // 背包中的防具
     // @formatter:off
     std::map<Pill, int> pills = {
-        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::BIG}, 0},
-        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::MID}, 0},
-        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::SMALL}, 0},
+        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::BIG}, 5},
+        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::MID}, 5},
+        {Pill {Pill::Type::BLOOD_PILL, Pill::Size::SMALL}, 5},
 
-        {Pill {Pill::Type::MANA_PILL, Pill::Size::BIG}, 0},
-        {Pill {Pill::Type::MANA_PILL, Pill::Size::MID}, 0},
-        {Pill {Pill::Type::MANA_PILL, Pill::Size::SMALL}, 0}
+        {Pill {Pill::Type::MANA_PILL, Pill::Size::BIG}, 5},
+        {Pill {Pill::Type::MANA_PILL, Pill::Size::MID}, 5},
+        {Pill {Pill::Type::MANA_PILL, Pill::Size::SMALL}, 5}
     }; // 背包中的药品
     // @formatter:on
 };

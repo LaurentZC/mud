@@ -77,21 +77,3 @@ void Pill::usePill() const
             break;
     }
 }
-
-void Pill::serialize(ofstream &file) const
-{
-    const int type_save = static_cast<int>(type);
-    const int size_save = static_cast<int>(size);
-    file.write(reinterpret_cast<const char *>(&type_save), sizeof(type_save));
-    file.write(reinterpret_cast<const char *>(&size_save), sizeof(size_save));
-}
-
-void Pill::deserialize(ifstream &file)
-{
-    int type_load;
-    int size_load;
-    file.read(reinterpret_cast<char *>(&type_load), sizeof(type_load));
-    file.read(reinterpret_cast<char *>(&size_load), sizeof(size_load));
-    type = static_cast<Type>(type_load);
-    size = static_cast<Size>(size_load);
-}

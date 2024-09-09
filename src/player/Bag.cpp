@@ -23,7 +23,8 @@ void Bag::display()
             fmt::print("{}: \n", label);
             int i = 0;
             for (auto it = container.begin(); it != container.end(); ++it, ++i) {
-                fmt::print("{}. {}", i + 1, it->getName());
+                fmt::print("{} {}\t\t", i == 0 ? "装备中: " : to_string(i) + ".", it->getName());
+
                 if ((i + 1) % 5 == 0) {
                     fmt::print("\n"); // 5个换行
                 }
@@ -39,8 +40,8 @@ void Bag::display()
     display_items(armors, "防具");
 
     fmt::print("你的丹药有: \n");
-    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗\n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    print(fg(fmt::color::red), "回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗\n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    print(fg(fmt::color::blue),"回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     fmt::print("\n");
 }
 
@@ -121,34 +122,30 @@ void Bag::useEquipment()
 void Bag::usePill()
 {
     fmt::print("你的丹药有: \n");
-    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗 \n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗 \n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     // 选择丹药类型
-    fmt::print("你想用什么丹药？[b(回血丹) / m(回元丹) / q(放弃使用)]: ");
+    fmt::print("你想用什么丹药？[red / blue / q(放弃使用)]: ");
     string type_choice;
     Pill::Type type;
     while (true) {
         cin >> type_choice;
-        if (type_choice.length() > 1) {
-            fmt::print("无效的输入！[b(回血丹) / m(回元丹) / q(放弃使用)]：");
-            continue;
+        if (type_choice == "red") {
+            type = Pill::Type::BLOOD_PILL;
+            break;
         }
-        switch (type_choice[0]) {
-            case 'b' :
-                type = Pill::Type::BLOOD_PILL;
-                break;
-            case 'm' :
-                type = Pill::Type::MANA_PILL;
-                break;
-            case 'q' :
-                fmt::print("取消使用丹药。\n");
-                return;
-            default :
-                fmt::print("无效指令！[b / m / q]：\n");
-                continue;
+
+        if (type_choice == "blue") {
+            type = Pill::Type::MANA_PILL;
+            break;
         }
-        break;
+        if (type_choice == "q") {
+            fmt::print("取消使用丹药。\n");
+            return;
+        }
+        fmt::print("无效指令！[b / m / q]：\n");
     }
+
     // 选择丹药大小
     fmt::print("选择丹药大小：[s(初级) / m(中级) / l(高级)]：");
     string size_choice;
@@ -185,6 +182,8 @@ void Bag::usePill()
             return;
         }
         pills[pill] -= 1;
+        pill.usePill();
+        return;
     }
 }
 
@@ -205,9 +204,9 @@ int Bag::addPill(const Pill pill, const int num)
     return temp;
 }
 
-std::vector<Weapon> & Bag::getWeapons() { return weapons; }
+std::vector<Weapon> &Bag::getWeapons() { return weapons; }
 
-std::vector<Armor> & Bag::getArmors() { return armors; }
+std::vector<Armor> &Bag::getArmors() { return armors; }
 
 void Bag::save() const
 {
@@ -224,26 +223,16 @@ void Bag::save() const
         }
     }
     ofstream file(path + "/pill.dat", ios::binary);
-    // 保存 map 大小
-    if (!pills.empty()) {
-        const size_t map_size = pills.size();
-        file.write(reinterpret_cast<const char *>(&map_size), sizeof(map_size));
 
-        // 保存每个 Pill 和对应的数量
-        for (const auto &[pill, cnt] : pills) {
-            pill.serialize(file);
-            file.write(reinterpret_cast<const char *>(&cnt), sizeof(cnt));
-        }
+    for (const auto &[pill, cnt] : pills) {
+        file.write(reinterpret_cast<const char *>(&cnt), sizeof(cnt));
     }
+
     file.close();
 }
 
 void Bag::load()
 {
-    const string path = "../files/" + Gamer.getName() + "/Bag";
-
-    ifstream file(path, ios::binary);
-
     vector<int> ids = Weapon::load();
     for (const auto &id : ids) {
         weapons.push_back(Weapons[id]);
@@ -252,20 +241,14 @@ void Bag::load()
     for (const auto &id : ids) {
         armors.push_back(Armors[id]);
     }
-    // 读取 map 大小
-    size_t map_size;
-    file.read(reinterpret_cast<char *>(&map_size), sizeof(map_size));
 
+    const string path = "../files/" + Gamer.getName() + "/Bag/pill.dat";
+
+    ifstream file(path, ios::binary);
     // 读取每个 Pill 和对应的数量
-    for (size_t i = 0; i < map_size; ++i) {
-        // 没写默认构造
-        Pill pill {Pill::Type::BLOOD_PILL, Pill::Size::SMALL};
-        pill.deserialize(file);
-        int value;
-        file.read(reinterpret_cast<char *>(&value), sizeof(value));
-        pills[pill] = value;
+    for (auto &[pill, cnt] : pills) {
+        file.read(reinterpret_cast<char *>(&cnt), sizeof(cnt));
     }
-
     file.close();
 }
 

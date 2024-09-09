@@ -39,7 +39,10 @@ TaskGivingNPC::TaskGivingNPC(std::string name, std::string description, std::vec
 void TaskGivingNPC::talk()
 {
     if (task_id.empty()) {
-        print(fg(fmt::color::green), "{}: 我以为没有事情要你帮助了。", name);
+        // 所有任务都完成
+        print(fg(fmt::color::green), "{}: ", name);
+        printSlowly(format(fg(fmt::color::green), dialogues[0]));
+        fmt::print("\n");
         return;
     }
     if (Tasks[task_id[0]].ifTaskFinished()) {
@@ -52,7 +55,7 @@ void TaskGivingNPC::talk()
         return;
     }
     if (Tasks[task_id[0]].ifReceived()) {
-        fmt::print("你当前应该有别的事情要做。");
+        fmt::print("你当前应该有别的事情要做。\n");
         return;
     }
     //如果有任务要给
@@ -70,14 +73,8 @@ void TaskGivingNPC::talk()
     if (choice == "yes") {
         Gamer.acceptTask(Tasks[task_id[0]]);
         Tasks[task_id[0]].receive();
-        fmt::print("你已经接受了这份任务，快点查看一下[self]。");
-        return;
+        fmt::print("你已经接受了这份任务，快点查看一下[self]。\n");
     }
-
-    // 所有任务都完成
-    print(fg(fmt::color::green), "{}: ", name);
-    printSlowly(format(fg(fmt::color::green), dialogues[0]));
-    fmt::print("\n");
 }
 
 void TaskGivingNPC::save()

@@ -30,11 +30,10 @@ void Task::showTask()
 
 void Task::receive() { this->if_received = true; }
 
-void Task::save() const
+void Task::save(std::ofstream & file) const
 {
-    std::ofstream out_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
-    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
-    out_file.write(reinterpret_cast<const char *>(&if_finished), sizeof(if_finished));
+    file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+    file.write(reinterpret_cast<const char *>(&if_finished), sizeof(if_finished));
     TaskGivingNPC::save();
 }
 

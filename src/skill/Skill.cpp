@@ -9,18 +9,18 @@ using namespace std;
 
 extern Player Gamer;
 
-void Skill::display()
+void Skill::display() const
 {
-    fmt::print("{}\n{}\n", name, description);
-    fmt::println("消耗: {}", consumption);
+    print(fg(fmt::color::light_yellow), "{}\n{}\n", name, description);
+    print(fg(fmt::color::light_yellow), "消耗: {}", consumption);
     if (type == Type::AGGRESSIVE) {
-        fmt::println("\t伤害: {}", consumption, damage);
+        print(fg(fmt::color::light_yellow), "\t伤害: {}\n", consumption, damage);
     }
     else if (type == Type::RESTORATIVE) {
-        fmt::println("\t效果: 回复{}点血量", add_hp);
+        print(fg(fmt::color::light_yellow), "\n效果: 回复{}点血量\n", add_hp);
     }
     else if (type == Type::GAIN) {
-        fmt::println("\n效果: 增加{}攻击力，增加{}暴击率，增加{}防御力", add_damage, add_critical, add_defence, add_defence);
+        print(fg(fmt::color::light_yellow), "\n效果: 增加{}攻击力，增加{}暴击率，增加{}防御力\n", add_damage, add_critical, add_defence, add_defence);
     }
 }
 
@@ -71,8 +71,8 @@ int Skill::getExistTime() const { return exist_time; }
 
 void Skill::setExistTime(const int exist_time) { this->exist_time = exist_time; }
 
-void Skill::save() const
+void Skill::save(ofstream & file) const
 {
-    ofstream out_file("../files/" + Gamer.getName() + "/skill.dat", ios::binary);
-    out_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+    file.write(reinterpret_cast<const char *>(&id), sizeof(id));
+    file.close();
 }

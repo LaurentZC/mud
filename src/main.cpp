@@ -167,6 +167,17 @@ int main()
         else if (command == "self") {
             Gamer.showPlayer();
             Gamer.checkTask();
+            fmt::print("\n");
+            if (!Gamer.checkSkill()) { fmt::print("你还没有技能。"); }
+            if (Gamer.getPoints() != 0) {
+                fmt::print("\n你还有{}点属性点，是否使用[y / n]: ", Gamer.getPoints());
+                while (true) {
+                    cin >> command;
+                    if (command == "y" || command == "Y") { Gamer.usePill(); }
+                    if (command == "n" || command == "N") { break; }
+                    fmt::print("无效指令，请输入[y / n]: ");
+                }
+            }
         }
         else if (command == "bag") { Gamer.openBag(); }
         else if (command == "chat") {

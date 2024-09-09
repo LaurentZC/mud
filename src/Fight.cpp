@@ -83,7 +83,7 @@ void Fight::attackPlayer(const int defence) const
     fmt::print("{}对你造成了{}点伤害。\n", enemy.getName(), damage);
 }
 
-bool Fight::useSkill() const
+bool Fight::useSkill()
 {
     if (!Gamer.checkSkill()) {
         fmt::println("你没有习得任何技能！");
@@ -96,11 +96,15 @@ bool Fight::useSkill() const
         std::cin >> input;
         if (!input.empty() && std::all_of(input.begin(), input.end(), ::isdigit)) {
             pos = std::stoi(input);
+            if (pos == 0) {
+                fmt::print("放弃使用技能。\n");
+                return false;
+            }
             if (pos < Gamer.getSkills().size()) { break; }
         }
         fmt::print("请输入对的编号: ");
     }
-    const auto skill = Gamer.getSkills()[pos];
+    const auto skill = Gamer.getSkills()[pos - 1];
     const auto check = Skills[skill.getId()].use();
     if (!check.has_value()) {
         fmt::print("元气不足，无法释放。\n");
@@ -108,6 +112,7 @@ bool Fight::useSkill() const
     }
     if (check.value() != 0) {
         fmt::print("你对{}造成了{}点伤害。\n", enemy.getName(), check.value());
+        enemy.decHp(check.value());
     }
     return true;
 }
@@ -284,7 +289,7 @@ void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
         showHp();
         std::string choice;
         while (round & 1) {
-            fmt::print("[player]查看自身状态, [enemy]查看敌人属性, [attack]攻击, [skill]释放技能: ");
+            fmt::print("[player]查看自身状态, [enemy]查看敌人属性, [attack]攻击, [skill]释放技能, [pill]使用丹药: ");
             std::cin >> choice;
             if (choice == "player") { Gamer.showPlayer(); }
             else if (choice == "enemy") { enemy.showEnemy(); }
@@ -292,6 +297,9 @@ void Fight::fight(const std::function<void(Player &, Enemy &)> &func)
             else if (choice == "attack") {
                 attackEnemy();
                 ++round;
+            }
+            else if (choice == "pill") {
+                Gamer.usePill();
             }
             else { fmt::print("无效指令!\n"); }
         }

@@ -13,7 +13,7 @@ public:
     void finish(bool if_finished);
     void showTask();
     void receive();
-    void save() const;
+    void save(std::ofstream &file) const;
     [[nodiscard]] int getId() const;
     [[nodiscard]] int getSkillId() const;
     [[nodiscard]] std::string getName() const;

@@ -22,6 +22,7 @@ public:
     void openBag();
     void showBag();
     void usePoint();
+    void usePill();
 
     void acceptTask(const Task &task);
     void gainSkill(int index);
@@ -72,6 +73,7 @@ public:
     [[nodiscard]] int getAgility() const;
     void setAgility(int agility);
     [[nodiscard]] int getMoney() const;
+    [[nodiscard]] int getPoints() const;
     void gainMoney(int money);
     void addPoints(int points);
     [[nodiscard]] std::vector<Skill> &getSkills();
@@ -85,21 +87,21 @@ private:
     int level_up_exp {100};
     int points {};
 
-    int max_hp {100}; // 最大的血量
-    int max_mp {100}; // 最大的蓝量
-    int hp {max_hp};  // 当前血量
-    int mp {max_mp};  // 当前蓝量
-    int health {1};   // 健康点数
+    int max_hp {1000}; // 最大的血量
+    int max_mp {1000}; // 最大的蓝量
+    int hp {max_hp};   // 当前血量
+    int mp {max_mp};   // 当前蓝量
+    int health {1};    // 健康点数
 
-    int damage {10};    // 攻击力
-    double critical {}; // 暴击率
-    int strength {1};   // 攻击点数
+    int damage {100};       // 攻击力
+    double critical {0.05}; // 暴击率
+    int strength {1};       // 攻击点数
 
-    int defence {10};  // 防御力
-    double evasion {}; // 闪避率
-    int agility {1};   // 闪避点数
+    int defence {50};      // 防御力
+    double evasion {0.05}; // 闪避率
+    int agility {1};       // 闪避点数
 
-    int money {};              // 金钱
+    int money {200};           // 金钱
     Bag bag;                   // 背包
     std::vector<Skill> skills; // 技能
     std::vector<Task> tasks;   // 任务
@@ -117,6 +119,7 @@ inline std::array ExpNeeded = {
      7350,  7750,  8160,  8580,  9010,
      9450,  9900, 10360, 10830, 11310,
     11800, 12300, 12810, 13330, 13860,
-    14400, 14950, 15510, 16080, 16660
+    14400, 14950, 15510, 16080, 16660,
+    INT_MAX
 };
 // @formatter:on

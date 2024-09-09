@@ -41,16 +41,14 @@ bool Player::checkSkill() const
         return false;
     }
     fmt::println("你习得的技能有: ");
-    int i = 0;
-    for (auto it = skills.begin(); it != skills.end(); ++it, ++i) {
-        fmt::print("{}. {}", i + 1, it->getName());
-        if ((i + 1) % 5 == 0) {
-            fmt::print("\n"); // 5个换行
-        }
+
+    int i = 1;
+    for (const auto &skill : skills) {
+        fmt::print("{}. ", i);
+        skill.display();
+        ++i;
     }
-    if (i % 5 != 0) {
-        fmt::print("\n"); // 最后一行换行
-    }
+
     return true;
 }
 
@@ -113,6 +111,8 @@ void Player::usePoint()
         fmt::print("输入错误，请重新输入: ");
     }
 }
+
+void Player::usePill() { bag.usePill(); }
 
 void Player::gainSkill(const int index)
 {
@@ -244,6 +244,8 @@ void Player::setAgility(const int agility) { this->agility = agility; }
 
 int Player::getMoney() const { return money; }
 
+int Player::getPoints() const { return points; }
+
 void Player::gainMoney(const int money) { this->money += money; }
 
 void Player::addPoints(const int points) { this->points += points; }
@@ -294,14 +296,16 @@ void Player::save() const
     out_file.write(reinterpret_cast<const char *>(&money), sizeof(money));
     out_file.close();
     //向文件中写入数据，将skill类型的类型数据转换成char类型的指针
+    ofstream skill_file("../files/" + Gamer.getName() + "/skill.dat", ios::binary);
     if (!skills.empty()) {
         for (const auto &skill : skills) {
-            skill.save();
+            skill.save(skill_file);
         }
     }
+    std::ofstream task_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
     if (!tasks.empty()) {
         for (const auto &task : tasks) {
-            task.save();
+            task.save(task_file);
         }
     }
     bag.save();

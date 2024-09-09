@@ -148,9 +148,9 @@ void playWuWeiCheng(Area &map)
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
                     Fight(Enemy::creatBoss(1)).fight([](Player &gamer, Enemy &enemy) {
-                        enemy.decHp(-200);
+                        enemy.decHp(-50);
                         if (enemy.getHp() < enemy.getMaxHp() * 0.5) {
-                            enemy.setDamage(enemy.getDamage() + 10);
+                            enemy.setDamage(enemy.getDamage() + 1);
                         }
                     });
                     rooms[x][y].clear();
@@ -474,7 +474,7 @@ void printMap(const std::vector<std::vector<Room> > &grid)
 
             // 输出单元格内容和填充，确保对齐
             if (formatted_name.find_first_not_of(" \n[]") != std::string::npos) {
-                print(fg(fmt::color::blue), "{:<{}}", formatted_name, max_width);
+                print(fg(fmt::color::light_cyan), "{:<{}}", formatted_name, max_width);
             }
             else {
                 fmt::print("{:<{}}", "", max_width);
