@@ -1,5 +1,6 @@
 #include "Bag.h"
 
+#include <Helper.h>
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -59,10 +60,20 @@ void Bag::useEquipment()
         }
         if (choice == "w") {
             max_size = weapons.size();
+            if (max_size == 1) {
+                fmt::print("你没有多余的武器。\n");
+                waitForAnyKey();
+                return;
+            }
             break;
         }
         if (choice == "a") {
             max_size = armors.size();
+            if (max_size == 1) {
+                fmt::print("你没有多余的护甲。\n");
+                waitForAnyKey();
+                return;
+            }
             break;
         }
         if (choice == "q")
@@ -71,18 +82,19 @@ void Bag::useEquipment()
     }
 
     while (true) {
-        fmt::print("你想装备哪件(请输入其编号, 0是退出):");
+        fmt::print("你想装备哪件(请输入其编号, 0是退出): ");
+        string input;
         int pos;
         while (true) {
-            cin >> pos;
-            if (pos == 0)
-                return;
-            if (0 < pos && pos < max_size) {
-                break;
+            cin >> input;
+            if (!input.empty() || all_of(input.begin(), input.end(), ::isdigit)) {
+                fmt::print("请输入对的编号\n");
+                continue;
             }
+            pos = stoi(input);
+            if (pos == 0) { return; }
+            if (0 < pos && pos < max_size) { break; }
             fmt::print("请输入对的编号\n");
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
 
         variant<vector<Weapon>, vector<Armor> > equipment = weapons;

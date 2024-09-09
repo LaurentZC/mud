@@ -88,17 +88,17 @@ private:
     int points {};
 
     int max_hp {1000}; // 最大的血量
-    int max_mp {1000}; // 最大的蓝量
+    int max_mp {1050}; // 最大的蓝量
     int hp {max_hp};   // 当前血量
     int mp {max_mp};   // 当前蓝量
     int health {1};    // 健康点数
 
-    int damage {100};       // 攻击力
-    double critical {0.05}; // 暴击率
+    int damage {110};       // 攻击力
+    double critical {0.10}; // 暴击率
     int strength {1};       // 攻击点数
 
-    int defence {50};      // 防御力
-    double evasion {0.05}; // 闪避率
+    int defence {65};      // 防御力
+    double evasion {0.10}; // 闪避率
     int agility {1};       // 闪避点数
 
     int money {200};                                  // 金钱

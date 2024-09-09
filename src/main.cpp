@@ -229,11 +229,15 @@ int main()
             else if (x == 3 && y == 2) {
                 // 铁匠铺
                 ShopKeepers[0].talk();
+                system("cls");
+                printMap(current_map.getArea());
             }
             else if (x == 4 && y == 4) {
                 // 商店
                 Tasks[12].finish();
                 ShopKeepers[1].talk();
+                system("cls");
+                printMap(current_map.getArea());
             }
             else if (x == 1 && y == 3) {
                 printSlowly(format(fg(fmt::color::green), "城主: 你是来找我修炼的还是想和我聊聊？\n"));
@@ -253,7 +257,8 @@ int main()
                     if (command == "talk") {
                         Tasks[4].finish();
                         taskAccept().talk();
-
+                        system("cls");
+                        printMap(current_map.getArea());
                         break;
                     }
                     fmt::print("无效指令，请重新输入[fight / talk]: ");
