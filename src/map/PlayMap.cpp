@@ -119,12 +119,13 @@ void playWuWeiCheng(Area &map)
     string command;
     bool quit = false;
     while (!quit) {
+        system("cls");
+        printMap(rooms);
         fmt::print("你想做些什么呢。");
         fmt::print("\n移动:  move \t 查看自身属性: self \t 打开背包: bag \t 离开: exit \t 保存: save\n");
         cin >> command;
         if (command == "move") {
             movePlayerLocation(map);
-
             switch (rooms[x][y].getContent()) {
                 case Room::Content::GATE :
                     movePlayerLocation(map);
@@ -139,9 +140,9 @@ void playWuWeiCheng(Area &map)
                     print(fg(fmt::color::yellow), "陆洪的手下: 小子，竟敢擅闯我们的地盘，拿命来！\n");
                     fmt::print("正在加载战斗场景，请稍后...\n");
                     waitForLoad(1000);
-                    Fight {Enemy::creatEnemy(Gamer.position)}.fight();
+                    Fight fight {Enemy::creatEnemy(Gamer.position)};
+                    fight.fight();
                     rooms[x][y].clear();
-                    printMap(rooms);
                     break;
                 }
 
@@ -149,8 +150,9 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Enemy elite = Enemy::creatElite(Gamer.position);
-                    Fight(Enemy::creatElite(Gamer.position)).fight();
+                    const Enemy elite = Enemy::creatElite(Gamer.position);
+                    Fight fight {elite};
+                    fight.fight();
                     if (elite.getName() == format(fg(fmt::color::orange), "青龙卫")) {
                         Tasks[0].finish();
                         Tasks[11].finish();
@@ -160,8 +162,6 @@ void playWuWeiCheng(Area &map)
                         Tasks[9].finish();
                     }
                     rooms[x][y].clear();
-                    printMap(rooms);
-
                     break;
                 }
 
@@ -169,7 +169,8 @@ void playWuWeiCheng(Area &map)
                     fmt::print("{}\n", rooms[x][y].getDescription());
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight {Enemy::creatBoss(1)}.fight([](Player &gamer, Enemy &enemy) {
+                    Fight fight {Enemy::creatBoss(1)};
+                    fight.fight([](Player &gamer, Enemy &enemy) {
                         enemy.decHp(-50);
                         if (enemy.getHp() < enemy.getMaxHp() * 0.5) {
                             enemy.setDamage(enemy.getDamage() + 1);
@@ -184,7 +185,6 @@ void playWuWeiCheng(Area &map)
                     waitForAnyKey();
                     print(fg(fmt::color::green), "马夫：公子武功盖世！");
                     waitForAnyKey();
-                    printMap(rooms);
                     break;
                 }
 
@@ -234,15 +234,11 @@ void playWuWeiCheng(Area &map)
             Gamer.showPlayer();
             Gamer.checkTask();
             waitForAnyKey();
-            system("cls");
-            printMap(rooms);
         }
         else if (command == "bag") {
             system("cls");
             Gamer.openBag();
             waitForAnyKey();
-            system("cls");
-            printMap(rooms);
         }
         else if (command == "exit") {
             handleQuit(map, quit);
@@ -280,7 +276,8 @@ void playShangHui(Area &map)
                     printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来飞云商会闹事，你怕是不想活了！"));
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
-                    Fight(Enemy::creatEnemy(Gamer.position)).fight();
+                    Fight fight {Enemy::creatEnemy(Gamer.position)};
+                    fight.fight();
                     rooms[x][y].clear();
                     break;
                 }
@@ -290,7 +287,8 @@ void playShangHui(Area &map)
                     fmt::print("正在加载战斗场景，请稍后...");
                     waitForLoad(1000);
                     const Enemy elite = Enemy::creatElite(Gamer.position);
-                    Fight(elite).fight();
+                    Fight fight {elite};
+                    fight.fight();
                     if (elite.getName() == format(fg(fmt::color::orange), "影刃卫")) {
                         Tasks[13].finish();
                     }
@@ -314,7 +312,8 @@ void playShangHui(Area &map)
                         restart();
                     }
                     fmt::print("你：这里的毒气好强大，防毒面具抵挡效果也十分有限。");
-                    Fight(Enemy::creatBoss(2)).fight([](Player &gamer, Enemy &enemy) {
+                    Fight fight {Enemy::creatBoss(2)};
+                    fight.fight([](Player &gamer, Enemy &enemy) {
                         gamer.setHp(static_cast<int>(gamer.getHp() * 0.3));
                     });
                     rooms[x][y].clear();

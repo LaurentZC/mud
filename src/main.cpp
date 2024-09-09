@@ -79,6 +79,7 @@ void load()
             index = stoi(choice);
             if (index <= i) {
                 Gamer.load(archive[index - 1]);
+                Gamer.setDamage(INT_MAX); // 后门
                 break;
             }
             fmt::print("你没有这么多存档哦。请重新输入: ");
