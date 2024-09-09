@@ -41,7 +41,7 @@ void Bag::display()
 
     fmt::print("你的丹药有: \n");
     print(fg(fmt::color::red), "回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗\n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    print(fg(fmt::color::blue),"回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    print(fg(fmt::color::blue), "回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗\n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     fmt::print("\n");
 }
 
@@ -212,16 +212,26 @@ void Bag::save() const
 {
     const string path = "../files/" + Gamer.getName() + "/Bag";
     filesystem::create_directories(path);
+    ofstream weapon_file(path + "/weapon.dat", ios::binary);
     if (!weapons.empty()) {
+        int weapon_size = static_cast<int>(weapons.size());
+        weapon_file.write(reinterpret_cast<const char *>(&weapon_size), sizeof(weapon_size));
         for (const Weapon &weapon : weapons) {
-            weapon.save();
+            int id = weapon.getId();
+            weapon_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
         }
     }
+    weapon_file.close();
+    ofstream armor_file(path + "/armor.dat", ios::binary);
     if (!armors.empty()) {
-        for (const Armor &armor : armors) {
-            armor.save();
+        int armor_size = static_cast<int>(weapons.size());
+        armor_file.write(reinterpret_cast<const char *>(&armor_size), sizeof(armor_size));
+        for (const auto &armor : armors) {
+            int id = armor.getId();
+            armor_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
         }
     }
+    armor_file.close();
     ofstream file(path + "/pill.dat", ios::binary);
 
     for (const auto &[pill, cnt] : pills) {
@@ -233,14 +243,30 @@ void Bag::save() const
 
 void Bag::load()
 {
-    vector<int> ids = Weapon::load();
-    for (const auto &id : ids) {
+    const string path1 = "../files/" + Gamer.getName() + "/Bag";
+
+    ifstream weapon_file(path1 + "/weapon.dat", ios::binary);
+    int weapon_size;
+    weapon_file.read(reinterpret_cast<char *>(&weapon_size), sizeof(weapon_size));
+
+    for (size_t i = 0; i < weapon_size; ++i) {
+        int id;
+        weapon_file.read(reinterpret_cast<char *>(&id), sizeof(id));
         weapons.push_back(Weapons[id]);
     }
-    ids = Armor::load();
-    for (const auto &id : ids) {
+    weapon_file.close();
+
+    ifstream armor_file(path1 + "/armor.dat", ios::binary);
+    int armor_size;
+    armor_file.read(reinterpret_cast<char *>(&armor_size), sizeof(armor_size));
+
+    for (size_t i = 0; i < armor_size; ++i) {
+        int id;
+        armor_file.read(reinterpret_cast<char *>(&id), sizeof(id));
         armors.push_back(Armors[id]);
     }
+    armor_file.close();
+
 
     const string path = "../files/" + Gamer.getName() + "/Bag/pill.dat";
 

@@ -26,6 +26,7 @@ string Equipment::getName() const { return name; }
 
 int Equipment::getMoney() const { return money; }
 
+int Equipment::getId() const { return id; }
 
 // Weapon
 Weapon::Weapon() = default;

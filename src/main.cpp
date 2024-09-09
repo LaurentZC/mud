@@ -236,6 +236,8 @@ int main()
                     if (command == "talk") {
                         Tasks[4].finish();
                         taskAccept().talk();
+                        Gamer.gainSkill(1);
+                        Gamer.gainSkill(2);
                         break;
                     }
                     fmt::print("无效指令，请重新输入[fight / talk]: ");

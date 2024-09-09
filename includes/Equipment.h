@@ -21,6 +21,7 @@ public:
     [[nodiscard]] int getMoney() const;
 
     virtual void save() const = 0;
+    [[nodiscard]] int getId() const;
 
 protected:
     int id {};                  // id

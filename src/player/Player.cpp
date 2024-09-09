@@ -298,8 +298,11 @@ void Player::save() const
     //向文件中写入数据，将skill类型的类型数据转换成char类型的指针
     ofstream skill_file("../files/" + Gamer.getName() + "/skill.dat", ios::binary);
     if (!skills.empty()) {
+        int size = static_cast<int>(skills.size());
+        skill_file.write(reinterpret_cast<const char *>(&size), sizeof(size));
         for (const auto &skill : skills) {
-            skill.save(skill_file);
+            int id = skill.getId();
+            skill_file.write(reinterpret_cast<const char *>(&id), sizeof(id));
         }
     }
     std::ofstream task_file("../files/" + Gamer.getName() + "/task.dat", std::ios::binary);
@@ -362,10 +365,11 @@ bool Player::load(const string &archive)
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);
-        while (true) {
+        int size;
+        file_to_skill.read(reinterpret_cast<char *>(&size), sizeof(size));
+        for (size_t i = 0; i < size; ++i) {
             int id;
             file_to_skill.read(reinterpret_cast<char *>(&id), sizeof(id));
-            if (!file_to_skill) { break; }
             skills.push_back(Skills[id]);
         }
         file_to_skill.close();

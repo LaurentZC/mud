@@ -101,10 +101,10 @@ private:
     double evasion {0.05}; // 闪避率
     int agility {1};       // 闪避点数
 
-    int money {200};           // 金钱
-    Bag bag;                   // 背包
-    std::vector<Skill> skills; // 技能
-    std::vector<Task> tasks;   // 任务
+    int money {200};                                  // 金钱
+    Bag bag;                                          // 背包
+    std::vector<Skill> skills {Skills[0], Skills[1]}; // 技能
+    std::vector<Task> tasks;                          // 任务
 };
 
 // @formatter:off
