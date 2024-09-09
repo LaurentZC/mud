@@ -8,7 +8,8 @@
 class Fight
 {
 public:
-    explicit Fight(Enemy enemy);
+    explicit Fight(const Enemy& enemy);
+    explicit Fight(Enemy&& enemy);
     void fight(const std::function<void(Player &, Enemy &)> &func = [](Player &, Enemy &) { });
 
 private:

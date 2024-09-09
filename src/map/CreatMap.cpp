@@ -60,10 +60,8 @@ Area creatMainCity()
     int x, y;
     string name, description, content;
     while (input_file >> x >> y >> name >> description >> content) {
-        Room::Content content_handled;
+        auto content_handled = Room::Content::EMPTY;
         changeColor(description, COLORS);
-        if (content == "empty")
-            content_handled = Room::Content::EMPTY;
         if (content == "npc")
             content_handled = Room::Content::NPC;
         rooms[x][y].setup(name, description, content_handled);
@@ -175,7 +173,7 @@ Area creatShangHui()
             content_handled = Room::Content::BOSS;
         else if (content == "trap")
             content_handled = Room::Content::TRAP;
-        else if (content == "poison")
+        else
             content_handled = Room::Content::POISON;
         rooms[x][y].setup(name, description, content_handled);
     }

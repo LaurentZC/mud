@@ -17,7 +17,8 @@
 
 extern Player Gamer;
 
-Fight::Fight(Enemy enemy): enemy(std::move(enemy)) { }
+Fight::Fight(const Enemy &enemy): enemy(enemy) { }
+Fight::Fight(Enemy &&enemy): enemy(std::move(enemy)) { }
 
 // 获得奖励
 void Fight::gainTrophy() const
@@ -73,7 +74,7 @@ void Fight::attackPlayer(const int defence) const
 {
     int damage = 0;
     if (achievePercent(enemy.getCritical())) {
-        damage = calculateDamage(Gamer.getDamage() * 2, defence);
+        damage = calculateDamage(enemy.getDamage() * 2, defence);
         Gamer.setHp(Gamer.getHp() - damage);
         fmt::print("{}对你造成了{}点暴击伤害。\n", enemy.getName(), damage);
         return;
@@ -139,7 +140,7 @@ bool ifSucceedDodge()
     EndTread = false;
     if (achievePercent(Gamer.getEvasion())) { return true; }
     constexpr char target_key = 'k'; // 目标按键
-    constexpr int time_limit = 90;  // 时间限制，单位毫秒
+    constexpr int time_limit = 90;   // 时间限制，单位毫秒
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -242,6 +243,7 @@ void defeat()
     waitForAnyKey();
     system("cls");
 }
+
 
 // 赢了返回true
 void Fight::fight(const std::function<void(Player &, Enemy &)> &func)

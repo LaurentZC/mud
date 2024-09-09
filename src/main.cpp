@@ -79,7 +79,6 @@ void load()
             index = stoi(choice);
             if (index <= i) {
                 Gamer.load(archive[index - 1]);
-                Gamer.setDamage(INT_MAX); // 后门
                 break;
             }
             fmt::print("你没有这么多存档哦。请重新输入: ");
@@ -90,7 +89,6 @@ void load()
 
 void start()
 {
-    SetConsoleOutputCP(CP_UTF8);
     printTitle();
     fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
     string choice;
@@ -118,10 +116,14 @@ void start()
                 fmt::print("\t\t\t新的开始[new]\t读取存档[load]\t退出游戏[quit]\n指令: ");
             }
         }
-        else if (choice == "quit") {
-            exit(0);
+        else if (choice == "quit") { exit(0); }
+        else if (choice == "debug") {
+            Gamer.gainExp(20000);
+            Gamer.setDamage(100000);
+            system("cls");
+            return;
         }
-        fmt::print("无效指令，请重新输入: ");
+        else { fmt::print("无效指令，请重新输入: "); }
     }
 }
 
@@ -139,22 +141,11 @@ TaskGivingNPC &taskAccept()
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     start();
     auto &[c, x, y] = Gamer.position;
     Area current_map = MainCity;
-    switch (c) {
-        case 1 :
-            current_map = WuWeiCheng;
-            c = 1;
-            playWuWeiCheng(current_map);
-            break;
-        case 2 :
-            current_map = ShangHui;
-            c = 2;
-            playShangHui(current_map);
-            break;
-        default : ;
-    }
+
     printMap(current_map.getArea());
     fmt::print("{}\n", current_map.getArea()[x][y].getDescription());
     while (true) {
@@ -186,6 +177,7 @@ int main()
             printMap(current_map.getArea());
         }
         else if (command == "bag") {
+            system("cls");
             Gamer.openBag();
             waitForAnyKey();
             system("cls");

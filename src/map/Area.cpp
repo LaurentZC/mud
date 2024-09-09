@@ -14,7 +14,6 @@ Room::Room(string name, const Content content) : name(std::move(format(fg(fmt::c
 
 void Room::clear()
 {
-    name = "空房间";
     description = "这里已经什么也没有了";
     content = Content::EMPTY;
 }
