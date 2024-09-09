@@ -1,6 +1,8 @@
 #include "PlayMap.h"
 
 #include <CreatMap.h>
+#include <atomic>
+#include <conio.h>
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -300,16 +302,16 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
     auto content = rooms[x][y].getContent();
 
     if (content == Room::Content::GATE) {
-        printSlowly("你：没有找到段霖的藏身之处，暂且回去把。");
-        printSlowly(format(fg(fmt::color::green), "马夫：老夫这就带公子离开。"));
+        printSlowly("你：没有找到段霖的藏身之处，暂且回去把。\n");
+        printSlowly(format(fg(fmt::color::green), "马夫：老夫这就带公子离开。\n"));
         quit = true;
         return;
     }
 
     if (content == Room::Content::MONSTER) {
         fmt::print("{}\n", rooms[x][y].getDescription());
-        printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来飞云商会闹事，你怕是不想活了！"));
-        fmt::print("正在加载战斗场景，请稍后...");
+        printSlowly(format(fg(fmt::color::yellow), "段霖的手下: 小子，来飞云商会闹事，你怕是不想活了！\n"));
+        fmt::print("正在加载战斗场景，请稍后...\n");
         waitForLoad(1000);
         Fight fight_monster {Enemy::creatEnemy(Gamer.position)};
         fight_monster.fight();
@@ -333,14 +335,14 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
 
     if (content == Room::Content::BOSS) {
         fmt::print("{}\n", rooms[x][y].getDescription());
-        fmt::print("正在加载战斗场景，请稍后...");
+        fmt::print("正在加载战斗场景，请稍后...\n");
         waitForLoad(1000);
         if (!mask) {
-            fmt::print("段霖在这里释放了强大的毒气，你无法抵抗。");
+            fmt::print("段霖在这里释放了强大的毒气，你无法抵抗。\n");
             this_thread::sleep_for(chrono::seconds(5));
             restart();
         }
-        fmt::print("你：这里的毒气好强大，防毒面具抵挡效果也十分有限。");
+        fmt::print("你：这里的毒气好强大，防毒面具抵挡效果也十分有限。\n");
         Fight fight_boss {Enemy::creatBoss(2)};
         fight_boss.fight([](Player &gamer, Enemy &enemy) {
             gamer.setHp(static_cast<int>(gamer.getHp() * 0.3));
@@ -359,14 +361,14 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
         fmt::print("{}\n", rooms[x][y].getDescription());
         // 两个箱子获得点什么
         if (x == 2 && y == 5) {
-            fmt::print("这里有一颗丹药，你服用之后获得了五个属性点。");
+            fmt::print("这里有一颗丹药，你服用之后获得了五个属性点。\n");
             Gamer.addPoints(5);
         }
         else {
-            fmt::print("这里是段霖的装备仓库，这里有一套看着很不错的装备。");
+            fmt::print("这里是段霖的装备仓库，这里有一套看着很不错的装备。\n");
             Gamer.gainWeapon(9);
             Gamer.gainArmor(13);
-            fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。");
+            fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。\n");
         }
         rooms[x][y].clear();
         waitForAnyKey();
@@ -385,9 +387,9 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
                 if (Gamer.getMoney() >= 800)
                     Gamer.gainMoney(-800);
                 else {
-                    fmt::print("你还没有这么多钱。");
+                    fmt::print("你还没有这么多钱。\n");
                 }
-                printSlowly("你：这是800大洋，面具我就收下了。");
+                printSlowly("你：这是800大洋，面具我就收下了。\n");
                 printSlowly(format(fg(fmt::color::green), "老翁：唉，公子你且收好。\n"));
                 mask = true;
                 break;
@@ -412,13 +414,13 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
     if (content == Room::Content::POISON) {
         fmt::print("{}\n", rooms[x][y].getDescription());
         if (mask) {
-            fmt::print("你：这毒气果然厉害，还好提前买了面具");
+            fmt::print("你：这毒气果然厉害，还好提前买了面具。\n");
             waitForAnyKey();
         }
         else {
             Gamer.setHp(10);
             print(fg(fmt::color::red), "血量: {} / {}\n", Gamer.getHp(), Gamer.getMaxHp());
-            fmt::print("你：糟糕，没想到这毒气这么厉害。");
+            fmt::print("你：糟糕，没想到这毒气这么厉害。\n");
             waitForAnyKey();
         }
     }

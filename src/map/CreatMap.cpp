@@ -53,7 +53,7 @@ Area creatMainCity()
         // 房间
         TextColor {{"城门", "医馆", "杂货商店", "铁匠铺", "居民区", "城主府"}, fmt::color::magenta},
         // npc
-        TextColor {{"马夫", "医生", "铁匠师傅", "老李", "小翠", "李白", "城主"}, fmt::color::green}
+        TextColor {{"马夫", "医生", "铁匠师傅", "老李", "小翠", "李白", "城主", "老张"}, fmt::color::green}
     };
     // @formatter:on
 
