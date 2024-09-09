@@ -14,7 +14,7 @@ void Skill::display() const
     print(fg(fmt::color::light_yellow), "{}\n{}\n", name, description);
     print(fg(fmt::color::light_yellow), "消耗: {}", consumption);
     if (type == Type::AGGRESSIVE) {
-        print(fg(fmt::color::light_yellow), "\t伤害: {}\n", consumption, damage);
+        print(fg(fmt::color::light_yellow), "\t伤害: {}\n", consumption, damage + Gamer.getDamage());
     }
     else if (type == Type::RESTORATIVE) {
         print(fg(fmt::color::light_yellow), "\n效果: 回复{}点血量\n", add_hp);
@@ -26,9 +26,7 @@ void Skill::display() const
 
 optional<int> Skill::use() const
 {
-    if (consumption > Gamer.getMp()) {
-        return nullopt;
-    }
+    if (consumption > Gamer.getMp()) { return nullopt; }
     switch (type) {
         case Type::AGGRESSIVE :
             return damage;
@@ -71,7 +69,7 @@ int Skill::getExistTime() const { return exist_time; }
 
 void Skill::setExistTime(const int exist_time) { this->exist_time = exist_time; }
 
-void Skill::save(ofstream & file) const
+void Skill::save(ofstream &file) const
 {
     file.write(reinterpret_cast<const char *>(&id), sizeof(id));
     file.close();

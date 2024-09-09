@@ -37,8 +37,9 @@ void Fight::gainTrophy() const
         Gamer.gainSkill(enemy.getSkillId());
         fmt::print("你观察" + enemy.getName() + "陷入顿悟\n");
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        fmt::print("你习得了一个新的技能: {}\n", Armors[enemy.getSkillId()].getName());
+        fmt::print("你习得了一个新的技能: {}\n", Skills[enemy.getSkillId()].getName());
     }
+    waitForAnyKey();
 }
 
 // 计算伤害
@@ -112,7 +113,8 @@ bool Fight::useSkill()
         return false;
     }
     if (check.value() != 0) {
-        fmt::print("你对{}造成了{}点伤害。\n", enemy.getName(), check.value());
+        fmt::print("你对{}造成了{}点伤害。\n", enemy.getName(), check.value() + Gamer.getDamage());
+        Gamer.setMp(Gamer.getMp() - check.value());
         enemy.decHp(check.value());
     }
     return true;

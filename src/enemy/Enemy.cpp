@@ -77,14 +77,14 @@ Enemy Enemy::creatElite(const array<int, 3> &pos)
         return {Type::ELITE, color("青龙卫"),
             20, 1000, 1000, 40, 0.3,
             50, 2000, 300,
-            -1, -1, 3
+            -1, -1, 4
         };
 
     if (c == 1 && x == 3 && y == 5)
         return {Type::ELITE, color("白虎卫"),
             20, 1000, 1000, 60, 0.3,
             20, 2000, 300,
-            -1, -1, 6
+            -1, -1, 7
         };
 
     if (c == 2 && x == 1 && y == 1)

@@ -19,14 +19,14 @@ void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 void Player::showPlayer() const
 {
     fmt::print("姓名: {} \t 等级: {}\n", name, level);
-    fmt::print("经验: {} / {}\n", experience - ExpNeeded[level-1], level_up_exp);
+    fmt::print("经验: {} / {}\n", experience - ExpNeeded[level - 1], level_up_exp);
 
     print(fg(fmt::color::red), "血量: {} / {}\n", hp, max_hp);
     print(fg(fmt::color::blue), "元气: {} / {}\n", mp, max_mp);
 
-    fmt::print("攻击力: {} \t 暴击率: {}\n", damage, critical);
+    fmt::print("攻击力: {} \t 暴击率: {:.3f}\n", damage, critical);
 
-    fmt::print("防御力: {} \t 闪避率: {}\n", defence, evasion);
+    fmt::print("防御力: {} \t 闪避率: {:.3f}\n", defence, evasion);
 
     fmt::print("健康点数: {} \t 攻击点数: {} \t 敏捷点数: {}\n", health, strength, agility);
 
@@ -75,7 +75,8 @@ void Player::openBag()
     }
     if (choice == "pill") { bag.usePill(); }
     else if (choice == "equip") { bag.useEquipment(); }
-    else if (choice == "check") { bag.display(); }
+    else
+        if (choice == "check") { bag.display(); }
 }
 
 void Player::showBag() { bag.display(); }
@@ -90,8 +91,10 @@ void Player::usePoint()
         string choice;
         cin >> choice;
         if (choice == "health") {
-            hp += 100;
-            mp += 100;
+            max_hp += 100;
+            max_mp += 100;
+            hp = max_hp;
+            mp = max_mp;
             ++health;
             --points;
             continue;
@@ -104,8 +107,8 @@ void Player::usePoint()
             continue;
         }
         if (choice == "agility") {
-            critical += 0.05;
-            evasion += 0.05;
+            critical += 0.01;
+            evasion += 0.01;
             ++agility;
             --points;
             continue;

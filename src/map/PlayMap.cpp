@@ -145,10 +145,7 @@ void playWuWeiCheng(Area &map)
             waitForAnyKey();
             system("cls");
         }
-        else if (command == "exit") {
-            handleQuit(map, quit);
-            return;
-        }
+        else if (command == "exit") { handleQuit(map, quit); }
         else {
             system("cls");
             fmt::print("无效的指令，请重新输入。\n");
