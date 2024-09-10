@@ -50,26 +50,26 @@ string Pill::getPillName() const
 
 void Pill::usePill() const
 {
-    const string name = this->getPillName();
-    const bool temp = name == bloodPill(name);
+    const auto use_type = this->type;
+    const bool temp = use_type == Type::BLOOD_PILL;
     // 根据丹药类型和大小进行相应的回复操作
     switch (size) {
         case Size::SMALL :
-            fmt::print("嗑药成功，回复25%{}!\n", temp ? "生命值" : "元气");
+            fmt::print("{}嗑药成功，回复25%{}!\n", this->getPillName(), temp ? "生命值" : "元气");
             if (temp)
                 Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.25));
             else
                 Gamer.setMp(static_cast<int>(Gamer.getMp() + Gamer.getMaxMp() * 0.25));
             break;
         case Size::MID :
-            fmt::print("嗑药成功，回复35%{}!\n", temp ? "生命值" : "元气");
+            fmt::print("{}嗑药成功，回复35%{}!\n", this->getPillName(), temp ? "生命值" : "元气");
             if (temp)
                 Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.35));
             else
                 Gamer.setMp(static_cast<int>(Gamer.getMp() + Gamer.getMaxMp() * 0.35));
             break;
         case Size::BIG :
-            fmt::print("嗑药成功，回复45%{}!\n", temp ? "生命值" : "元气");
+            fmt::print("{}嗑药成功，回复45%{}!\n", this->getPillName(), temp ? "生命值" : "元气");
             if (temp)
                 Gamer.setHp(static_cast<int>(Gamer.getHp() + Gamer.getMaxHp() * 0.45));
             else

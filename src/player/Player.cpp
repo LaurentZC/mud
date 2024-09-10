@@ -168,7 +168,7 @@ void Player::gainExp(const int exp)
     const auto it = lower_bound(ExpNeeded.begin(), ExpNeeded.end(), experience);
     const size_t index = distance(ExpNeeded.begin(), it);
     level = static_cast<int>(index);
-    points = level - temp_level;
+    points += level - temp_level;
     print(fg(fmt::color::green), "{} \t {} \t", name, level);
     print(fg(fmt::color::green), "{} / {}\n", experience - *(it - 1), level_up_exp);
     if (points > 0) {

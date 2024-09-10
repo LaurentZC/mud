@@ -235,8 +235,8 @@ void moveWuWeiCheng(Area &map, bool &quit)
         if (x == 2 && y == 1) {
             fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。\n");
             // @formatter:off
-            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[7]) != Gamer.getWeapons().end() &&
-                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[11]) != Gamer.getArmors().end()) {
+            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[7]) == Gamer.getWeapons().end() &&
+                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[11]) == Gamer.getArmors().end()) {
                 Gamer.gainWeapon(7);
                 Gamer.gainArmor(11);
                 fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。\n");
@@ -372,8 +372,8 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
         }
         else {
             // @formatter:off
-            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[9]) != Gamer.getWeapons().end() &&
-                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[13]) != Gamer.getArmors().end()) {
+            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[9]) == Gamer.getWeapons().end() &&
+                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[13]) == Gamer.getArmors().end()) {
                 fmt::print("这里是段霖的装备仓库，这里有一套看着很不错的装备。\n");
                 Gamer.gainWeapon(9);
                 Gamer.gainArmor(13);

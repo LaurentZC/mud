@@ -225,6 +225,8 @@ int main()
                     }
                     fmt::print("无效指令，请输入[y / n]: ");
                 }
+                system("cls");
+                printMap(current_map.getArea());
             }
             else if (x == 3 && y == 2) {
                 // 铁匠铺
@@ -257,14 +259,16 @@ int main()
                     if (command == "talk") {
                         Tasks[4].finish();
                         taskAccept().talk();
-                        system("cls");
-                        printMap(current_map.getArea());
                         break;
                     }
                     fmt::print("无效指令，请重新输入[fight / talk]: ");
                 }
+                system("cls");
+                printMap(current_map.getArea());
             }
-            else if (current_map.getArea()[x][y].getContent() == Room::Content::NPC) { taskAccept().talk(); }
+            else if (current_map.getArea()[x][y].getContent() == Room::Content::NPC) {
+                taskAccept().talk();
+            }
             else { fmt::print("这里没有npc。\n"); }
         }
         else if (command == "save") { Gamer.save(); }

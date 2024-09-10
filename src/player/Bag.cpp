@@ -134,10 +134,10 @@ void Bag::useEquipment()
 void Bag::usePill()
 {
     fmt::print("你的丹药有: \n");
-    fmt::print("回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗 \n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
-    fmt::print("回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗 \n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
+    print(fg(fmt::color::red), "回血丹:  \t 高级{}颗 \t 中级{}颗 \t 初级{}颗 \n", pills[BigBloodPill], pills[MidBloodPill], pills[SmallBloodPill]);
+    print(fg(fmt::color::blue), "回元丹:  \t 初级{}颗 \t 中级{}颗 \t 高级{}颗 \n", pills[BigManaPill], pills[MidManaPill], pills[SmallManaPill]);
     // 选择丹药类型
-    fmt::print("你想用什么丹药？[red / blue / q(放弃使用)]: ");
+    fmt::print("你想用什么丹药？[red / blue / q(放弃)]: ");
     string type_choice;
     Pill::Type type;
     while (true) {
@@ -155,16 +155,16 @@ void Bag::usePill()
             fmt::print("取消使用丹药。\n");
             return;
         }
-        fmt::print("无效指令！[b / m / q]：\n");
+        fmt::print("无效指令！[red / blue / q]: ");
     }
 
     // 选择丹药大小
-    fmt::print("选择丹药大小：[s(初级) / m(中级) / l(高级)]：");
+    fmt::print("选择丹药大小：[s(初级) / m(中级) / l(高级) / q(放弃)]：");
     string size_choice;
     while (true) {
         cin >> size_choice;
         if (size_choice.length() > 1) {
-            fmt::print("无效的输入！[s(初级) / m(中级) / l(高级)]：");
+            fmt::print("无效的输入！[s / m / l / q]：");
             continue;
         }
         Pill::Size size;
@@ -182,7 +182,7 @@ void Bag::usePill()
                 fmt::print("放弃使用丹药。\n");
                 return;
             default :
-                fmt::print("无效指令！[s / m / l / q]：\n");
+                fmt::print("无效指令！[s / m / l / q]: ");
                 continue;
         }
 
