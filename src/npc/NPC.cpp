@@ -75,6 +75,7 @@ void TaskGivingNPC::talk()
         Tasks[task_id[0]].receive();
         fmt::print("你已经接受了这份任务，快点查看一下[self]。\n");
     }
+    waitForAnyKey();
 }
 
 void TaskGivingNPC::save()
@@ -403,7 +404,7 @@ void ShopKeeper::sell()
 
 void ShopKeeper::sellArmor()
 {
-    if (Gamer.getArmors().empty()) {
+    if (Gamer.getArmors().empty() || Gamer.getArmors().size() == 1) {
         fmt::print("无装备可卖\n");
         return;
     }

@@ -25,15 +25,18 @@ void Fight::gainTrophy() const
 {
     Gamer.gainExp(enemy.getExperience());
     Gamer.gainMoney(enemy.getMoney());
-    if (enemy.getArmor() != -1) {
+    if (enemy.getArmor() != -1 &&
+        find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[enemy.getArmor()]) == Gamer.getArmors().end()) {
         Gamer.gainArmor(enemy.getArmor());
         fmt::print("你获得了一件新的防具: {}\n", Armors[enemy.getArmor()].getName());
     }
-    if (enemy.getWeapon() != -1) {
+    if (enemy.getWeapon() != -1 &&
+        find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[enemy.getWeapon()]) == Gamer.getWeapons().end()) {
         Gamer.gainWeapon(enemy.getWeapon());
         fmt::print("你获得了一件新的武器: {}\n", Weapons[enemy.getWeapon()].getName());
     }
-    if (enemy.getSkillId() != -1) {
+    if (enemy.getSkillId() != -1 &&
+        find(Gamer.getSkills().begin(), Gamer.getSkills().end(), Skills[enemy.getSkillId()]) == Gamer.getSkills().end()) {
         Gamer.gainSkill(enemy.getSkillId());
         fmt::print("你观察" + enemy.getName() + "陷入顿悟\n");
         std::this_thread::sleep_for(std::chrono::seconds(1));

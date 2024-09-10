@@ -23,6 +23,8 @@ public:
     [[nodiscard]] int getMoney() const;
 
     [[nodiscard]] int getId() const;
+    bool operator==(const Equipment &other) const;
+    bool operator!=(const Equipment &other) const;
 
 protected:
     int id {};                  // id

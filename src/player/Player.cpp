@@ -16,6 +16,12 @@ extern Player Gamer;
 
 void Player::acceptTask(const Task &task) { tasks.push_back(task); }
 
+void Player::finishTask(const Task &task)
+{
+    if (const auto it = find(tasks.begin(), tasks.end(), task); it != tasks.end())
+        it->finish(true);
+}
+
 void Player::showPlayer() const
 {
     fmt::print("姓名: {} \t 等级: {}\n", name, level);
@@ -58,9 +64,7 @@ void Player::checkTask() const
         fmt::print("你当前没有任务。\n");
         return;
     }
-    for (auto task : tasks) {
-        task.showTask();
-    }
+    for (const auto &task : tasks) { task.showTask(); }
 }
 
 void Player::openBag()
@@ -165,7 +169,7 @@ void Player::gainExp(const int exp)
     const size_t index = distance(ExpNeeded.begin(), it);
     level = static_cast<int>(index);
     points = level - temp_level;
-    fmt::print("{} \t {} \t", name, level);
+    print(fg(fmt::color::green), "{} \t {} \t", name, level);
     print(fg(fmt::color::green), "{} / {}\n", experience - *(it - 1), level_up_exp);
     if (points > 0) {
         level_up_exp = ExpNeeded[level] - ExpNeeded[level - 1];
@@ -388,8 +392,10 @@ bool Player::load(const string &archive)
             if (!file_to_task) { break; }
             tasks.push_back(Tasks[id]);
             Tasks[id].receive();
-            if (finished)
+            if (finished) {
                 Tasks[id].finish(true);
+                Gamer.finishTask(Tasks[id]);
+            }
         }
         file_to_task.close();
         ifstream file_to_skill(folder_path + "/skill.dat", ios::binary);

@@ -25,6 +25,7 @@ public:
     void usePill();
 
     void acceptTask(const Task &task);
+    void finishTask(const Task &task);
     void gainSkill(int index);
 
     void removeTask(const Task &task);
@@ -101,10 +102,10 @@ private:
     double evasion {0.10}; // 闪避率
     int agility {1};       // 闪避点数
 
-    int money {200};                                  // 金钱
-    Bag bag;                                          // 背包
+    int money {200};                       // 金钱
+    Bag bag;                               // 背包
     std::vector<Skill> skills {Skills[0]}; // 技能
-    std::vector<Task> tasks;                          // 任务
+    std::vector<Task> tasks;               // 任务
 };
 
 // @formatter:off

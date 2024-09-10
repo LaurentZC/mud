@@ -32,7 +32,9 @@ public:
     [[nodiscard]] int getExistTime() const;
     void setExistTime(int exist_time);
 
-    void save(std::ofstream & file) const;
+    void save(std::ofstream &file) const;
+    bool operator==(const Skill &other) const;
+    bool operator!=(const Skill &other) const;
 
 private:
     int id {};               // id

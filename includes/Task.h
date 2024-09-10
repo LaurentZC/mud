@@ -8,10 +8,15 @@ class Task
 public:
     Task();
     Task(int id, std::string n, std::string desc, int exp, int skill_id_, int m);
+    Task(const Task &other);
+    Task(Task &&other) noexcept;
+    Task & operator=(const Task &other);
+    Task & operator=(Task &&other) noexcept;
+
     // 完成任务
     void finish();
     void finish(bool if_finished);
-    void showTask();
+    void showTask() const;
     void receive();
     void save(std::ofstream &file) const;
     [[nodiscard]] int getId() const;

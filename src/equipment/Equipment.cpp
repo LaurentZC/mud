@@ -155,3 +155,7 @@ int Armor::getAddMaxHp() const { return add_max_hp; }
 int Armor::getAddMaxMp() const { return add_max_mp; }
 double Armor::getEvasion() const { return evasion; }
 int Armor::getDefence() const { return defence; }
+
+bool Equipment::operator==(const Equipment &other) const { return this->id == other.id; }
+
+bool Equipment::operator!=(const Equipment &other) const { return !(*this == other); }

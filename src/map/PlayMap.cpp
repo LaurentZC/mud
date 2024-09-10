@@ -1,7 +1,6 @@
 #include "PlayMap.h"
 
 #include <CreatMap.h>
-#include <atomic>
 #include <conio.h>
 #include <filesystem>
 #include <iostream>
@@ -221,6 +220,8 @@ void moveWuWeiCheng(Area &map, bool &quit)
         waitForAnyKey();
         print(fg(fmt::color::green), "马夫：公子武功盖世！\n");
         waitForAnyKey();
+        system("cls");
+        printMap(rooms);
         return;
     }
 
@@ -232,18 +233,21 @@ void moveWuWeiCheng(Area &map, bool &quit)
     if (content == Room::Content::CHEST) {
         fmt::print("{}\n", rooms[x][y].getDescription());
         if (x == 2 && y == 1) {
-            fmt::print("这里有一颗丹药，你服用之后获得了三个属性点。\n");
-            Gamer.addPoints(3);
-            fmt::print("你找到一颗定神丹，老张好像一直在找他.\n");
-            Tasks[5].finish();
+            fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。\n");
+            // @formatter:off
+            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[7]) != Gamer.getWeapons().end() &&
+                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[11]) != Gamer.getArmors().end()) {
+                Gamer.gainWeapon(7);
+                Gamer.gainArmor(11);
+                fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。\n");
+            }
+            // @formatter:on
         }
         else {
-            fmt::print("这里是陆洪的装备仓库，这里有一套看着很不错的装备。\n");
-            Gamer.gainWeapon(7);
-            Gamer.gainArmor(11);
-            fmt::print("恭喜你获得了九环大刀和幽冥披风，请及时查看背包。\n");
-            fmt::print("你找到一批货物，看样子是老张丢的那些。\n");
-            Tasks[5].finish();
+            fmt::print("这里有一颗丹药，你服用之后获得了一个属性点。\n");
+            Gamer.addPoints(1);
+            fmt::print("这不是李白的酒壶吗？\n");
+            Tasks[12].finish();
         }
         rooms[x][y].clear();
         waitForAnyKey();
@@ -361,14 +365,23 @@ void moveShangHui(Area &map, bool &quit, bool &mask)
         fmt::print("{}\n", rooms[x][y].getDescription());
         // 两个箱子获得点什么
         if (x == 2 && y == 5) {
-            fmt::print("这里有一颗丹药，你服用之后获得了五个属性点。\n");
-            Gamer.addPoints(5);
+            fmt::print("这里有一颗丹药，你服用之后获得了一个属性点。\n");
+            Gamer.addPoints(1);
+            fmt::print("你找到一颗定神丹，老张好像一直在找他.\n");
+            Tasks[5].finish();
         }
         else {
-            fmt::print("这里是段霖的装备仓库，这里有一套看着很不错的装备。\n");
-            Gamer.gainWeapon(9);
-            Gamer.gainArmor(13);
-            fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。\n");
+            // @formatter:off
+            if (find(Gamer.getWeapons().begin(), Gamer.getWeapons().end(), Weapons[9]) != Gamer.getWeapons().end() &&
+                find(Gamer.getArmors().begin(), Gamer.getArmors().end(), Armors[13]) != Gamer.getArmors().end()) {
+                fmt::print("这里是段霖的装备仓库，这里有一套看着很不错的装备。\n");
+                Gamer.gainWeapon(9);
+                Gamer.gainArmor(13);
+                fmt::print("恭喜你获得了霸王枪和七彩羽衣，请及时查看背包。\n");
+                }
+            fmt::print("你找到一批货物，看样子是老张丢的那些。\n");
+            Tasks[7].finish();
+            // @formatter:on
         }
         rooms[x][y].clear();
         waitForAnyKey();

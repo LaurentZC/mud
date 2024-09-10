@@ -14,7 +14,7 @@ void Skill::display() const
     print(fg(fmt::color::light_yellow), "{}\n{}\n", name, description);
     print(fg(fmt::color::light_yellow), "消耗: {}", consumption);
     if (type == Type::AGGRESSIVE) {
-        print(fg(fmt::color::light_yellow), "\t伤害: {}\n", consumption, damage + Gamer.getDamage());
+        print(fg(fmt::color::light_yellow), "\t伤害: {}\n", damage + Gamer.getDamage());
     }
     else if (type == Type::RESTORATIVE) {
         print(fg(fmt::color::light_yellow), "\n效果: 回复{}点血量\n", add_hp);
@@ -74,3 +74,7 @@ void Skill::save(ofstream &file) const
     file.write(reinterpret_cast<const char *>(&id), sizeof(id));
     file.close();
 }
+
+bool Skill::operator==(const Skill &other) const { return this->id == other.id; }
+
+bool Skill::operator!=(const Skill &other) const { return !(*this == other); }
